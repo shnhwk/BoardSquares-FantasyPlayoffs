@@ -2,11 +2,10 @@
 @model BoardSquares.ViewModels.NewsViewModel
 @{
     ViewBag.Title = "News Bulletin Board";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>@ViewBag.Title</h2>
-<hr/>
-    <div>
-        @Html.Raw(ViewBag.HtmlStr)
-    </div>
+<hr />
+<div>
+    @Html.Raw(ViewBag.HtmlStr)
+</div>
