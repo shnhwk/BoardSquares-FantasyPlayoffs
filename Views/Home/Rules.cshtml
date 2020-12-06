@@ -1,0 +1,524 @@
+﻿<html>
+<style>
+    body {
+        color: black;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.428571429;
+        padding-left: 20px;
+        width: 75%;
+    }
+
+    h1 {
+        font-size: 35px;
+        text-align: center;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    #list {
+        padding-left: 60px;
+    }
+
+    p {
+        padding-left: 30px;
+    }
+
+    th {
+        border-bottom: 1px solid black;
+        font-size: 14px;
+    }
+
+    td {
+        font-size: 13px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    #LeftScoringTbl {
+        float: left;
+        width: 50%;
+    }
+
+    #RightScoringTbl {
+        float: left;
+        width: 50%;
+    }
+
+    #ScoringDiv {
+        float: left;
+        padding-left: 60px;
+        width: 100%;
+    }
+</style>
+<body>
+    <h1>
+        Fantasy Playoffs
+        <br />
+        Rules <br />
+
+    </h1>
+    <h2>Overview </h2>
+    <p>
+        Fantasy Playoffs is a fantasy game played during the National Football League's wild card round, divisional round, conference round and the superbowl. The object of the game is to select players to make up a team that will generate the most points during this time. The players that you select generate points based on different scoring events (see Scoring below). The total points from all games are summed up for each round and ranked against other teams within the same game. Payouts depend upon the number of entrants in the game (see Payouts below).
+    </p>
+    <h2>Games</h2>
+    <p>
+        Games, or Game Numbers, are the group of teams playing against each other for the most points. There are no limitations on how many Games you may play in.
+    </p>
+    <h2>Teams</h2>
+    <p>
+        Each team will have an entry cost of $20. You may create as many teams as you would like. For each team, pick ONE player from EACH of the 12 playoff teams, filling the following positions:
+    </p>
+    <div id="list">
+        2 Quarterbacks <br />
+        3 Running Backs <br />
+        4 Wide Receivers <br />
+        1 Tight End<br />
+        1 Kicker<br />
+        1 Defense<br />
+    </div>
+    <p>
+        A tie breaker player is also required. You may choose any player from any position from any of the 12 playoff teams as long as that player is not already on your team. In the event that you have the same tie breaker player as another person in the same game or that two different tie breaker players score the same amount of points, then the payout will be split amongst the tied teams.
+    </p>
+    <h2>Scoring</h2>
+    <p>
+        Players accumulate points based on the following scoring events:
+    </p>
+    <div id="ScoringDiv">
+        <!-- Scoring -->
+        <div id="LeftScoringTbl">
+            <!--left -->
+            <table>
+                <tr>
+                    <th>Category</th>
+                    <th>Event</th>
+                    <th>Points</th>
+                </tr>
+                <tr>
+                    <td>Passing</td>
+                    <td>Passing TD (1-20 yards)</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Passing TD (21-40 yards)</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Passing TD (41-60 yards)</td>
+                    <td>25</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Passing TD (61-100 yards)</td>
+                    <td>30</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Passing Yards (250 or more)</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Passing Yards Bonus (each 25 over 250)</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Receiving</td>
+                    <td>Receiving TD (1-20 yards)</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Receiving TD (21-40 yards)</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Receiving TD (41-60 yards)</td>
+                    <td>25</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Receiving TD (61-80 yards)</td>
+                    <td>30</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Receiving TD (81-100 yards)</td>
+                    <td>40</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Receiving Yards (100 or more)</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Receiving Yards Bonus (each 25 over 100)</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Receptions (7 or more)</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Receptions Bonus (10 or more)</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Rushing</td>
+                    <td>Rushing TD (1-10 yards)</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Rushing TD (11-20 yards)</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Rushing TD (21-40 yards)</td>
+                    <td>25</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Rushing TD (41-60 yards)</td>
+                    <td>30</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Rushing TD (61-100 yards)</td>
+                    <td>40</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Rushing Yards (85 or more)</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Rushing Yards Bonus (each 25 over 85)</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Other</td>
+                    <td>2 Point Conversion</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Kick Return TD</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Punt Return TD</td>
+                    <td>20</td>
+                </tr>
+            </table>
+        </div>
+        <!-- end left -->
+        <!----------------------------------------------------------------------------------->
+        <div id="RightScoringTbl">
+            <!-- Right -->
+            <table>
+                <tr>
+                    <th>Category</th>
+                    <th>Event</th>
+                    <th>Points</th>
+                </tr>
+                <tr>
+                    <td>Kicking</td>
+                    <td>Extra Point</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Field Goal (1-29 yards)</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Field Goal (30-39 yards)</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Field Goal (40-49 yards)</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Field Goal (50-59 yards)</td>
+                    <td>15</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Field Goal (60-100 yards)</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Defense</td>
+                    <td>Fumble Recovery</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Interception</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Sack</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Safety</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Shutout</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Blocked Field Goal TD</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Blocked Punt TD</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Kick Return TD</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Punt Return TD</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Defensive Kick Return TD</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Defensive Punt Return TD</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Defensive TD (1-20 yards)</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Defensive TD (21-35 yards)</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Defensive TD (36-50 yards)</td>
+                    <td>15</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Defensive TD (51-70 yards)</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Defensive TD (71-100 yards)</td>
+                    <td>25</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+        <!-- end Right -->
+    </div>
+    <!-- end Scoring -->
+    <p>
+        All scoring for each round will be completed no later than Monday night. If you selected, upon registering with the site, to receive weekly emails, a weekly recap will be emailed out once all the scoring has been completed. In the event that there is a discrepancy with the scoring, please email the game manager or email admin@boardsquares.com.
+    </p>
+    <h2>Payouts</h2>
+    <p>
+        The pool is cumulative for each Game Number and the winners will be determined by who has the highest combined score through the entire playoffs. The payouts will be determined based on how many entries there are and which Payout Tier is reached (see Payout Tiers below). Also depending on the Payout Tier, last place may receive a payout.
+    </p>
+    <table style width="75%">
+        <th></th>
+        <th>Minimum Teams</th>
+        <th>Maximum Teams</th>
+        <th>Number of Payouts</th>
+        <th>Last Place Payout</th>
+        <tr>
+            <td style align="center">Tier 1</td>
+            <td style align="center">5</td>
+            <td style align="center">20</td>
+            <td style align="center">3</td>
+            <td style align="center">$0</td>
+        </tr>
+        <tr>
+            <td style align="center">Tier 2</td>
+            <td style align="center">21</td>
+            <td style align="center">100</td>
+            <td style align="center">5</td>
+            <td style align="center">$10</td>
+        </tr>
+        <tr>
+            <td style align="center">Tier 3</td>
+            <td style align="center">101</td>
+            <td style align="center">300</td>
+            <td style align="center">10</td>
+            <td style align="center">$20</td>
+        </tr>
+    </table>
+    <br />
+    <table style width="30%">
+        <th></th>
+        <th>Ranking</th>
+        <th>Percentage</th>
+        <tr>
+            <td style align="center">Tier 1</td>
+            <td style align="center">1</td>
+            <td style align="center">60%</td>
+        </tr>
+        <tr>
+            <td style align="center"></td>
+            <td style align="center">2</td>
+            <td style align="center">30%</td>
+        </tr>
+        <tr>
+            <td style align="center"></td>
+            <td style align="center">3</td>
+            <td style align="center">10%</td>
+        </tr>
+        <tr>
+            <td style align="center"></td>
+            <td style align="center"></td>
+            <td style align="center"></td>
+        </tr>
+        <tr>
+            <td style align="center">Tier 2</td>
+            <td style align="center">1</td>
+            <td style align="center">50%</td>
+        </tr>
+        <tr>
+            <td style align="center"></td>
+            <td style align="center">2</td>
+            <td style align="center">20%</td>
+        </tr>
+        <tr>
+            <td style align="center"></td>
+            <td style align="center">3</td>
+            <td style align="center">15%</td>
+        </tr>
+        <tr>
+            <td style align="center"></td>
+            <td style align="center">4</td>
+            <td style align="center">10%</td>
+        </tr>
+        <tr>
+            <td style align="center"></td>
+            <td style align="center">5</td>
+            <td style align="center">5%</td>
+        </tr>
+        <tr>
+            <td style align="center"></td>
+            <td style align="center"></td>
+            <td style align="center"></td>
+        </tr>
+        <tr>
+            <td style align="center">Tier 3</td>
+            <td style align="center">1</td>
+            <td style align="center">50%</td>
+        </tr>
+        <tr>
+            <td style align="center"></td>
+            <td style align="center">2</td>
+            <td style align="center">10%</td>
+        </tr>
+        <tr>
+            <td style align="center"></td>
+            <td style align="center">3</td>
+            <td style align="center">9%</td>
+        </tr>
+        <tr>
+            <td style align="center"></td>
+            <td style align="center">4</td>
+            <td style align="center">8%</td>
+        </tr>
+        <tr>
+            <td style align="center"></td>
+            <td style align="center">5</td>
+            <td style align="center">7%</td>
+        </tr>
+        <tr>
+            <td style align="center"></td>
+            <td style align="center">6</td>
+            <td style align="center">6%</td>
+        </tr>
+        <tr>
+            <td style align="center"></td>
+            <td style align="center">7</td>
+            <td style align="center">4%</td>
+        </tr>
+        <tr>
+            <td style align="center"></td>
+            <td style align="center">8</td>
+            <td style align="center">3%</td>
+        </tr>
+        <tr>
+            <td style align="center"></td>
+            <td style align="center">9</td>
+            <td style align="center">2%</td>
+        </tr>
+        <tr>
+            <td style align="center"></td>
+            <td style align="center">10</td>
+            <td style align="center">1%</td>
+        </tr>
+    </table>
+    <h2>Questions/Comments</h2>
+    <p>
+        If you have any questions or comments about the rules, please email the game manager or email admin@boardsquares.com.
+    </p>
+    <p>Best of luck to everyone!</p>
+</body>
+</html>

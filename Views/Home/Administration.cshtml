@@ -1,0 +1,18 @@
+﻿@using BoardSquares.ViewModels
+@model PlayerSearchViewModel
+@{
+    ViewBag.Title = "Edit Team Players";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@ViewBag.Message</h2>
+<div>
+    @Html.ActionLink("Edit/Import Players", "EditPlayers", "Home")
+    <br/><br/>
+    @Html.ActionLink("Add Scoring Events", "ScoringEvents", "Home")
+    <br /><br />
+    @Html.ActionLink("Check for Exact Teams", "ExactTeams", "Home")
+    <br/><br/>
+    @Html.ActionLink("Add Payments", "Payments", "Home")
+    <br /><br />
+    @Html.ActionLink("Send Emails", "SendEmails", "Home")
+</div>

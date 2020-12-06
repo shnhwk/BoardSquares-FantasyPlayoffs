@@ -1,0 +1,86 @@
+﻿@using BoardSquares.ViewModels
+@model GameSummaryViewModel
+@{
+    ViewBag.Title = "All Teams";
+}
+
+<div id="MainPage">
+    @using (Html.BeginForm("GameSummary", "Home", FormMethod.Post, new { vm = Model }))
+    {
+        if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <h2 style="text-align: center">@Model.ErrorMessage</h2>
+        }
+        else
+        {
+            <h2 style="text-align: center">All Teams for @Model.SelectedGame</h2>
+        }
+        foreach (var game in Model.TeamList)
+        {
+            <div class="col-md-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h1 class="panel-title ">Team: @game.TeamName</h1>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table id="newEventsTable"
+                                   class="table table-condensed table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Player</th>
+                                        <th>Points</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var player in game.TeamPlayers)
+                                    {
+                                        <tr>
+                                            <td>@Html.Encode(player.PlayerTeam) - @Html.Encode(player.PlayerFirstName.Substring(0, 1)). @Html.Encode(player.PlayerLastName)</td>
+                                            <td>@Html.Encode(player.TotalPoints)</td>
+                                        </tr>
+                                    }
+                                    <tr>
+                                        <td>
+                                            <b>Total</b>
+                                        </td>
+                                        <td>
+                                            <b>@game.TeamTotal</b>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table id="tieBreakerPointsTable"
+                                   class="table table-condensed table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Tie Breaker</th>
+                                        <th>Points</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var player in game.TieBreakerPlayers)
+                                    {
+                                        <tr>
+                                            <td>@Html.Encode(player.PlayerTeam) - @Html.Encode(player.PlayerFirstName.Substring(0, 1)). @Html.Encode(player.PlayerLastName)</td>
+                                            <td>@Html.Encode(player.TotalPoints)</td>
+                                        </tr>
+                                    }
+                                    @*<tr>
+                                        <td>
+                                            <b>Total</b>
+                                        </td>
+                                        <td>
+                                            <b>@game.TieBreakerTotal</b>
+                                        </td>
+                                    </tr>*@
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    }
+                </div>

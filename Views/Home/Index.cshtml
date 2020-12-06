@@ -1,0 +1,375 @@
+﻿@using BoardSquares.ViewModels
+@model ScoringSummaryViewModel
+@{
+    ViewBag.Title = "Fantasy Playoffs";
+}
+
+<div id="MainPage">
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { vm = Model }))
+    {
+        <!-- ** BEGIN HIDDEN FIELDS AREA ** -->
+        @Html.HiddenFor(m => m.Entity)
+        @Html.HiddenFor(m => m.User.UserID)
+        @Html.HiddenFor(m => m.EventCommand)
+        @Html.HiddenFor(m => m.EventArgument)
+        @Html.HiddenFor(m => m.SelectedTeamID)
+
+        <!-- ** END HIDDEN FIELDS AREA ** -->
+        <div class="pull-left" style="margin-right: 3rem;">
+            @if (Model.TeamSummariesList.Any())
+            {
+                foreach (var teamSum in Model.TeamSummariesList)
+                {
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h1 class="panel-title">@teamSum.FirstOrDefault().GameNumber Rankings</h1>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table id="rankingTable"
+                                       class="table table-condensed table-bordered table-striped table-hover rankingTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Place</th>
+                                            <th>Team Name</th>
+                                            <th>Points</th>
+                                            <th>TB 1</th>
+                                            <th>TB 2</th>
+                                            <th>Expected Payout</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var player in teamSum)
+                                        {
+                                            if (Model.SelectedTeamID == player.UserTeamID)
+                                            {
+                                                <tr style="outline: medium solid cornflowerblue">
+                                                    <td style="display: none"> @Html.Hidden(player.UserTeamID.ToString())</td>
+                                                    <td style="font-weight: bold">@Html.Encode(player.tempID)</td>
+                                                    <td>@Html.Raw(player.UserTeamName)</td>
+                                                    @if (player.IsOpen)
+                                                    {
+                                                        <td>@Html.Encode(player.TeamTotal)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="pdsa-action">
+                                                            <a href="#" data-pdsa-action="view"
+                                                               data-pdsa-val="@player.UserTeamID">
+                                                                @Html.Encode(player.TeamTotal)
+                                                            </a>
+                                                        </td>
+                                                    }
+                                                    <td>@Html.Encode(player.TiebreakerOnePoints)</td>
+                                                    <td>@Html.Encode(player.TiebreakerTwoPoints)</td>
+                                                    <td style="font-weight: bold">@Html.Encode(player.Amount)</td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td style="display: none"> @Html.Hidden(player.UserTeamID.ToString())</td>
+                                                    <td style="font-weight: bold">@Html.Encode(player.tempID)</td>
+                                                    <td>@Html.Raw(player.UserTeamName)</td>
+                                                    @if (player.IsOpen)
+                                                    {
+                                                        <td>@Html.Encode(player.TeamTotal)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="pdsa-action">
+                                                            <a href="#" data-pdsa-action="view"
+                                                               data-pdsa-val="@player.UserTeamID">
+                                                                @Html.Encode(player.TeamTotal)
+                                                            </a>
+                                                        </td>
+                                                    }
+                                                    <td>@Html.Encode(player.TiebreakerOnePoints)</td>
+                                                    <td>@Html.Encode(player.TiebreakerTwoPoints)</td>
+                                                    <td style="font-weight: bold">@Html.Encode(player.Amount)</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                }
+
+            }
+        </div>
+        <div class="panel panel-primary pull-left" style="margin-bottom: 100%">
+            <div class="panel-heading">
+                <h1 class="panel-title">@Model.SelectedTeam - Points Breakdown</h1>
+            </div>
+            <div class="panel-body">
+                @*<div class="table-responsive">
+                        <table id="newEventsTable"
+                               class="table table-condensed table-bordered table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Position</th>
+                                <th>WC</th>
+                                <th>Div</th>
+                                <th>Conf</th>
+                                <th>SB</th>
+                                <th>Total</th>
+                            </tr>
+                            <tbody>
+                            @foreach (var player in Model.PlayerScoringSummaries)
+                            {
+                                <tr>
+                                    <td style="display: none"> @Html.Hidden(player.PlayerID.ToString())</td>
+                                    <td>@Html.Encode(player.PlayerFirstName) @Html.Encode(player.PlayerLastName)</td>
+                                    <td>@Html.Encode(player.PlayerPosition)</td>
+                                    <td onclick="DisplayScoring(@player.PlayerID,1,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(player.WildCard)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@player.PlayerID,2,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(player.Divisional)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@player.PlayerID,3,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(player.Conference)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@player.PlayerID,4,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(player.Superbowl)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@player.PlayerID,0,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(player.PlayerTotal)</a>
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td>
+                                    <b>Total</b>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <b>@ViewBag.ScoreTotal</b>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>*@
+                <div class="table-responsive">
+                    <table id="newEventsTable"
+                           class="table table-condensed table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Position</th>
+                                <th>WC</th>
+                                <th>Div</th>
+                                <th>Conf</th>
+                                <th>SB</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var player in Model.PlayerScoringSummaries)
+                            {
+                                <tr>
+                                    <td style="display: none"> @Html.Hidden(player.PlayerID.ToString())</td>
+                                    <td>@Html.Encode(player.PlayerFirstName) @Html.Encode(player.PlayerLastName)</td>
+                                    <td>@Html.Encode(player.PlayerPosition)</td>
+                                    <td onclick="DisplayScoring(@player.PlayerID,1,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(player.WildCard)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@player.PlayerID,2,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(player.Divisional)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@player.PlayerID,3,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(player.Conference)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@player.PlayerID,4,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(player.Superbowl)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@player.PlayerID,0,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(player.PlayerTotal)</a>
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td>
+                                    <b>Total</b>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <b>@ViewBag.ScoreTotal</b>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table id="tieBreakerPointsTable"
+                           class="table table-condensed table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Tie Breaker</th>
+                                <th>Position</th>
+                                <th>WC</th>
+                                <th>Div</th>
+                                <th>Conf</th>
+                                <th>SB</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var player in Model.TieBreakerScoringSummaries)
+                            {
+                                <tr>
+                                    <td style="display: none"> @Html.Hidden(player.PlayerID.ToString())</td>
+                                    <td>@Html.Encode(player.PlayerFirstName) @Html.Encode(player.PlayerLastName)</td>
+                                    <td>@Html.Encode(player.PlayerPosition)</td>
+                                    <td onclick="DisplayScoring(@player.PlayerID,1,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(player.WildCard)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@player.PlayerID,2,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(player.Divisional)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@player.PlayerID,3,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(player.Conference)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@player.PlayerID,4,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(player.Superbowl)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@player.PlayerID,0,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(player.PlayerTotal)</a>
+                                    </td>
+                                </tr>
+                            }
+                            @*<tr>
+                                    <td>
+                                        <b>Total</b>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <b>@ViewBag.TieBreakerScoreTotal</b>
+                                    </td>
+                                </tr>*@
+                            @*<tr>
+                                    <td style="display: none"> @Html.Hidden(Model.TieBreakerScoringSummaries.PlayerID.ToString())</td>
+                                    <td>@Html.Encode(Model.TieBreakerScoringSummaries.PlayerFirstName) @Html.Encode(Model.TieBreakerScoringSummaries.PlayerLastName)</td>
+                                    <td>@Html.Encode(Model.TieBreakerScoringSummaries.PlayerPosition)</td>
+                                    <td onclick="DisplayScoring(@Model.TieBreakerScoringSummaries.PlayerID,1,'@Model.TieBreakerScoringSummaries.PlayerFirstName','@Model.TieBreakerScoringSummaries.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(Model.TieBreakerScoringSummaries.WildCard)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@Model.TieBreakerScoringSummaries.PlayerID,2,'@Model.TieBreakerScoringSummaries.PlayerFirstName','@Model.TieBreakerScoringSummaries.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(Model.TieBreakerScoringSummaries.Divisional)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@Model.TieBreakerScoringSummaries.PlayerID,3,'@Model.TieBreakerScoringSummaries.PlayerFirstName','@Model.TieBreakerScoringSummaries.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(Model.TieBreakerScoringSummaries.Conference)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@Model.TieBreakerScoringSummaries.PlayerID,4,'@Model.TieBreakerScoringSummaries.PlayerFirstName','@Model.TieBreakerScoringSummaries.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(Model.TieBreakerScoringSummaries.Superbowl)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@Model.TieBreakerScoringSummaries.PlayerID,0,'@Model.TieBreakerScoringSummaries.PlayerFirstName','@Model.TieBreakerScoringSummaries.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(Model.TieBreakerScoringSummaries.PlayerTotal)</a>
+                                    </td>
+                                </tr>*@
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close" onclick="HideModal()">x</span>
+                <div id="modalGrid"></div>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script>
+        $(document)
+            .ready(function() {
+                // Hook events on buttons and anchors
+                buildClickEvents();
+            });
+
+        // Hook events on buttons and anchors
+        function buildClickEvents() {
+            $("[data-pdsa-action]")
+                .on("click",
+                    function(e) {
+                        e.preventDefault();
+
+                        $("#EventCommand")
+                            .val(
+                                $(this).data("pdsa-action"));
+
+                        $("#EventArgument")
+                            .val(
+                                $(this).attr("data-pdsa-val"));
+
+                        $("form").submit();
+                    });
+        }
+
+        function HideModal() {
+            var modal = document.getElementById('myModal');
+            modal.style.display = "none";
+        }
+
+        function DisplayScoring(player, round, playerFirstName, playerLastName) {
+            var modal = document.getElementById('myModal');
+            var modalGrid = document.getElementById('modalGrid');
+            modalGrid.innerHTML = "Loading Results...";
+            var markup = "<h2>Scoring Events for " + playerFirstName + " " + playerLastName + "</h2> <table id=\"rankingTable\"class=\"table table-condensed table-bordered table-striped table-hover rankingTable\">" +
+            "<thead><tr><th>Round</th><th>Event</th><th>Yards/Count</th><th>Points</th></tr></thead><tbody>";
+            
+            //Populate modal with grid
+            var url = "/Home/GetScoringEvents/";
+            $.ajax({
+                url: url,
+                data: { playerId: player, roundId: round },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        markup += "<tr><td>" + data[i].RoundName + "</td><td>" + data[i].EventName + "</td><td>" + data[i].YardsOrCount + "</td><td>" + data[i].Points.toString()  + "</td></tr>";
+                    }
+                    markup += "</tbody></table>";           
+                    modalGrid.innerHTML = markup;
+                },
+                error: function (reponse) {
+                    alert("error : " + reponse);
+                }
+            });
+            // open the modal 
+            modal.style.display = "block";
+           }
+        
+        function SetEntity(id) {
+            document.getElementById("Entity").value = id;
+
+        };
+
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-89591004-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+}

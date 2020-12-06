@@ -1,0 +1,77 @@
+﻿@using BoardSquares.ViewModels
+@model PlayerSearchViewModel
+@{
+    ViewBag.Title = "Edit Team Players";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="SendFuelContainer">
+
+
+    <h2>@ViewBag.Title</h2>
+    <hr/>
+
+    @using (Html.BeginForm("EditPlayers", "Home", FormMethod.Post, new {@id = "MainForm"}))
+    {
+        <div id="searchArea">
+            <div class="searchSection">
+                <div class="editor-line">
+                    @Html.LabelFor(m => m.SelectedYear)
+                    @Html.DropDownListFor(m => m.SelectedYear, new SelectList(Model.Years))
+                </div>
+                <div class="editor-line">
+                    @Html.LabelFor(m => m.SelectedTeam)
+                    @Html.DropDownListFor(m => m.SelectedTeam, new SelectList(Model.Teams, "Key", "Value"))
+                </div>
+
+                <input id="btnGetPlayers" type="submit" value="Get Players"/>
+            </div>
+            <br/>
+        </div>
+        <div class="clear"></div>
+    }
+    <div>
+        @if (Model.Players.Any())
+        {
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h1 class="panel-title">Scoring Events</h1>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="newEventsTable"
+                               class="table table-condensed table-bordered table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>Position </th>
+                                <th>Team </th>
+                                <th>First Name </th>
+                                <th>Last Name </th>
+                                <th>Created On </th>
+                                <th>Edit Player </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var player in Model.Players)
+                            {
+                                <tr>
+                                    <td style="display: none"> @Html.Hidden(player.PlayerID.ToString())</td>
+                                    <td>@Html.Encode(player.PlayerPosition)</td>
+                                    <td>@Html.Encode(player.PlayerTeam)</td>
+                                    <td>@Html.Encode(player.PlayerFirstName)</td>
+                                    <td>@Html.Encode(player.PlayerLastName)</td>
+                                    <td>@Html.Encode(player.CreatedDate)</td>
+                                    <td>
+                                        <button class="btnEditPlayer">Edit</button>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        }
+
+    </div>
+</div>

@@ -1,0 +1,273 @@
+﻿@using BoardSquares.Models
+@using BoardSquares.ViewModels
+
+@model ScoringEventsViewModel
+
+@{
+    ViewBag.Title = "Manage Games";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="MainPage">
+
+@using (Html.BeginForm("ScoringEvents", "Home", FormMethod.Post, new {ScoringEventsViewModel = Model}))
+{
+    <!-- ** BEGIN HIDDEN FIELDS AREA ** -->
+    @Html.HiddenFor(m => m.EventCommand)
+    @Html.HiddenFor(m => m.EventArgument)
+    @Html.HiddenFor(m => m.Entity)
+    if (!Model.IsPlayerSelectionAreaVisible)
+    {
+        @Html.HiddenFor(m => m.Round)
+        @Html.HiddenFor(m => m.Year)
+    }
+    @Html.HiddenFor(m => m.Player.PlayerID)
+
+    <!-- ** END HIDDEN FIELDS AREA ** -->
+    if (Model.IsPlayerSelectionAreaVisible)
+    {
+        <!-- ** BEGIN TEAM CREATE AREA ** -->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Select Player</h1>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="editor-line">
+                        @Html.LabelFor(m => m.Player)
+                        @Html.DropDownListFor(m => m.Player.PlayerTeam, new SelectList(Model.NFLTeams, "Key", "Value"), "", new
+                        {
+                            @id = "team",
+                            @class = "form-control",
+                            @onchange = "GetPlayers(this.value, ddlplayer)"
+                        })
+                        @Html.DropDownListFor(m => m.Player.PlayerID, new SelectList(new Dictionary<string, string>(), "Key", "Value"), "", new
+                        {
+                            @id = "ddlplayer",
+                            @class = "form-control",
+                            @onchange = "SetEntity(this.value)"
+                        })
+                        <br/>
+                        @Html.LabelFor(m => m.Round)
+                        @Html.DropDownListFor(m => m.Round, new SelectList(Model.RoundsDictionary, "Key", "Value"))
+                        <br/>
+                        @Html.LabelFor(m => m.Year)
+                        @Html.EditorFor(m => m.Year)
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button formnovalidate="formnovalidate"
+                        class="btn btn-sm btn-primary"
+                        data-pdsa-action="view">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    &nbsp;Add Scoring Events
+                </button>
+            </div>
+        </div>
+        <!-- ** END TEAM CREATE AREA ** -->
+    }
+    <!-- ** BEGIN NEW SCORING EVENT AREA ** -->
+    if (false)
+    {
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Create Scoring Event</h1>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="editor-line">
+                        @Html.LabelFor(m => m.Player)
+                        @Html.Encode(Model.Player.FirstLastPosition)
+                        <br/>
+                        @Html.LabelFor(m => m.NewScoringEvent)
+                        @Html.DropDownListFor(m => m.NewScoringEvent, new SelectList(Model.Scorings, "Key", "Value"), "", new {@id = "team"})
+                        <br/>
+                        @Html.LabelFor(m => m.NewScoringEventValue)
+                        @Html.EditorFor(m => m.NewScoringEventValue)
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button formnovalidate="formnovalidate"
+                        class="btn btn-sm btn-primary"
+                        data-pdsa-action="create">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    &nbsp;Create Scoring Event
+                </button>
+                <button formnovalidate="formnovalidate"
+                        class="btn btn-sm btn-primary"
+                        data-pdsa-action="cancel">
+                    <i class="glyphicon glyphicon-ok"></i>
+                    &nbsp;Done
+                </button>
+            </div>
+        </div>
+    }
+    if (Model.IsNewScoringEventAreaVisible)
+    {
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Scoring Events</h1>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table id="newEventsTable"
+                           class="table table-condensed table-bordered table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Scoring Event</th>
+                            <th>Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                       
+                        @for (int i = 0; i < Model.ScoringEventsList.Count; i++)
+                        {
+                            <tr>
+                                <td style="display: none"> @Html.EditorFor(m => m.ScoringEventsList[i].ScoringEventID)</td>
+                                <td>@Html.Encode(Model.Player.FirstLastPosition)</td>
+                                <td>@Html.DisplayTextFor(m => m.ScoringEventsList[i].ScoringType)</td>
+                                <td>@Html.EditorFor(m => m.ScoringEventsList[i].Value)</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel-footer">
+
+                <button formnovalidate="formnovalidate"
+                        class="btn btn-sm btn-primary"
+                        data-pdsa-action="cancel">
+                    <i class="glyphicon glyphicon-circle-arrow-left"></i>
+                    &nbsp;Back to Players
+                </button>
+                <button formnovalidate="formnovalidate"
+                        class="btn btn-sm btn-primary pull-right"
+                        data-pdsa-val=""
+                        data-pdsa-action="add">
+                    <i class="glyphicon glyphicon-floppy-save"></i>
+                    &nbsp;Create Scoring Events
+                </button>
+            </div>
+        </div>
+    }
+    <!-- ** END NEW SCORING EVENT AREA ** -->
+    <!-- ** BEGIN SCORING DETAILS AREA ** -->
+    if (Model.IsScoringDetailVisible)
+    {
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Round Total: @Model.RoundTotal</h1>
+            </div>
+            <div class="panel-body">
+
+                <div class="table-responsive">
+
+                    <table id="productTable"
+                           class="table table-condensed table-bordered table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Scoring Event</th>
+                            <th>Value</th>
+                            <th>Points</th>
+                            <th>Round</th>
+                            <th>Year</th>
+                            <th>Created</th>
+                            <th class="pdsa-action-button-column">
+                                Delete
+                            </th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        @foreach (var scoring in Model.ScoringPoints)
+                        {
+                            <tr>
+                                <td style="display: none"> @Html.Hidden(scoring.ID.ToString())</td>
+                                <td>@Html.Encode(scoring.ScoringEventName)</td>
+                                <td>@Html.Encode(scoring.Value)</td>
+                                <td>@Html.Encode(scoring.Points)</td>
+                                <td>@Html.Encode(scoring.RoundName)</td>
+                                <td>@Html.Encode(scoring.Year)</td>
+                                <td>@Html.Encode(scoring.CreatedDate)</td>
+                                <td class="pdsa-action-button-column">
+                                    <a href="#" data-pdsa-action="delete"
+                                       data-pdsa-val="@scoring.ID"
+                                       onclick="return confirm('Delete this Scoring Event?');"
+                                       class="btn btn-default btn-sm">
+                                        <i class="glyphicon glyphicon-flag"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+    <!-- ** END SCORING DETAILS AREA ** -->
+}
+
+</div>
+@section scripts {
+    <script>
+        $(document)
+            .ready(function() {
+                // Hook events on buttons and anchors
+                buildClickEvents();
+
+            });
+
+        // Hook events on buttons and anchors
+        function buildClickEvents() {
+            $("[data-pdsa-action]")
+                .on("click",
+                    function(e) {
+                        e.preventDefault();
+
+                        $("#EventCommand")
+                            .val(
+                                $(this).data("pdsa-action"));
+
+                        $("#EventArgument")
+                            .val(
+                                $(this).attr("data-pdsa-val"));
+
+                        $("form").submit();
+                    });
+        }
+
+        function GetPlayers(team, id) {
+            //alert(team);
+            var procemessage = "<option value='0'> Please wait...</option>";
+            $(id).html(procemessage).show();
+            var url = "/Home/GetPlayersByTeam/";
+
+            $.ajax({
+                url: url,
+                data: { team: team },
+                cache: false,
+                type: "POST",
+                success: function(data) {
+                    var markup = "<option value='0'>Select Player</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                    }
+                    $(id).html(markup).show();
+                },
+                error: function(reponse) {
+                    alert("error : " + reponse);
+                }
+            });
+        }
+
+        function SetEntity(id) {
+            //alert(id);
+            document.getElementById("Entity").value = id;
+        };
+    </script>
+}

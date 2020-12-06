@@ -1,0 +1,220 @@
+﻿@using BoardSquares.Models
+@using BoardSquares.ViewModels
+
+@model PlayerScoringViewModel
+
+@{
+    ViewBag.Title = "View Player Scoring";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="MainPage">
+
+    @using (Html.BeginForm("PlayerScoring", "Home", FormMethod.Post, new { ScoringEventsViewModel = Model }))
+    {
+        <!-- ** BEGIN HIDDEN FIELDS AREA ** -->
+        @Html.HiddenFor(m => m.EventCommand)
+        @*@Html.HiddenFor(m => m.EventCommand)
+        @Html.HiddenFor(m => m.EventArgument)
+        @Html.HiddenFor(m => m.Entity)
+        if (!Model.IsPlayerSelectionAreaVisible)
+        {
+            @Html.HiddenFor(m => m.Round)
+            @Html.HiddenFor(m => m.Year)
+        }
+        @Html.HiddenFor(m => m.Player.PlayerID)*@
+
+    <!-- ** END HIDDEN FIELDS AREA ** -->
+
+
+    <!-- ** BEGIN AREA ** -->
+    <!-- ** END AREA ** -->
+
+       
+        <!-- ** BEGIN TEAM CREATE AREA ** -->
+        if (Model.PlayerSelectionVisible)
+        {
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h1 class="panel-title">Select Player</h1>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="editor-line">
+                            @Html.LabelFor(m => m.SelectedTeam)
+                            @Html.DropDownListFor(m => m.SelectedTeam, new SelectList(Model.TeamsDictionary, "Key", "Value"), "", new
+                            {
+                                @id = "team",
+                                @class = "form-control",
+                                @onchange = "GetPlayers(this.value, ddlplayer)"
+                            })
+                            <br/>
+                            @Html.LabelFor(m => m.SelectedPlayer)
+                            @Html.DropDownListFor(m => m.SelectedPlayer, new SelectList(new Dictionary<string, string>(), "Key", "Value"), "", new
+                            {
+                                @id = "ddlplayer",
+                                @class = "form-control"
+                            })
+                            <br/>
+                            @Html.LabelFor(m => m.SelectedRound)
+                            <br/>
+                            @Html.DropDownListFor(m => m.SelectedRound, new SelectList(Model.RoundsDictionary, "Key", "Value"))
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button formnovalidate="formnovalidate"
+                            class="btn btn-sm btn-primary"
+                            data-pdsa-action="view">
+                        &nbsp;View Scoring Events
+                    </button>
+                    <button formnovalidate="formnovalidate"
+                            class="btn btn-sm btn-primary"
+                            data-pdsa-action="back">
+                        &nbsp;Back to Team Summaries
+                    </button>
+                </div>
+            </div>
+        }
+        <!-- ** END TEAM CREATE AREA ** -->
+
+        <!-- ** BEGIN AREA ** -->
+
+        if (Model.ScoringEvents.Any())
+        {
+                <div class="panel panel-primary pull-left">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">Scoring Events for @Model.ScoringEvents.FirstOrDefault().PlayerFirstName @Model.ScoringEvents.FirstOrDefault().PlayerLastName </h1>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table id="rankingTable"
+                                   class="table table-condensed table-bordered table-striped table-hover rankingTable">
+                                <thead>
+                                <tr>
+                                    <th>Round</th>
+                                    @*<th>Player</th>*@
+                                    <th>Event</th>
+                                    <th>Yards/Count</th>
+                                    <th>Points</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var scoring in Model.ScoringEvents)
+                                {
+                                    <tr>
+                                        <td>@Html.Encode(scoring.RoundName)</td>
+                                        @*<td>@Html.Encode(scoring.PlayerFirstName) @Html.Encode(scoring.PlayerLastName)</td>*@
+                                        <td>@Html.Encode(scoring.EventName)</td>
+                                        <td>@Html.Encode(scoring.YardsOrCount)</td>
+                                        <td style="font-weight: bold">@Html.Encode(scoring.Points)</td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td style="font-weight: bold">Total</td>
+                                    <td></td>
+                                    @*<td></td>*@
+                                    <td></td>
+                                    <td style="font-weight: bold">@Html.Encode(Model.ScoringEvents.Sum(r => r.Points))</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button formnovalidate="formnovalidate"
+                                class="btn btn-sm btn-primary"
+                                data-pdsa-action="cancel">
+                            &nbsp;Player Selection
+                        </button>
+                        <button formnovalidate="formnovalidate"
+                                class="btn btn-sm btn-primary"
+                                data-pdsa-action="back">
+                            &nbsp;Back to Team Summaries
+                        </button>
+                    </div>
+                </div>
+        }
+        else if(!Model.PlayerSelectionVisible)
+        {
+            <h2>No scoring events for this player</h2>
+            <br/>
+    <button formnovalidate="formnovalidate"
+            class="btn btn-sm btn-primary"
+            data-pdsa-action="cancel">
+        &nbsp;Player Selection
+    </button>
+    <button formnovalidate="formnovalidate"
+            class="btn btn-sm btn-primary"
+            data-pdsa-action="back">
+        &nbsp;Back to Team Summaries
+    </button>
+        }
+
+        <!-- ** END AREA ** -->
+
+
+    }
+    
+
+
+</div>
+@section scripts {
+    <script>
+        $(document)
+            .ready(function() {
+                // Hook events on buttons and anchors
+                buildClickEvents();
+
+            });
+
+        // Hook events on buttons and anchors
+        function buildClickEvents() {
+            $("[data-pdsa-action]")
+                .on("click",
+                    function(e) {
+                        e.preventDefault();
+
+                        $("#EventCommand")
+                            .val(
+                                $(this).data("pdsa-action"));
+
+                        $("#EventArgument")
+                            .val(
+                                $(this).attr("data-pdsa-val"));
+
+                        $("form").submit();
+                    });
+        }
+
+        function GetPlayers(team, id) {
+            //alert(team);
+            var procemessage = "<option value='0'> Please wait...</option>";
+            $(id).html(procemessage).show();
+            var url = "/Home/GetPlayersByTeam/";
+
+            $.ajax({
+                url: url,
+                data: { team: team },
+                cache: false,
+                type: "POST",
+                success: function(data) {
+                    var markup = "<option value='0'>Select Player</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                    }
+                    $(id).html(markup).show();
+                },
+                error: function(reponse) {
+                    alert("error : " + reponse);
+                }
+            });
+        }
+
+        function SetEntity(id) {
+            //alert(id);
+            document.getElementById("Entity").value = id;
+
+        };
+    </script>
+}

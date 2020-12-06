@@ -1,0 +1,873 @@
+﻿@using BoardSquares.Models
+@using BoardSquares.ViewModels
+
+
+@model UserGamesViewModel
+
+@{
+    ViewBag.Title = "Manage Teams";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="MainPage">
+
+@using (Html.BeginForm("Games", "Home", FormMethod.Post, new {UserGamesViewModel = Model}))
+{
+    <!-- ** BEGIN HIDDEN FIELDS AREA ** -->
+    @Html.HiddenFor(m => m.EventCommand)
+    @Html.HiddenFor(m => m.EventArgument)
+    @Html.HiddenFor(m => m.PageMode)
+    @Html.HiddenFor(m => m.Entity.UserTeamID)
+    @Html.HiddenFor(m => m.User.UserName)
+    @Html.HiddenFor(m => m.User.UserID)
+    @Html.HiddenFor(m => m.IsNewTeamAreaVisible)
+    @Html.HiddenFor(m => m.IsPlayerDetailVisible)
+    @Html.HiddenFor(m => m.IsTeamDetailVisible)
+    @Html.HiddenFor(m => m.IsTeamListAreaVisible)
+
+    <!-- ** END HIDDEN FIELDS AREA ** -->
+
+    if (!Model.IsValid)
+    {
+        <!-- ** BEGIN MESSAGE AREA ** -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="alert alert-danger
+                    alert-dismissable"
+                     role="alert">
+                    <button type="button" class="close"
+                            data-dismiss="alert">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    @Model.ErrorMessage
+                </div>
+            </div>
+        </div>
+    }
+    if (!string.IsNullOrEmpty(Model.ConfirmationMessage))
+    {
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="alert alert-success
+                    alert-dismissable"
+                     role="alert">
+                    <button type="button" class="close"
+                            data-dismiss="alert">
+                        <span aria-hidden="true">
+                        &times;
+                    </span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    @Html.Label(Model.ConfirmationMessage)
+                </div>
+            </div>
+        </div>
+    }
+    <!-- ** END MESSAGE AREA ** -->
+    
+
+    if (Model.IsNewTeamAreaVisible)
+    {
+        <!-- ** BEGIN TEAM CREATE AREA ** -->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Create New Team</h1>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="editor-line">
+                        @Html.LabelFor(m => m.NewGameCode)
+                        @Html.TextBoxFor(m => m.NewGameCode)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NewTeamName)
+                    @Html.TextBoxFor(m => m.NewTeamName)
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button formnovalidate="formnovalidate"
+                        class="btn btn-sm btn-primary"
+                        data-pdsa-action="create">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    &nbsp;Create Team
+                </button>
+            </div>
+        </div>
+        <!-- ** END TEAM CREATE AREA ** -->
+    }
+
+
+    if (Model.IsTeamListAreaVisible)
+    {
+        <!-- ** BEGIN TEAM LIST AREA ** -->
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Manage Existing Teams</h1>
+            </div>
+
+            <div class="table-responsive">
+                <table id="productTable"
+                       class="table table-condensed table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th class="pdsa-action-button-column">
+                                Action
+                            </th>
+                            <th>Team Name</th>
+                            <th>Year</th>
+                            <th>Game Name</th>
+                            <th>Balance Due</th>
+                            <th class="pdsa-action-button-column">
+                                Delete
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var team in Model.UserTeams)
+                        {
+                        <tr style="@(!team.Active ? Html.Raw("background-color: dimgrey; font-style: italic") : Html.Raw(""))">
+
+                        <td style="display: none"> @Html.Hidden(team.UserTeamID.ToString())</td>
+                        <td style="display: none"> @Html.Hidden(team.UserID.ToString())</td>
+                        @if (!team.Complete)
+                        {
+                            <td class="pdsa-action-button-column">
+                            <a href="#" data-pdsa-action="edit"
+                            data-pdsa-val="@team.UserTeamID"
+                            class="btn btn-default btn-sm" style="border-color: red">
+                            Choose Players
+                            </a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                            <a href="#" data-pdsa-action="view"
+                            data-pdsa-val="@team.UserTeamID"
+                            class="btn btn-default btn-sm">
+                            View
+                            </a>
+                            </td>
+                        }
+                        <td>@Html.Encode(team.UserTeamName)</td>
+                        <td>@Html.Encode(team.Year)</td>
+                        <td class="pdsa-action">
+                        <a href="#" data-pdsa-action="viewGame"
+                        data-pdsa-val="@team.GameNumber">
+                        @Html.Encode(team.GameNumber)
+                        </a>
+                        </td>
+                        <td class="Money">@Html.Encode(team.Balance)</td>
+                        @if (team.Balance == 0)
+                        {
+                                <td></td>
+                        }
+                        else
+                        {
+                            <td class="pdsa-action-button-column">
+                            <a href="#" data-pdsa-action="delete"
+                            data-pdsa-val="@team.UserTeamID"
+                            onclick="return confirm('Delete this Team?');"
+                            class="btn btn-default btn-sm">
+                            <i class="glyphicon glyphicon-trash"></i>
+                            </a>
+                            </td>
+                        }
+
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <!-- ** END TEAM LIST AREA ** -->
+    }
+    if (Model.IsTeamDetailVisible)
+    {
+        <!-- ** TEAM DETAILS AREA ** -->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Select Players</h1>
+            </div>
+            <div class="panel-body">
+                <!-- ** BEGIN INPUT AREA -->
+
+                <div class="form-group" style="display: block">
+                    @Html.LabelFor(m => m.DEFPlayer, "Defense")
+                    <br/>
+                    @Html.DropDownListFor(m => m.DEFPlayer.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "",
+                    new {@id = "defteam", 
+                        @class = "form-control pull-left", 
+                        @onchange = "GetPlayers(this.value, 'DEF', ddlDEFplayer, this.id, this)", 
+                        @dataoldval = "",
+                        @onfocus = "SetOldVal(this,this.value)"
+                        //@onclick = "populate(this.id)", 
+//@oncancel = "RemoveClickedClass(this.id)",
+                        //@onfocusout = "RemoveClickedClass(this.id)"          
+                    })
+                    @Html.DropDownListFor(m => m.DEFPlayer.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.DEFPlayer.PlayerTeam, "DEF"), "Key", "Value"), "", new
+                    {
+                        @id = "ddlDEFplayer",
+                        @class = "form-control"
+                    })
+                </div>
+
+                <div class="form-group" style="display: block">
+                    @Html.LabelFor(m => m.QB1Player, "Quarter Back 1")
+                    <br/>
+                    @Html.DropDownListFor(m => m.QB1Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+               {
+                   @id = "qb1team",
+                   @class = "form-control pull-left",
+                   @onchange = "GetPlayers(this.value, 'QB', ddlQB1player, this.id, this)",
+                   @dataoldval = "",
+                   @onfocus = "SetOldVal(this,this.value)"
+               })
+                    @Html.DropDownListFor(m => m.QB1Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.QB1Player.PlayerTeam, "QB"), "Key", "Value"), "", new
+                    {
+                        @id = "ddlQB1player",
+                        @class = "form-control"
+                    })
+                </div>
+
+
+                <div class="form-group" style="display: block">
+                    @Html.LabelFor(m => m.QB2Player, "Quarter Back 2")
+                    <br/>
+                    @Html.DropDownListFor(m => m.QB2Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+               {
+                   @id = "qb2team",
+                   @class = "form-control pull-left",
+                   @onchange = "GetPlayers(this.value, 'QB', ddlQB2player, this.id, this)",
+                   @dataoldval = "",
+                   @onfocus = "SetOldVal(this,this.value)"
+               })
+                    @Html.DropDownListFor(m => m.QB2Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.QB2Player.PlayerTeam, "QB"), "Key", "Value"), "", new
+                    {
+                        @id = "ddlQB2player",
+                        @class = "form-control"
+                    })
+                </div>
+
+                <div class="form-group" style="display: block">
+                    @Html.LabelFor(m => m.KPlayer, "Kicker")
+                    <br/>
+                    @Html.DropDownListFor(m => m.KPlayer.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+               {
+                   @id = "kteam",
+                   @class = "form-control pull-left",
+                   @onchange = "GetPlayers(this.value, 'K', ddlKplayer, this.id, this)",
+                   @dataoldval = "",
+                   @onfocus = "SetOldVal(this,this.value)"
+               })
+                    @Html.DropDownListFor(m => m.KPlayer.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.KPlayer.PlayerTeam, "K"), "Key", "Value"), "", new
+                    {
+                        @id = "ddlKplayer",
+                        @class = "form-control"
+                    })
+                </div>
+
+                <div class="form-group" style="display: block">
+                    @Html.LabelFor(m => m.TEPlayer, "Tight End")
+                    <br/>
+                    @Html.DropDownListFor(m => m.TEPlayer.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new 
+                    { 
+                   @id = "teteam",
+                   @class = "form-control pull-left",
+                   @onchange = "GetPlayers(this.value, 'TE', ddlTEplayer, this.id, this)", 
+                   @dataoldval = "",
+                   @onfocus = "SetOldVal(this,this.value)"
+                    })
+                    @Html.DropDownListFor(m => m.TEPlayer.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.TEPlayer.PlayerTeam, "TE"), "Key", "Value"), "", new
+                    {
+                        @id = "ddlTEplayer",
+                        @class = "form-control"
+                    })
+                </div>
+
+                <div class="form-group" style="display: block">
+                    @Html.LabelFor(m => m.WR1Player, "Wide Receiver 1")
+                    <br/>
+                    @Html.DropDownListFor(m => m.WR1Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+               {
+                   @id = "wr1team",
+                   @class = "form-control pull-left",
+                   @onchange = "GetPlayers(this.value, 'WR', ddlWR1player, this.id, this)",
+                   @dataoldval = "",
+                   @onfocus = "SetOldVal(this,this.value)"
+               })
+                    @Html.DropDownListFor(m => m.WR1Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.WR1Player.PlayerTeam, "WR"), "Key", "Value"), "", new
+                    {
+                        @id = "ddlWR1player",
+                        @class = "form-control"
+                    })
+                </div>
+
+                <div class="form-group" style="display: block">
+                    @Html.LabelFor(m => m.WR2Player, "Wide Receiver 2")
+                    <br/>
+                    @Html.DropDownListFor(m => m.WR2Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+               {
+                   @id = "wr2team",
+                   @class = "form-control pull-left",
+                   @onchange = "GetPlayers(this.value, 'WR', ddlWR2player, this.id, this)",
+                   @dataoldval = "",
+                   @onfocus = "SetOldVal(this,this.value)"
+               })
+                    @Html.DropDownListFor(m => m.WR2Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.WR2Player.PlayerTeam, "WR"), "Key", "Value"), "", new
+                    {
+                        @id = "ddlWR2player",
+                        @class = "form-control"
+                    })
+                </div>
+                <div class="form-group" style="display: block">
+                    @Html.LabelFor(m => m.WR3Player, "Wide Receiver 3")
+                    <br/>
+                    @Html.DropDownListFor(m => m.WR3Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+               {
+                   @id = "wr3team",
+                   @class = "form-control pull-left",
+                   @onchange = "GetPlayers(this.value, 'WR', ddlWR3player, this.id, this)",
+                   @dataoldval = "",
+                   @onfocus = "SetOldVal(this,this.value)"
+               })
+                    @Html.DropDownListFor(m => m.WR3Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.WR3Player.PlayerTeam, "WR"), "Key", "Value"), "", new
+                    {
+                        @id = "ddlWR3player",
+                        @class = "form-control"
+                    })
+                </div>
+                <div class="form-group" style="display: block">
+                    @Html.LabelFor(m => m.WR4Player, "Wide Receiver 4")
+                    <br/>
+                    @Html.DropDownListFor(m => m.WR4Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+               {
+                   @id = "wr4team",
+                   @class = "form-control pull-left",
+                   @onchange = "GetPlayers(this.value, 'WR', ddlWR4player, this.id, this)",
+                   @dataoldval = "",
+                   @onfocus = "SetOldVal(this,this.value)"
+               })
+                    @Html.DropDownListFor(m => m.WR4Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.WR4Player.PlayerTeam, "WR"), "Key", "Value"), "", new
+                    {
+                        @id = "ddlWR4player",
+                        @class = "form-control"
+                    })
+                </div>
+                <div class="form-group" style="display: block">
+                    @Html.LabelFor(m => m.RB1Player, "Running Back 1")
+                    <br/>
+                    @Html.DropDownListFor(m => m.RB1Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+               {
+                   @id = "rb1team",
+                   @class = "form-control pull-left",
+                   @onchange = "GetPlayers(this.value, 'RB', ddlRB1player, this.id, this)",
+                   @dataoldval = "",
+                   @onfocus = "SetOldVal(this,this.value)"
+               })
+                    @Html.DropDownListFor(m => m.RB1Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.RB1Player.PlayerTeam, "RB"), "Key", "Value"), "", new
+                    {
+                        @id = "ddlRB1player",
+                        @class = "form-control"
+                    })
+                </div>
+                <div class="form-group" style="display: block">
+                    @Html.LabelFor(m => m.RB2Player, "Running Back 2")
+                    <br/>
+                    @Html.DropDownListFor(m => m.RB2Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+               {
+                   @id = "rb2team",
+                   @class = "form-control pull-left",
+                   @onchange = "GetPlayers(this.value, 'RB', ddlRB2player, this.id, this)",
+                   @dataoldval = "",
+                   @onfocus = "SetOldVal(this,this.value)"
+               })
+                    @Html.DropDownListFor(m => m.RB2Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.RB2Player.PlayerTeam, "RB"), "Key", "Value"), "", new
+                    {
+                        @id = "ddlRB2player",
+                        @class = "form-control"
+                    })
+                </div>
+                <div class="form-group" style="display: block">
+                    @Html.LabelFor(m => m.RB3Player, "Running Back 3")
+                    <br/>
+                    @Html.DropDownListFor(m => m.RB3Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+               {
+                   @id = "rb3team",
+                   @class = "form-control pull-left",
+                   @onchange = "GetPlayers(this.value, 'RB', ddlRB3player, this.id, this)",
+                   @dataoldval = "",
+                   @onfocus = "SetOldVal(this,this.value)"
+               })
+                    @Html.DropDownListFor(m => m.RB3Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.RB3Player.PlayerTeam, "RB"), "Key", "Value"), "", new
+                    {
+                        @id = "ddlRB3player",
+                        @class = "form-control"
+                    })
+                </div>
+
+            <div class="form-group" style="display: block">
+                @Html.LabelFor(m => m.TieBreakerPlayer1, "Tie Breaker Player")
+                <br/>
+                @Html.DropDownListFor(m => m.TieBreakerPlayer1.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+                {
+                    @id = "tieteam",
+                    @class = "form-control pull-left",
+                    @onchange = "GetPlayers(this.value, 'ALL', ddlTieplayer, this.id, this)",
+                    @dataoldval = "",
+                    @onfocus = "SetOldVal(this,this.value)"
+                })
+                @Html.DropDownListFor(m => m.TieBreakerPlayer1.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.TieBreakerPlayer1.PlayerTeam, "ALL"), "Key", "Value"), "", new
+                {
+                    @id = "ddlTieplayer",
+                    @class = "form-control"
+                })
+            </div>
+            <div class="form-group" style="display: block">
+                @Html.LabelFor(m => m.TieBreakerPlayer2, "Second Tie Breaker Player")
+                <br />
+                @Html.DropDownListFor(m => m.TieBreakerPlayer2.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+                {
+                    @id = "tieteam2",
+                    @class = "form-control pull-left",
+                    @onchange = "GetPlayers(this.value, 'ALL', ddlTie2player, this.id, this)",
+                    @dataoldval = "",
+                    @onfocus = "SetOldVal(this,this.value)"
+                })
+                @Html.DropDownListFor(m => m.TieBreakerPlayer2.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.TieBreakerPlayer2.PlayerTeam, "ALL"), "Key", "Value"), "", new
+                {
+                    @id = "ddlTie2player",
+                    @class = "form-control"
+                })
+            </div>
+
+
+                <!-- ** END INPUT AREA -->
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button class="btn btn-sm btn-primary"
+                                data-pdsa-action="save">
+                            <i class="glyphicon glyphicon-floppy-disk"></i>
+                            &nbsp;Save
+                        </button>
+                        <button class="btn btn-sm btn-primary"
+                                formnovalidate="formnovalidate"
+                                data-pdsa-action="cancel">
+                            <i class="glyphicon glyphicon-remove-circle"></i>
+                            &nbsp;Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <!-- ** END TEAM DETAILS AREA ** -->
+
+
+    if (Model.IsPlayerDetailVisible)
+    {
+        <!-- ** TEAM PLAYERS DETAIL AREA ** -->
+        <div class="panel panel-primary">
+            @*<div class="panel-heading">
+                <h1 class="panel-title">Players View</h1>
+            </div>*@
+            @*<div class="panel-body">
+                <!-- ** BEGIN INPUT AREA -->
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.DEFPlayer, "Defense: ")
+                    @Html.Encode(Model.DEFPlayer.FirstLastTeam)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.QB1Player, "Quarter Back 1: ")
+                    @Html.Encode(Model.QB1Player.FirstLastTeam)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.QB2Player, "Quarter Back 2: ")
+                    @Html.Encode(Model.QB2Player.FirstLastTeam)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.KPlayer, "Kicker: ")
+                    @Html.Encode(Model.KPlayer.FirstLastTeam)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.TEPlayer, "Tight End: ")
+                    @Html.Encode(Model.TEPlayer.FirstLastTeam)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.WR1Player, "Wide Receiver 1: ")
+                    @Html.Encode(Model.WR1Player.FirstLastTeam)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.WR2Player, "Wide Receiver 2: ")
+                    @Html.Encode(Model.WR2Player.FirstLastTeam)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.WR3Player, "Wide Receiver 3: ")
+                    @Html.Encode(Model.WR3Player.FirstLastTeam)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.WR4Player, "Wide Receiver 4: ")
+                    @Html.Encode(Model.WR4Player.FirstLastTeam)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.RB1Player, "Running Back 1: ")
+                    @Html.Encode(Model.RB1Player.FirstLastTeam)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.RB2Player, "Running Back 2: ")
+                    @Html.Encode(Model.RB2Player.FirstLastTeam)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.RB3Player, "Running Back 3: ")
+                    @Html.Encode(Model.RB3Player.FirstLastTeam)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.RB3Player, "Tie Breaker: ")
+                    @Html.Encode(Model.TieBreakerPlayer.FirstLastTeam)
+                </div>
+
+                <!-- ** END INPUT AREA -->
+            </div>*@
+            
+            <!-- ** TEST AREA -->
+            @*<div class="panel panel-primary pull-right" style="margin-bottom: 100%">*@
+                <div class="panel-heading">
+                    <h1 class="panel-title">Team Points Summary By Round</h1>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                    <table id="newEventsTable"
+                           class="table table-condensed table-bordered table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Position</th>
+                            <th>WC</th>
+                            <th>Div</th>
+                            <th>Conf</th>
+                            <th>SB</th>
+                            <th>Total</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var player in Model.PlayerScoringSummaries)
+                        {
+                            <tr>
+                                <td style="display: none"> @Html.Hidden(player.PlayerID.ToString())</td>
+                                <td>@Html.Encode(player.PlayerFirstName) @Html.Encode(player.PlayerLastName)</td>
+                                <td>@Html.Encode(player.PlayerPosition)</td>
+                                <td onclick="DisplayScoring(@player.PlayerID,1,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                    <a href="#"> @Html.Encode(player.WildCard)</a>
+                                </td>
+                                <td onclick="DisplayScoring(@player.PlayerID,2,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                    <a href="#"> @Html.Encode(player.Divisional)</a>
+                                </td>
+                                <td onclick="DisplayScoring(@player.PlayerID,3,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                    <a href="#"> @Html.Encode(player.Conference)</a>
+                                </td>
+                                <td onclick="DisplayScoring(@player.PlayerID,4,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                    <a href="#"> @Html.Encode(player.Superbowl)</a>
+                                </td>
+                                <td onclick="DisplayScoring(@player.PlayerID,0,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                    <a href="#"> @Html.Encode(player.PlayerTotal)</a>
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td>
+                                <b>Total</b>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <b>@ViewBag.ScoreTotal</b>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                        <table id="tieBreakerPointsTable"
+                               class="table table-condensed table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Tie Breaker</th>
+                                    <th>Position</th>
+                                    <th>WC</th>
+                                    <th>Div</th>
+                                    <th>Conf</th>
+                                    <th>SB</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @*<tr>
+                                    <td style="display: none"> @Html.Hidden(Model.TieBreakerScoringSummaries.PlayerID.ToString())</td>
+                                    <td>@Html.Encode(Model.TieBreakerScoringSummaries.PlayerFirstName) @Html.Encode(Model.TieBreakerScoringSummaries.PlayerLastName)</td>
+                                    <td>@Html.Encode(Model.TieBreakerScoringSummaries.PlayerPosition)</td>
+                                    <td onclick="DisplayScoring(@Model.TieBreakerScoringSummaries.PlayerID,1,'@Model.TieBreakerScoringSummaries.PlayerFirstName','@Model.TieBreakerScoringSummaries.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(Model.TieBreakerScoringSummaries.WildCard)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@Model.TieBreakerScoringSummaries.PlayerID,2,'@Model.TieBreakerScoringSummaries.PlayerFirstName','@Model.TieBreakerScoringSummaries.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(Model.TieBreakerScoringSummaries.Divisional)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@Model.TieBreakerScoringSummaries.PlayerID,3,'@Model.TieBreakerScoringSummaries.PlayerFirstName','@Model.TieBreakerScoringSummaries.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(Model.TieBreakerScoringSummaries.Conference)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@Model.TieBreakerScoringSummaries.PlayerID,4,'@Model.TieBreakerScoringSummaries.PlayerFirstName','@Model.TieBreakerScoringSummaries.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(Model.TieBreakerScoringSummaries.Superbowl)</a>
+                                    </td>
+                                    <td onclick="DisplayScoring(@Model.TieBreakerScoringSummaries.PlayerID,0,'@Model.TieBreakerScoringSummaries.PlayerFirstName','@Model.TieBreakerScoringSummaries.PlayerLastName')">
+                                        <a href="#"> @Html.Encode(Model.TieBreakerScoringSummaries.PlayerTotal)</a>
+                                    </td>
+                                </tr>*@
+                                @foreach (var player in Model.TieBreakerScoringSummaries)
+                                {
+                                    <tr>
+                                        <td style="display: none"> @Html.Hidden(player.PlayerID.ToString())</td>
+                                        <td>@Html.Encode(player.PlayerFirstName) @Html.Encode(player.PlayerLastName)</td>
+                                        <td>@Html.Encode(player.PlayerPosition)</td>
+                                        <td onclick="DisplayScoring(@player.PlayerID,1,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                            <a href="#"> @Html.Encode(player.WildCard)</a>
+                                        </td>
+                                        <td onclick="DisplayScoring(@player.PlayerID,2,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                            <a href="#"> @Html.Encode(player.Divisional)</a>
+                                        </td>
+                                        <td onclick="DisplayScoring(@player.PlayerID,3,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                            <a href="#"> @Html.Encode(player.Conference)</a>
+                                        </td>
+                                        <td onclick="DisplayScoring(@player.PlayerID,4,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                            <a href="#"> @Html.Encode(player.Superbowl)</a>
+                                        </td>
+                                        <td onclick="DisplayScoring(@player.PlayerID,0,'@player.PlayerFirstName','@player.PlayerLastName')">
+                                            <a href="#"> @Html.Encode(player.PlayerTotal)</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button class="btn btn-sm btn-primary"
+                                formnovalidate="formnovalidate"
+                                data-pdsa-action="cancel">
+                            <i class="glyphicon glyphicon-remove-circle"></i>
+                            &nbsp;Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <!-- ** TEST AREA -->
+         
+       
+    }
+    <!-- ** END TEAM PLAYERS DETAIL AREA ** -->
+
+        <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" onclick="HideModal()">x</span>
+            <div id="modalGrid"></div>
+        </div>
+    </div>
+}
+</div>
+
+@section scripts {
+    <script>
+
+        $(document)
+            .ready(function() {
+                // Hook events on buttons and anchors
+                buildClickEvents();
+            });
+
+        // Hook events on buttons and anchors
+        function buildClickEvents() {
+            $("[data-pdsa-action]")
+                .on("click",
+                    function(e) {
+                        e.preventDefault();
+
+                        $("#EventCommand")
+                            .val(
+                                $(this).data("pdsa-action"));
+
+                        $("#EventArgument")
+                            .val(
+                                $(this).attr("data-pdsa-val"));
+
+                        $("form").submit();
+                    });
+        }
+
+        function HideModal() {
+            var modal = document.getElementById('myModal');
+            modal.style.display = "none";
+        }
+
+        function DisplayScoring(player, round, playerFirstName, playerLastName) {
+            var modal = document.getElementById('myModal');
+            var modalGrid = document.getElementById('modalGrid');
+            modalGrid.innerHTML = "Loading Results...";
+            var markup = "<h2>Scoring Events for " + playerFirstName + " " + playerLastName + "</h2> <table id=\"rankingTable\"class=\"table table-condensed table-bordered table-striped table-hover rankingTable\">" +
+            "<thead><tr><th>Round</th><th>Event</th><th>Yards/Count</th><th>Points</th></tr></thead><tbody>";
+
+            //Populate modal with grid
+            var url = "/Home/GetScoringEvents/";
+            $.ajax({
+                url: url,
+                data: { playerId: player, roundId: round },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        markup += "<tr><td>" + data[i].RoundName + "</td><td>" + data[i].EventName + "</td><td>" + data[i].YardsOrCount + "</td><td>" + data[i].Points.toString() + "</td></tr>";
+                    }
+                    markup += "</tbody></table>";
+                    modalGrid.innerHTML = markup;
+                },
+                error: function (reponse) {
+                    alert("error : " + reponse);
+                }
+            });
+            // open the modal 
+            modal.style.display = "block";
+        }
+        function SetOldVal(obj, valu) {
+            obj.attributes.dataoldval.value = valu;
+        }
+
+        function RemoveClickedClass(id) {
+            var element = $('#' + id);
+            element.removeClass("clicked");
+        }
+
+        function GetPlayers(team, position, id, teamid, element) {
+            //alert(team + position);
+            var oldTeam = element.attributes.dataoldval.value;
+            //element.attributes.dataoldval.value = team;
+            var procemessage = "<option value='0'> Please wait...</option>";
+            $(id).html(procemessage).show();
+            var url = "/Home/GetPlayersByTeamAndPosition/";
+
+            $.ajax({
+                url: url,
+                data: { team: team, position: position },
+                cache: false,
+                type: "POST",
+                success: function(data) {
+                    var markup = "<option value='0'>Select Player</option>";
+                    if (position == "ALL") {
+                        var defvalue = document.getElementById("ddlDEFplayer").value;
+                        var qb1value = document.getElementById("ddlQB1player").value;
+                        var qb2value = document.getElementById("ddlQB2player").value;
+                        var rb1value = document.getElementById("ddlRB1player").value;
+                        var rb2value = document.getElementById("ddlRB2player").value;
+                        var rb3value = document.getElementById("ddlRB3player").value;
+                        var tevalue = document.getElementById("ddlTEplayer").value;
+                        var kvalue = document.getElementById("ddlKplayer").value;
+                        var wr1value = document.getElementById("ddlWR1player").value;
+                        var wr2value = document.getElementById("ddlWR2player").value;
+                        var wr3value = document.getElementById("ddlWR3player").value;
+                        var wr4value = document.getElementById("ddlWR4player").value;
+                        for (var x = 0; x < data.length; x++) {
+                            if (data[x].Value != defvalue &&
+                                data[x].Value != qb1value &&
+                                data[x].Value != qb2value &&
+                                data[x].Value != rb1value &&
+                                data[x].Value != rb2value &&
+                                data[x].Value != rb3value &&
+                                data[x].Value != tevalue &&
+                                data[x].Value != kvalue &&
+                                data[x].Value != wr1value &&
+                                data[x].Value != wr2value &&
+                                data[x].Value != wr3value &&
+                                data[x].Value != wr4value) {
+                                markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                            }
+                        }
+                    } else {
+                        for (var x = 0; x < data.length; x++) {
+
+                            markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+
+                        }
+                    }
+                    $(id).html(markup).show();
+
+                    if ((team != "")) {
+                        disableOptions($("#defteam").get(0), team);
+                        disableOptions($("#qb1team").get(0), team);
+                        disableOptions($("#qb2team").get(0), team);
+                        disableOptions($("#rb1team").get(0), team);
+                        disableOptions($("#rb2team").get(0), team);
+                        disableOptions($("#rb3team").get(0), team);
+                        disableOptions($("#teteam").get(0), team);
+                        disableOptions($("#kteam").get(0), team);
+                        disableOptions($("#wr1team").get(0), team);
+                        disableOptions($("#wr2team").get(0), team);
+                        disableOptions($("#wr3team").get(0), team);
+                        disableOptions($("#wr4team").get(0), team);
+                    }
+                    enableOptions($("#defteam").get(0), oldTeam);
+                    enableOptions($("#qb1team").get(0), oldTeam);
+                    enableOptions($("#qb2team").get(0), oldTeam);
+                    enableOptions($("#rb1team").get(0), oldTeam);
+                    enableOptions($("#rb2team").get(0), oldTeam);
+                    enableOptions($("#rb3team").get(0), oldTeam);
+                    enableOptions($("#teteam").get(0), oldTeam);
+                    enableOptions($("#kteam").get(0), oldTeam);
+                    enableOptions($("#wr1team").get(0), oldTeam);
+                    enableOptions($("#wr2team").get(0), oldTeam);
+                    enableOptions($("#wr3team").get(0), oldTeam);
+                    enableOptions($("#wr4team").get(0), oldTeam);
+
+            
+
+            element.attributes.dataoldval.value = team;
+        },
+        error: function(reponse) {
+            alert("error : " + reponse);
+        }
+        });
+
+    }
+
+        function disableOptions(id, option) {
+            var op = id.getElementsByTagName("option");
+            for (var i = 0; i < op.length; i++) {
+                if (op[i].value == option) {
+                    op[i].disabled = true;
+                    op[i].style.background = "rgba(0,0,0,0.3)";
+                }
+            }
+        }
+
+        function enableOptions(id, option) {
+            var op = id.getElementsByTagName("option");
+            for (var i = 0; i < op.length; i++) {
+                if (op[i].value == option) {
+                    op[i].disabled = false;
+                    op[i].style.background = "";
+                }
+            }
+        }
+    </script>
+}

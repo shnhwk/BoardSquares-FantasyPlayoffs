@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("Fantasy Playoffs", "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                @if (Request.IsAuthenticated && (User.IsInRole("User") || User.IsInRole("Admin")))
+                {
+                    <li>@Html.ActionLink("Main", "Index", "Home")</li>
+                    <li>@Html.ActionLink("All Teams", "GameSummary", "Home")</li>
+                    <li>@Html.ActionLink("My Teams", "Games", "Home")</li>
+                    <li>@Html.ActionLink("Scoring", "PlayerScoring", "Home")</li>
+                    <li>@Html.ActionLink("Rules", "Rules", "Home")</li>
+                    <li>@Html.ActionLink("News", "News", "Home")</li>
+                }
+                @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <li>@Html.ActionLink("Administration", "Administration", "Home")</li>
+                }
+            </ul>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+</div>
+    <div class="wrapper">
+        <div class ="container body-content">
+            @RenderBody()
+        </div>
+        <div class="footer">
+            <p>&copy; @DateTime.Now.Year - Fantasy Playoffs</p>
+        </div>
+    </div>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
+
+</body>
+
+</html>

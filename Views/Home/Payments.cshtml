@@ -1,0 +1,180 @@
+﻿@using BoardSquares.ViewModels
+@model PaymentsViewModel
+@{
+    ViewBag.Title = "Add Payments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="MainPage">
+    @using (Html.BeginForm("Payments", "Home", FormMethod.Post, new {PaymentsViewModel = Model}))
+    {
+        @Html.HiddenFor(m => m.EventCommand)
+        @Html.HiddenFor(m => m.EventArgument)
+        @Html.HiddenFor(m => m.IsUsersSectionVisible)
+        @Html.HiddenFor(m => m.IsUserTeamSectionVisible)
+
+        if (Model.IsUsersSectionVisible)
+        {
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h1 class="panel-title">Manage User Accounts</h1>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="productTable"
+                           class="table table-condensed table-bordered table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th class="pdsa-action-button-column">
+                                Action
+                            </th>
+                            <th>User</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Balance Due</th>
+                            <th class="pdsa-action-button-column">
+                                Delete
+                            </th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        @foreach (var user in Model.UserList)
+                        {
+                            <tr>
+
+                                <td style="display: none"> @Html.Hidden(user.UserID.ToString())</td>
+
+                                <td>
+                                    <a href="#" data-pdsa-action="view"
+                                       data-pdsa-val="@user.UserID"
+                                       class="btn btn-default btn-sm">
+                                        <i class="glyphicon glyphicon-eye-open" title="View User Teams"></i>
+                                    </a>
+                                </td>
+
+                                <td>@Html.Encode(user.UserName)</td>
+                                <td>@Html.Encode(user.FirstName + " " + user.LastName)</td>
+                                <td>@Html.Encode(user.Email)</td>
+                                <td class="Money">@Html.Encode(user.BalDue)</td>
+                                <td class="pdsa-action-button-column">
+                                    <a href="#" data-pdsa-action="deleteuser"
+                                       data-pdsa-val="@user.UserID"
+                                       onclick="return confirm('Delete this User?');"
+                                       class="btn btn-default btn-sm">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        if (Model.IsUserTeamSectionVisible)
+        {
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h1 class="panel-title">Manage User Accounts</h1>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="productTable"
+                           class="table table-condensed table-bordered table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th class="pdsa-action-button-column">
+                                Mark Paid
+                            </th>
+                            <th>Team</th>
+                            <th>Year</th>
+                            <th>Game Number</th>
+                            <th>Balance Due</th>
+                            <th class="pdsa-action-button-column">
+                                Delete
+                            </th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        @foreach (var userTeam in Model.UserTeamList)
+                        {
+                            <tr>
+
+                                <td style="display: none"> @Html.Hidden(userTeam.UserTeamID.ToString())</td>
+                                @if (userTeam.Balance > 0)
+                                {
+                                    <td>
+                                        <a href="#" data-pdsa-action="markpaid"
+                                           data-pdsa-val="@userTeam.UserTeamID"
+                                           class="btn btn-default btn-sm">
+                                            <i class="glyphicon glyphicon-usd" title="Apply Payment"></i>
+                                        </a>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                                <td>@Html.Encode(userTeam.UserTeamName)</td>
+                                <td>@Html.Encode(userTeam.Year)</td>
+                                <td>@Html.Encode(userTeam.GameNumber)</td>
+                                <td class="Money">@Html.Encode(userTeam.Balance)</td>
+                                <td class="pdsa-action-button-column">
+                                    <a href="#" data-pdsa-action="deleteteam"
+                                       data-pdsa-val="@userTeam.UserTeamID"
+                                       onclick="return confirm('Delete this Team?');"
+                                       class="btn btn-default btn-sm">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button class="btn btn-sm btn-primary"
+                                    formnovalidate="formnovalidate"
+                                    data-pdsa-action="cancel">
+                                <i class="glyphicon glyphicon-remove-circle"></i>
+                                &nbsp;Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+@section scripts {
+    <script>
+        $(document)
+            .ready(function() {
+                // Hook events on buttons and anchors
+                buildClickEvents();
+
+            });
+
+        // Hook events on buttons and anchors
+        function buildClickEvents() {
+            $("[data-pdsa-action]")
+                .on("click",
+                    function(e) {
+                        e.preventDefault();
+
+                        $("#EventCommand")
+                            .val(
+                                $(this).data("pdsa-action"));
+
+                        $("#EventArgument")
+                            .val(
+                                $(this).attr("data-pdsa-val"));
+
+                        $("form").submit();
+                    });
+        }
+    </script>
+}

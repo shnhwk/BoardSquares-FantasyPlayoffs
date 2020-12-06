@@ -1,0 +1,58 @@
+﻿@using BoardSquares.ViewModels
+@model ExactTeamsViewModel
+@{
+    ViewBag.Title = "Exact Teams";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="MainPage">
+    @using (Html.BeginForm("ExactTeams", "Home", FormMethod.Post, new { vm = Model }))
+    {
+        if (!Model.ExactTeamList.Any())
+        {
+            <h2 style="text-align: center">No Exact Teams Exist</h2>
+        }
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h1 class="panel-title ">Exact Teams</h1>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table id="newEventsTable"
+                                   class="table table-condensed table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>GameNumber</th>
+                                        <th>TeamName</th>
+                                        <th>Created</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>MatchTeam</th>
+                                        <th>MatchCreated</th>
+                                        <th>MatchName</th>
+                                        <th>MatchEmail</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var game in Model.ExactTeamList)
+                                    {
+                                        <tr>
+                                            <td>@Html.Encode(game.GameNumber)</td>
+                                            <td>@Html.Encode(game.TeamName)</td>
+                                            <td>@Html.Encode(game.CreatedDate)</td>
+                                            <td>@Html.Encode(game.Name)</td>
+                                            <td>@Html.Encode(game.Email)</td>
+                                            <td>@Html.Encode(game.MatchedTeamName)</td>
+                                            <td>@Html.Encode(game.MatchedCreatedDate)</td>
+                                            <td>@Html.Encode(game.MatchedName)</td>
+                                            <td>@Html.Encode(game.MatchedEmail)</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+        }
+</div>
+

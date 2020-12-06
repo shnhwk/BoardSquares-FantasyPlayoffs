@@ -1,0 +1,85 @@
+﻿@using BoardSquares.Models
+@using BoardSquares.ViewModels
+
+@model SendEmailsViewModel
+
+@{
+    ViewBag.Title = "Send Emails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("SendEmails", "Home", FormMethod.Post, new { SendEmailsViewModel = Model, id = "myform" }))
+{
+    <div id="myLoadingElement" style="display: none;">
+        Sending Emails...Please Wait
+    </div>
+    <div id="main">
+        @if (!Model.IsValid)
+        {
+        <!-- ** BEGIN MESSAGE AREA ** -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="alert alert-danger
+                    alert-dismissable"
+                     role="alert">
+                    <button type="button" class="close"
+                            data-dismiss="alert">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    @Model.ErrorMessage
+                </div>
+            </div>
+        </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+        {
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="alert alert-success
+                    alert-dismissable"
+                     role="alert">
+                    <button type="button" class="close"
+                            data-dismiss="alert">
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    @Html.Label(Model.SuccessMessage)
+                </div>
+            </div>
+        </div>
+        }
+        <!-- ** END MESSAGE AREA ** -->
+        <!-- ** BEGIN TEAM CREATE AREA ** -->
+        <div id="main" class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Sending Emails by Type</h1>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.SelectedRound)
+                    @Html.DropDownListFor(m => m.SelectedRound, new SelectList(Model.RoundsDictionary, "Key", "Value"), "")
+                </div>
+
+            </div>
+            <div class="panel-footer">
+                <button id="submitbtn" onclick="ShowLoading()" formnovalidate="formnovalidate"
+                        class="btn btn-sm btn-primary"
+                        data-pdsa-action="create">
+                    &nbsp;Send Emails
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- ** END TEAM CREATE AREA ** -->
+}
+<script>
+  function ShowLoading() {
+      $("#myLoadingElement").show();
+      $("#main").hide();
+  }
+</script>
