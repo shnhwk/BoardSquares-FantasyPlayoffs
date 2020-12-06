@@ -37,9 +37,11 @@ namespace BoardSquares.ViewModels
         public Player WR2Player { get; set; }
         public Player WR3Player { get; set; }
         public Player WR4Player { get; set; }
+        public Player WR5Player { get; set; }
         public Player RB1Player { get; set; }
         public Player RB2Player { get; set; }
         public Player RB3Player { get; set; }
+        public Player RB4Player { get; set; }
         public Player TEPlayer { get; set; }
         public Player TieBreakerPlayer1 { get; set; }
         public Player TieBreakerPlayer2 { get; set; }
@@ -82,9 +84,11 @@ namespace BoardSquares.ViewModels
             WR2Player = new Player();
             WR3Player = new Player();
             WR4Player = new Player();
+            WR5Player = new Player();
             RB1Player = new Player();
             RB2Player = new Player();
             RB3Player = new Player();
+            RB4Player = new Player();
             TEPlayer = new Player();
             TieBreakerPlayer1 = new Player();
             TieBreakerPlayer2 = new Player();
@@ -147,9 +151,9 @@ namespace BoardSquares.ViewModels
             var db = new BoardSquaresRepository();
             var temp = db.GetUserTeamPlayersByGame(entity);
             var tieBreaker = db.Context.TieBreakerPlayers.Where(r => r.UserTeamID == entity).Select(r => r.PlayerID).ToList();
-            
+
             var playerList = temp.Select(r => r.PlayerID).ToList();
-            
+
             GetPlayerScoringTotalsByRound(playerList);
             GetTieBreakerScoringTotalsByRound(tieBreaker);
             IsNewTeamAreaVisible = false;
@@ -209,8 +213,15 @@ namespace BoardSquares.ViewModels
                             else
                             {
                                 if (RB2Player.PlayerID == 0)
+                                {
                                     RB2Player = player;
-                                RB3Player = player;
+                                }
+                                else
+                                {
+                                    if (RB3Player.PlayerID == 0)
+                                        RB3Player = player;
+                                    RB4Player = player;
+                                }
                             }
                             break;
                         case "WR":
@@ -227,8 +238,16 @@ namespace BoardSquares.ViewModels
                                 else
                                 {
                                     if (WR3Player.PlayerID == 0)
+                                    {
                                         WR3Player = player;
-                                    WR4Player = player;
+                                    }
+                                    else
+                                    {
+                                        if (WR4Player.PlayerID == 0)
+                                            WR4Player = player;
+                                        WR5Player = player;
+                                    }
+
                                 }
                             }
                             break;
@@ -253,56 +272,56 @@ namespace BoardSquares.ViewModels
                 IsValid = false;
                 return;
             }
-                BoardSquaresRepository db = new BoardSquaresRepository();
-                int result = db.CreateNewTeam(User.UserID, NewTeamName, NewGameCode);
-                switch (result)
-                {
-                    case -9:
-                        ErrorMessage = "Error when creating user. Please try again later.";
-                         IsValid = false;
-                        break;
-                    case -8:
-                        ErrorMessage = "An account with specified Email already exists.";
-                         IsValid = false;
-                        break;
-                    case -7:
-                        ErrorMessage = "Desired User Name already exists. Please try a different one.";
-                         IsValid = false;
-                        break;
-                    case -6:
-                        ErrorMessage = "Error validating user.";
-                         IsValid = false;
-                        break;
-                    case -5:
-                        ErrorMessage = "Team Name already exists in game.";
-                         IsValid = false;
-                        break;
-                    case -4:
-                        ErrorMessage = "Game exists, but is currently full.";
-                         IsValid = false;
-                        break;
-                    case -3:
-                        ErrorMessage = "Game is Closed.";
-                         IsValid = false;
-                        break;
-                    case -2:
-                        ErrorMessage = "Game is Inactive.";
-                         IsValid = false;
-                        break;
-                    case -1:
-                        ErrorMessage = "Game does not exist.";
-                        IsValid = false;
-                        break;                 
-                    case 1:
-                        ConfirmationMessage = "Successfully Created " + NewTeamName;
-                        NewGameCode = "";
-                        NewTeamName = "";
-                        break;
-                    default:
-                        ErrorMessage = "Something went wrong. Contact an Admin";
-                        IsValid = false;
-                        break;
-                }
+            BoardSquaresRepository db = new BoardSquaresRepository();
+            int result = db.CreateNewTeam(User.UserID, NewTeamName, NewGameCode);
+            switch (result)
+            {
+                case -9:
+                    ErrorMessage = "Error when creating user. Please try again later.";
+                    IsValid = false;
+                    break;
+                case -8:
+                    ErrorMessage = "An account with specified Email already exists.";
+                    IsValid = false;
+                    break;
+                case -7:
+                    ErrorMessage = "Desired User Name already exists. Please try a different one.";
+                    IsValid = false;
+                    break;
+                case -6:
+                    ErrorMessage = "Error validating user.";
+                    IsValid = false;
+                    break;
+                case -5:
+                    ErrorMessage = "Team Name already exists in game.";
+                    IsValid = false;
+                    break;
+                case -4:
+                    ErrorMessage = "Game exists, but is currently full.";
+                    IsValid = false;
+                    break;
+                case -3:
+                    ErrorMessage = "Game is Closed.";
+                    IsValid = false;
+                    break;
+                case -2:
+                    ErrorMessage = "Game is Inactive.";
+                    IsValid = false;
+                    break;
+                case -1:
+                    ErrorMessage = "Game does not exist.";
+                    IsValid = false;
+                    break;
+                case 1:
+                    ConfirmationMessage = "Successfully Created " + NewTeamName;
+                    NewGameCode = "";
+                    NewTeamName = "";
+                    break;
+                default:
+                    ErrorMessage = "Something went wrong. Contact an Admin";
+                    IsValid = false;
+                    break;
+            }
         }
 
         public void GetUserTeams()
@@ -330,9 +349,11 @@ namespace BoardSquares.ViewModels
             WR2Player = new Player();
             WR3Player = new Player();
             WR4Player = new Player();
+            WR5Player = new Player();
             RB1Player = new Player();
             RB2Player = new Player();
             RB3Player = new Player();
+            RB4Player = new Player();
             TEPlayer = new Player();
             IsNewTeamAreaVisible = true;
             IsTeamDetailVisible = false;
@@ -416,8 +437,15 @@ namespace BoardSquares.ViewModels
                             else
                             {
                                 if (RB2Player.PlayerID == 0)
+                                {
                                     RB2Player = player;
-                                RB3Player = player;
+                                }
+                                else
+                                {
+                                    if (RB3Player.PlayerID == 0)
+                                        RB3Player = player;
+                                    RB4Player = player;
+                                }
                             }
                             break;
                         case "WR":
@@ -434,8 +462,16 @@ namespace BoardSquares.ViewModels
                                 else
                                 {
                                     if (WR3Player.PlayerID == 0)
+                                    {
                                         WR3Player = player;
-                                    WR4Player = player;
+                                    }
+                                    else
+                                    {
+                                        if (WR4Player.PlayerID == 0)
+                                            WR4Player = player;
+                                        WR5Player = player;
+                                    }
+
                                 }
                             }
                             break;
@@ -458,12 +494,14 @@ namespace BoardSquares.ViewModels
             returnList.Add(RB1Player);
             returnList.Add(RB2Player);
             returnList.Add(RB3Player);
+            returnList.Add(RB4Player);
             returnList.Add(KPlayer);
             returnList.Add(TEPlayer);
             returnList.Add(WR1Player);
             returnList.Add(WR2Player);
             returnList.Add(WR3Player);
             returnList.Add(WR4Player);
+            returnList.Add(WR5Player);
             returnList.Add(QB1Player);
             returnList.Add(QB2Player);
             return returnList;
