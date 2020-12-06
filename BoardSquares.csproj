@@ -163,6 +163,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\RulesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -271,7 +272,7 @@
     <Content Include="Views\Rules\Index.cshtml" />
     <Content Include="Views\Home\PlayerScoring.cshtml" />
     <Content Include="Views\Home\SendEmails.cshtml" />
-    <Content Include="Views\Home\News.cshtml" />
+    <Content Include="Views\News\Index.cshtml" />
     <Content Include="Views\Home\GameSummary.cshtml" />
     <Content Include="Views\Home\ExactTeams.cshtml" />
   </ItemGroup>

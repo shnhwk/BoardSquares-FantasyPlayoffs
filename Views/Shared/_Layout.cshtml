@@ -27,7 +27,7 @@
                     <li>@Html.ActionLink("My Teams", "Games", "Home")</li>
                     <li>@Html.ActionLink("Scoring", "PlayerScoring", "Home")</li>
                     <li>@Html.ActionLink("Rules", "Index", "Rules")</li>
-                    <li>@Html.ActionLink("News", "News", "Home")</li>
+                    <li>@Html.ActionLink("News", "Index", "News")</li>
                 }
                 @if (Request.IsAuthenticated && User.IsInRole("Admin"))
                 {
