@@ -223,12 +223,7 @@ namespace BoardSquares.Controllers
             viewModel.GetPlayerScoring();
             return View(viewModel);
         }
-
-        [Authorize(Roles = "User, Admin")]
-        public ActionResult Rules()
-        {
-            return View();
-        }
+ 
 
 
         [Authorize(Roles = "User, Admin")]
