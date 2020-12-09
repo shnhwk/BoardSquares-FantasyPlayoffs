@@ -196,295 +196,354 @@
                 <div class="panel-heading">
                     <h1 class="panel-title">Select Players</h1>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body player-selection">
                     <!-- ** BEGIN INPUT AREA -->
 
-                    <div class="form-group" style="display: block">
-                        @Html.LabelFor(m => m.DEFPlayer, "Defense")
-                        <br />
-                        @Html.DropDownListFor(m => m.DEFPlayer.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "",
-                        new
-                             {
-                                 @id = "defteam",
-                            @class = "form-control pull-left",
-                            @onchange = "GetPlayers(this.value, 'DEF', ddlDEFplayer, this.id, this)",
-                            @dataoldval = "",
-                            @onfocus = "SetOldVal(this,this.value)"
-                            //@onclick = "populate(this.id)",
-    //@oncancel = "RemoveClickedClass(this.id)",
-                            //@onfocusout = "RemoveClickedClass(this.id)"
-                        })
-                        @Html.DropDownListFor(m => m.DEFPlayer.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.DEFPlayer.PlayerTeam, "DEF"), "Key", "Value"), "", new
-                        {
-                            @id = "ddlDEFplayer",
-                            @class = "form-control"
-                        })
-                    </div>
-
-                    <div class="form-group" style="display: block">
-                        @Html.LabelFor(m => m.QB1Player, "Quarter Back 1")
-                        <br />
-                        @Html.DropDownListFor(m => m.QB1Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
-                   {
-                       @id = "qb1team",
-                       @class = "form-control pull-left",
-                       @onchange = "GetPlayers(this.value, 'QB', ddlQB1player, this.id, this)",
-                       @dataoldval = "",
-                       @onfocus = "SetOldVal(this,this.value)"
-                   })
-                        @Html.DropDownListFor(m => m.QB1Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.QB1Player.PlayerTeam, "QB"), "Key", "Value"), "", new
-                        {
-                            @id = "ddlQB1player",
-                            @class = "form-control"
-                        })
+                    <div class="form-group clearfix hidden-xs">
+                        <div class="col-sm-5 col-lg-4 col-sm-offset-2">
+                            <b>Team</b>
+                        </div>
+                        <div class="col-sm-5 col-lg-4">
+                            <b>Player</b>
+                        </div>
                     </div>
 
 
-                    <div class="form-group" style="display: block">
-                        @Html.LabelFor(m => m.QB2Player, "Quarter Back 2")
-                        <br />
-                        @Html.DropDownListFor(m => m.QB2Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
-                   {
-                       @id = "qb2team",
-                       @class = "form-control pull-left",
-                       @onchange = "GetPlayers(this.value, 'QB', ddlQB2player, this.id, this)",
-                       @dataoldval = "",
-                       @onfocus = "SetOldVal(this,this.value)"
-                   })
-                        @Html.DropDownListFor(m => m.QB2Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.QB2Player.PlayerTeam, "QB"), "Key", "Value"), "", new
-                        {
-                            @id = "ddlQB2player",
-                            @class = "form-control"
-                        })
+                    <div class="form-group clearfix">
+                        @Html.LabelFor(m => m.DEFPlayer, "Defense", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-5 col-lg-4 pb-xs-1">
+                            @Html.DropDownListFor(m => m.DEFPlayer.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+                            {
+                                @id = "defteam",
+                                @class = "form-control",
+                                @onchange = "GetPlayers(this.value, 'DEF', ddlDEFplayer, this.id, this)",
+                                @dataoldval = "",
+                                @onfocus = "SetOldVal(this,this.value)"
+                            })
+                        </div>
+                        <div class="col-sm-5 col-lg-4">
+                            @Html.DropDownListFor(m => m.DEFPlayer.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.DEFPlayer.PlayerTeam, "DEF"), "Key", "Value"), "", new
+                            {
+                                @id = "ddlDEFplayer",
+                                @class = "form-control"
+                            })
+                        </div>
                     </div>
 
-                    <div class="form-group" style="display: block">
-                        @Html.LabelFor(m => m.KPlayer, "Kicker")
-                        <br />
-                        @Html.DropDownListFor(m => m.KPlayer.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
-                   {
-                       @id = "kteam",
-                       @class = "form-control pull-left",
-                       @onchange = "GetPlayers(this.value, 'K', ddlKplayer, this.id, this)",
-                       @dataoldval = "",
-                       @onfocus = "SetOldVal(this,this.value)"
-                   })
-                        @Html.DropDownListFor(m => m.KPlayer.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.KPlayer.PlayerTeam, "K"), "Key", "Value"), "", new
-                        {
-                            @id = "ddlKplayer",
-                            @class = "form-control"
-                        })
+                    <div class="form-group clearfix">
+                        @Html.LabelFor(m => m.QB1Player, "Quarterback 1", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-5 col-lg-4 pb-xs-1">
+                            @Html.DropDownListFor(m => m.QB1Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+                            {
+                                @id = "qb1team",
+                                @class = "form-control",
+                                @onchange = "GetPlayers(this.value, 'QB', ddlQB1player, this.id, this)",
+                                @dataoldval = "",
+                                @onfocus = "SetOldVal(this,this.value)"
+                            })
+                        </div>
+                        <div class="col-sm-5 col-lg-4">
+                            @Html.DropDownListFor(m => m.QB1Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.QB1Player.PlayerTeam, "QB"), "Key", "Value"), "", new
+                            {
+                                @id = "ddlQB1player",
+                                @class = "form-control"
+                            })
+                        </div>
                     </div>
 
-                    <div class="form-group" style="display: block">
-                        @Html.LabelFor(m => m.TEPlayer, "Tight End")
-                        <br />
-                        @Html.DropDownListFor(m => m.TEPlayer.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
-                        {
-                       @id = "teteam",
-                       @class = "form-control pull-left",
-                       @onchange = "GetPlayers(this.value, 'TE', ddlTEplayer, this.id, this)",
-                       @dataoldval = "",
-                       @onfocus = "SetOldVal(this,this.value)"
-                        })
-                        @Html.DropDownListFor(m => m.TEPlayer.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.TEPlayer.PlayerTeam, "TE"), "Key", "Value"), "", new
-                        {
-                            @id = "ddlTEplayer",
-                            @class = "form-control"
-                        })
+
+                    <div class="form-group clearfix">
+                        @Html.LabelFor(m => m.QB2Player, "Quarterback 2", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-5 col-lg-4 pb-xs-1">
+                            @Html.DropDownListFor(m => m.QB2Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+                            {
+                                @id = "qb2team",
+                                @class = "form-control",
+                                @onchange = "GetPlayers(this.value, 'QB', ddlQB2player, this.id, this)",
+                                @dataoldval = "",
+                                @onfocus = "SetOldVal(this,this.value)"
+                            })
+                        </div>
+                        <div class="col-sm-5 col-lg-4">
+                            @Html.DropDownListFor(m => m.QB2Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.QB2Player.PlayerTeam, "QB"), "Key", "Value"), "", new
+                            {
+                                @id = "ddlQB2player",
+                                @class = "form-control"
+                            })
+                        </div>
                     </div>
 
-                    <div class="form-group" style="display: block">
-                        @Html.LabelFor(m => m.WR1Player, "Wide Receiver 1")
-                        <br />
-                        @Html.DropDownListFor(m => m.WR1Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
-                   {
-                       @id = "wr1team",
-                       @class = "form-control pull-left",
-                       @onchange = "GetPlayers(this.value, 'WR', ddlWR1player, this.id, this)",
-                       @dataoldval = "",
-                       @onfocus = "SetOldVal(this,this.value)"
-                   })
-                        @Html.DropDownListFor(m => m.WR1Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.WR1Player.PlayerTeam, "WR"), "Key", "Value"), "", new
-                        {
-                            @id = "ddlWR1player",
-                            @class = "form-control"
-                        })
+                    <div class="form-group clearfix">
+                        @Html.LabelFor(m => m.KPlayer, "Kicker", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-5 col-lg-4 pb-xs-1">
+                            @Html.DropDownListFor(m => m.KPlayer.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+                            {
+                                @id = "kteam",
+                                @class = "form-control",
+                                @onchange = "GetPlayers(this.value, 'K', ddlKplayer, this.id, this)",
+                                @dataoldval = "",
+                                @onfocus = "SetOldVal(this,this.value)"
+                            })
+                        </div>
+                        <div class="col-sm-5 col-lg-4">
+                            @Html.DropDownListFor(m => m.KPlayer.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.KPlayer.PlayerTeam, "K"), "Key", "Value"), "", new
+                            {
+                                @id = "ddlKplayer",
+                                @class = "form-control"
+                            })
+                        </div>
                     </div>
 
-                    <div class="form-group" style="display: block">
-                        @Html.LabelFor(m => m.WR2Player, "Wide Receiver 2")
-                        <br />
-                        @Html.DropDownListFor(m => m.WR2Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
-                   {
-                       @id = "wr2team",
-                       @class = "form-control pull-left",
-                       @onchange = "GetPlayers(this.value, 'WR', ddlWR2player, this.id, this)",
-                       @dataoldval = "",
-                       @onfocus = "SetOldVal(this,this.value)"
-                   })
-                        @Html.DropDownListFor(m => m.WR2Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.WR2Player.PlayerTeam, "WR"), "Key", "Value"), "", new
-                        {
-                            @id = "ddlWR2player",
-                            @class = "form-control"
-                        })
-                    </div>
-                    <div class="form-group" style="display: block">
-                        @Html.LabelFor(m => m.WR3Player, "Wide Receiver 3")
-                        <br />
-                        @Html.DropDownListFor(m => m.WR3Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
-                   {
-                       @id = "wr3team",
-                       @class = "form-control pull-left",
-                       @onchange = "GetPlayers(this.value, 'WR', ddlWR3player, this.id, this)",
-                       @dataoldval = "",
-                       @onfocus = "SetOldVal(this,this.value)"
-                   })
-                        @Html.DropDownListFor(m => m.WR3Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.WR3Player.PlayerTeam, "WR"), "Key", "Value"), "", new
-                        {
-                            @id = "ddlWR3player",
-                            @class = "form-control"
-                        })
-                    </div>
-                    <div class="form-group" style="display: block">
-                        @Html.LabelFor(m => m.WR4Player, "Wide Receiver 4")
-                        <br />
-                        @Html.DropDownListFor(m => m.WR4Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
-                   {
-                       @id = "wr4team",
-                       @class = "form-control pull-left",
-                       @onchange = "GetPlayers(this.value, 'WR', ddlWR4player, this.id, this)",
-                       @dataoldval = "",
-                       @onfocus = "SetOldVal(this,this.value)"
-                   })
-                        @Html.DropDownListFor(m => m.WR4Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.WR4Player.PlayerTeam, "WR"), "Key", "Value"), "", new
-                        {
-                            @id = "ddlWR4player",
-                            @class = "form-control"
-                        })
+                    <div class="form-group clearfix">
+                        @Html.LabelFor(m => m.TEPlayer, "Tight End", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-5 col-lg-4 pb-xs-1">
+                            @Html.DropDownListFor(m => m.TEPlayer.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+                            {
+                               @id = "teteam",
+                               @class = "form-control",
+                               @onchange = "GetPlayers(this.value, 'TE', ddlTEplayer, this.id, this)",
+                               @dataoldval = "",
+                               @onfocus = "SetOldVal(this,this.value)"
+                            })
+                        </div>
+                        <div class="col-sm-5 col-lg-4">
+                            @Html.DropDownListFor(m => m.TEPlayer.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.TEPlayer.PlayerTeam, "TE"), "Key", "Value"), "", new
+                            {
+                                @id = "ddlTEplayer",
+                                @class = "form-control"
+                            })
+                        </div>
                     </div>
 
-                    <div class="form-group" style="display: block">
-                        @Html.LabelFor(m => m.WR5Player, "Wide Receiver 5")
-                        <br />
-                        @Html.DropDownListFor(m => m.WR5Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
-                   {
-                       @id = "wr5team",
-                       @class = "form-control pull-left",
-                       @onchange = "GetPlayers(this.value, 'WR', ddlWR5player, this.id, this)",
-                       @dataoldval = "",
-                       @onfocus = "SetOldVal(this,this.value)"
-                   })
-                        @Html.DropDownListFor(m => m.WR5Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.WR5Player.PlayerTeam, "WR"), "Key", "Value"), "", new
-                        {
-                            @id = "ddlWR5player",
-                            @class = "form-control"
-                        })
+                    <div class="form-group clearfix">
+                        @Html.LabelFor(m => m.WR1Player, "Wide Receiver 1", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-5 col-lg-4 pb-xs-1">
+                            @Html.DropDownListFor(m => m.WR1Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+                            {
+                                @id = "wr1team",
+                                @class = "form-control",
+                                @onchange = "GetPlayers(this.value, 'WR', ddlWR1player, this.id, this)",
+                                @dataoldval = "",
+                                @onfocus = "SetOldVal(this,this.value)"
+                            })
+                        </div>
+                        <div class="col-sm-5 col-lg-4">
+                            @Html.DropDownListFor(m => m.WR1Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.WR1Player.PlayerTeam, "WR"), "Key", "Value"), "", new
+                            {
+                                @id = "ddlWR1player",
+                                @class = "form-control"
+                            })
+                        </div>
                     </div>
 
-                    <div class="form-group" style="display: block">
-                        @Html.LabelFor(m => m.RB1Player, "Running Back 1")
-                        <br />
-                        @Html.DropDownListFor(m => m.RB1Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
-                   {
-                       @id = "rb1team",
-                       @class = "form-control pull-left",
-                       @onchange = "GetPlayers(this.value, 'RB', ddlRB1player, this.id, this)",
-                       @dataoldval = "",
-                       @onfocus = "SetOldVal(this,this.value)"
-                   })
-                        @Html.DropDownListFor(m => m.RB1Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.RB1Player.PlayerTeam, "RB"), "Key", "Value"), "", new
-                        {
-                            @id = "ddlRB1player",
-                            @class = "form-control"
-                        })
-                    </div>
-                    <div class="form-group" style="display: block">
-                        @Html.LabelFor(m => m.RB2Player, "Running Back 2")
-                        <br />
-                        @Html.DropDownListFor(m => m.RB2Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
-                   {
-                       @id = "rb2team",
-                       @class = "form-control pull-left",
-                       @onchange = "GetPlayers(this.value, 'RB', ddlRB2player, this.id, this)",
-                       @dataoldval = "",
-                       @onfocus = "SetOldVal(this,this.value)"
-                   })
-                        @Html.DropDownListFor(m => m.RB2Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.RB2Player.PlayerTeam, "RB"), "Key", "Value"), "", new
-                        {
-                            @id = "ddlRB2player",
-                            @class = "form-control"
-                        })
-                    </div>
-                    <div class="form-group" style="display: block">
-                        @Html.LabelFor(m => m.RB3Player, "Running Back 3")
-                        <br />
-                        @Html.DropDownListFor(m => m.RB3Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
-                   {
-                       @id = "rb3team",
-                       @class = "form-control pull-left",
-                       @onchange = "GetPlayers(this.value, 'RB', ddlRB3player, this.id, this)",
-                       @dataoldval = "",
-                       @onfocus = "SetOldVal(this,this.value)"
-                   })
-                        @Html.DropDownListFor(m => m.RB3Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.RB3Player.PlayerTeam, "RB"), "Key", "Value"), "", new
-                        {
-                            @id = "ddlRB3player",
-                            @class = "form-control"
-                        })
+                    <div class="form-group clearfix">
+                        @Html.LabelFor(m => m.WR2Player, "Wide Receiver 2", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-5 col-lg-4 pb-xs-1">
+                            @Html.DropDownListFor(m => m.WR2Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+                            {
+                                @id = "wr2team",
+                                @class = "form-control",
+                                @onchange = "GetPlayers(this.value, 'WR', ddlWR2player, this.id, this)",
+                                @dataoldval = "",
+                                @onfocus = "SetOldVal(this,this.value)"
+                            })
+                        </div>
+                        <div class="col-sm-5 col-lg-4">
+                            @Html.DropDownListFor(m => m.WR2Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.WR2Player.PlayerTeam, "WR"), "Key", "Value"), "", new
+                            {
+                                @id = "ddlWR2player",
+                                @class = "form-control"
+                            })
+                        </div>
                     </div>
 
-                    <div class="form-group" style="display: block">
-                        @Html.LabelFor(m => m.RB4Player, "Running Back 4")
-                        <br />
-                        @Html.DropDownListFor(m => m.RB4Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
-                   {
-                       @id = "rb4team",
-                       @class = "form-control pull-left",
-                       @onchange = "GetPlayers(this.value, 'RB', ddlRB4player, this.id, this)",
-                       @dataoldval = "",
-                       @onfocus = "SetOldVal(this,this.value)"
-                   })
-                        @Html.DropDownListFor(m => m.RB4Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.RB4Player.PlayerTeam, "RB"), "Key", "Value"), "", new
-                        {
-                            @id = "ddlRB4player",
-                            @class = "form-control"
-                        })
+                    <div class="form-group clearfix">
+                        @Html.LabelFor(m => m.WR3Player, "Wide Receiver 3", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-5 col-lg-4 pb-xs-1">
+                            @Html.DropDownListFor(m => m.WR3Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+                            {
+                                @id = "wr3team",
+                                @class = "form-control",
+                                @onchange = "GetPlayers(this.value, 'WR', ddlWR3player, this.id, this)",
+                                @dataoldval = "",
+                                @onfocus = "SetOldVal(this,this.value)"
+                            })
+                        </div>
+                        <div class="col-sm-5 col-lg-4">
+                            @Html.DropDownListFor(m => m.WR3Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.WR3Player.PlayerTeam, "WR"), "Key", "Value"), "", new
+                            {
+                                @id = "ddlWR3player",
+                                @class = "form-control"
+                            })
+                        </div>
                     </div>
 
-                    <div class="form-group" style="display: block">
-                        @Html.LabelFor(m => m.TieBreakerPlayer1, "Tie Breaker Player")
-                        <br />
-                        @Html.DropDownListFor(m => m.TieBreakerPlayer1.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
-                        {
-                            @id = "tieteam",
-                            @class = "form-control pull-left",
-                            @onchange = "GetPlayers(this.value, 'ALL', ddlTieplayer, this.id, this)",
-                            @dataoldval = "",
-                            @onfocus = "SetOldVal(this,this.value)"
-                        })
-                        @Html.DropDownListFor(m => m.TieBreakerPlayer1.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.TieBreakerPlayer1.PlayerTeam, "ALL"), "Key", "Value"), "", new
-                        {
-                            @id = "ddlTieplayer",
-                            @class = "form-control"
-                        })
+                    <div class="form-group clearfix">
+                        @Html.LabelFor(m => m.WR4Player, "Wide Receiver 4", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-5 col-lg-4 pb-xs-1">
+                            @Html.DropDownListFor(m => m.WR4Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+                            {
+                                @id = "wr4team",
+                                @class = "form-control",
+                                @onchange = "GetPlayers(this.value, 'WR', ddlWR4player, this.id, this)",
+                                @dataoldval = "",
+                                @onfocus = "SetOldVal(this,this.value)"
+                            })
+                        </div>
+                        <div class="col-sm-5 col-lg-4">
+                            @Html.DropDownListFor(m => m.WR4Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.WR4Player.PlayerTeam, "WR"), "Key", "Value"), "", new
+                            {
+                                @id = "ddlWR4player",
+                                @class = "form-control"
+                            })
+                        </div>
                     </div>
-                    <div class="form-group" style="display: block">
-                        @Html.LabelFor(m => m.TieBreakerPlayer2, "Second Tie Breaker Player")
-                        <br />
-                        @Html.DropDownListFor(m => m.TieBreakerPlayer2.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
-                        {
-                            @id = "tieteam2",
-                            @class = "form-control pull-left",
-                            @onchange = "GetPlayers(this.value, 'ALL', ddlTie2player, this.id, this)",
-                            @dataoldval = "",
-                            @onfocus = "SetOldVal(this,this.value)"
-                        })
-                        @Html.DropDownListFor(m => m.TieBreakerPlayer2.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.TieBreakerPlayer2.PlayerTeam, "ALL"), "Key", "Value"), "", new
-                        {
-                            @id = "ddlTie2player",
-                            @class = "form-control"
-                        })
+
+                    <div class="form-group clearfix">
+                        @Html.LabelFor(m => m.WR5Player, "Wide Receiver 5", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-5 col-lg-4 pb-xs-1">
+                            @Html.DropDownListFor(m => m.WR5Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+                            {
+                                @id = "wr5team",
+                                @class = "form-control",
+                                @onchange = "GetPlayers(this.value, 'WR', ddlWR5player, this.id, this)",
+                                @dataoldval = "",
+                                @onfocus = "SetOldVal(this,this.value)"
+                            })
+                        </div>
+                        <div class="col-sm-5 col-lg-4">
+                            @Html.DropDownListFor(m => m.WR5Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.WR5Player.PlayerTeam, "WR"), "Key", "Value"), "", new
+                            {
+                                @id = "ddlWR5player",
+                                @class = "form-control"
+                            })
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix">
+                        @Html.LabelFor(m => m.RB1Player, "Running Back 1", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-5 col-lg-4 pb-xs-1">
+                            @Html.DropDownListFor(m => m.RB1Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+                            {
+                                @id = "rb1team",
+                                @class = "form-control",
+                                @onchange = "GetPlayers(this.value, 'RB', ddlRB1player, this.id, this)",
+                                @dataoldval = "",
+                                @onfocus = "SetOldVal(this,this.value)"
+                            })
+                        </div>
+                        <div class="col-sm-5 col-lg-4">
+                            @Html.DropDownListFor(m => m.RB1Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.RB1Player.PlayerTeam, "RB"), "Key", "Value"), "", new
+                            {
+                                @id = "ddlRB1player",
+                                @class = "form-control"
+                            })
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix">
+                        @Html.LabelFor(m => m.RB2Player, "Running Back 2", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-5 col-lg-4 pb-xs-1">
+                            @Html.DropDownListFor(m => m.RB2Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+                            {
+                                @id = "rb2team",
+                                @class = "form-control",
+                                @onchange = "GetPlayers(this.value, 'RB', ddlRB2player, this.id, this)",
+                                @dataoldval = "",
+                                @onfocus = "SetOldVal(this,this.value)"
+                            })
+                        </div>
+                        <div class="col-sm-5 col-lg-4">
+                            @Html.DropDownListFor(m => m.RB2Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.RB2Player.PlayerTeam, "RB"), "Key", "Value"), "", new
+                            {
+                                @id = "ddlRB2player",
+                                @class = "form-control"
+                            })
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix">
+                        @Html.LabelFor(m => m.RB3Player, "Running Back 3", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-5 col-lg-4 pb-xs-1">
+                            @Html.DropDownListFor(m => m.RB3Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+                            {
+                                @id = "rb3team",
+                                @class = "form-control",
+                                @onchange = "GetPlayers(this.value, 'RB', ddlRB3player, this.id, this)",
+                                @dataoldval = "",
+                                @onfocus = "SetOldVal(this,this.value)"
+                            })
+                        </div>
+                        <div class="col-sm-5 col-lg-4">
+                            @Html.DropDownListFor(m => m.RB3Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.RB3Player.PlayerTeam, "RB"), "Key", "Value"), "", new
+                            {
+                                @id = "ddlRB3player",
+                                @class = "form-control"
+                            })
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix">
+                        @Html.LabelFor(m => m.RB4Player, "Running Back 4", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-5 col-lg-4 pb-xs-1">
+                            @Html.DropDownListFor(m => m.RB4Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+                            {
+                                @id = "rb4team",
+                                @class = "form-control",
+                                @onchange = "GetPlayers(this.value, 'RB', ddlRB4player, this.id, this)",
+                                @dataoldval = "",
+                                @onfocus = "SetOldVal(this,this.value)"
+                            })
+                        </div>
+                        <div class="col-sm-5 col-lg-4">
+                            @Html.DropDownListFor(m => m.RB4Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.RB4Player.PlayerTeam, "RB"), "Key", "Value"), "", new
+                            {
+                                @id = "ddlRB4player",
+                                @class = "form-control"
+                            })
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix">
+                        @Html.LabelFor(m => m.TieBreakerPlayer1, "1st Tie Breaker", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-5 col-lg-4 pb-xs-1">
+                            @Html.DropDownListFor(m => m.TieBreakerPlayer1.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+                            {
+                                @id = "tieteam",
+                                @class = "form-control",
+                                @onchange = "GetPlayers(this.value, 'ALL', ddlTieplayer, this.id, this)",
+                                @dataoldval = "",
+                                @onfocus = "SetOldVal(this,this.value)"
+                            })
+                        </div>
+                        <div class="col-sm-5 col-lg-4">
+                            @Html.DropDownListFor(m => m.TieBreakerPlayer1.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.TieBreakerPlayer1.PlayerTeam, "ALL"), "Key", "Value"), "", new
+                            {
+                                @id = "ddlTieplayer",
+                                @class = "form-control"
+                            })
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix">
+                        @Html.LabelFor(m => m.TieBreakerPlayer2, "2nd Tie Breaker", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-5 col-lg-4 pb-xs-1">
+                            @Html.DropDownListFor(m => m.TieBreakerPlayer2.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
+                            {
+                                @id = "tieteam2",
+                                @class = "form-control",
+                                @onchange = "GetPlayers(this.value, 'ALL', ddlTie2player, this.id, this)",
+                                @dataoldval = "",
+                                @onfocus = "SetOldVal(this,this.value)"
+                            })
+                        </div>
+                        <div class="col-sm-5 col-lg-4">
+                            @Html.DropDownListFor(m => m.TieBreakerPlayer2.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.TieBreakerPlayer2.PlayerTeam, "ALL"), "Key", "Value"), "", new
+                            {
+                                @id = "ddlTie2player",
+                                @class = "form-control"
+                            })
+                        </div>
                     </div>
 
 

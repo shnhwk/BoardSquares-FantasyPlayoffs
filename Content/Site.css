@@ -96,5 +96,15 @@ html {
     padding: 1rem;
 }
 
+.player-selection select{
+    max-width:100%;
+}
 
+
+
+@media screen and (max-width: 767px) {
+    .pb-xs-1 {
+        padding-bottom: 5px;
+    }
+}
 
