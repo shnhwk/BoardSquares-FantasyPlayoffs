@@ -41,54 +41,31 @@
                                     <tbody>
                                         @foreach (var player in teamSum)
                                         {
-                                            if (Model.SelectedTeamID == player.UserTeamID)
-                                            {
-                                                <tr style="outline: medium solid cornflowerblue">
-                                                    <td style="display: none"> @Html.Hidden(player.UserTeamID.ToString())</td>
-                                                    <td style="font-weight: bold">@Html.Encode(player.tempID)</td>
-                                                    <td>@Html.Raw(player.UserTeamName)</td>
-                                                    @if (player.IsOpen)
-                                                    {
-                                                        <td>@Html.Encode(player.TeamTotal)</td>
-                                                    }
-                                                    else
-                                                    {
-                                                        <td class="pdsa-action">
-                                                            <a href="#" data-pdsa-action="view"
-                                                               data-pdsa-val="@player.UserTeamID">
-                                                                @Html.Encode(player.TeamTotal)
-                                                            </a>
-                                                        </td>
-                                                    }
-                                                    <td>@Html.Encode(player.TiebreakerOnePoints)</td>
-                                                    <td>@Html.Encode(player.TiebreakerTwoPoints)</td>
-                                                    <td style="font-weight: bold">@Html.Encode(player.Amount)</td>
-                                                </tr>
-                                            }
-                                            else
-                                            {
-                                                <tr>
-                                                    <td style="display: none"> @Html.Hidden(player.UserTeamID.ToString())</td>
-                                                    <td style="font-weight: bold">@Html.Encode(player.tempID)</td>
-                                                    <td>@Html.Raw(player.UserTeamName)</td>
-                                                    @if (player.IsOpen)
-                                                    {
-                                                        <td>@Html.Encode(player.TeamTotal)</td>
-                                                    }
-                                                    else
-                                                    {
-                                                        <td class="pdsa-action">
-                                                            <a href="#" data-pdsa-action="view"
-                                                               data-pdsa-val="@player.UserTeamID">
-                                                                @Html.Encode(player.TeamTotal)
-                                                            </a>
-                                                        </td>
-                                                    }
-                                                    <td>@Html.Encode(player.TiebreakerOnePoints)</td>
-                                                    <td>@Html.Encode(player.TiebreakerTwoPoints)</td>
-                                                    <td style="font-weight: bold">@Html.Encode(player.Amount)</td>
-                                                </tr>
-                                            }
+                                            <tr data-pdsa-action="view"
+                                                data-pdsa-val="@player.UserTeamID"
+                                                class="@((Model.SelectedTeamID == player.UserTeamID) ? "outline-row" : "")"
+                                                style="cursor: pointer">
+                                                <td style="display: none"> @Html.Hidden(player.UserTeamID.ToString())</td>
+                                                <td style="font-weight: bold">@Html.Encode(player.tempID)</td>
+                                                <td>@Html.Raw(player.UserTeamName)</td>
+                                                @if (player.IsOpen)
+                                                {
+                                                    <td>@Html.Encode(player.TeamTotal)</td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="pdsa-action">
+                                                        <a href="#" data-pdsa-action="view"
+                                                           data-pdsa-val="@player.UserTeamID">
+                                                            @Html.Encode(player.TeamTotal)
+                                                        </a>
+                                                    </td>
+                                                }
+                                                <td>@Html.Encode(player.TiebreakerOnePoints)</td>
+                                                <td>@Html.Encode(player.TiebreakerTwoPoints)</td>
+                                                <td style="font-weight: bold">@Html.Encode(player.Amount)</td>
+                                            </tr>
+
                                         }
                                     </tbody>
                                 </table>
@@ -177,7 +154,9 @@
                             {
                                 <tr>
                                     <td style="display: none"> @Html.Hidden(player.PlayerID.ToString())</td>
-                                    <td>@Html.Encode(player.PlayerFirstName) @Html.Encode(player.PlayerLastName)</td>
+                                    <td>
+                                        @Html.Encode(player.PlayerTeam) - @Html.Encode(player.PlayerFirstName) @Html.Encode(player.PlayerLastName)
+                                    </td>
                                     <td>@Html.Encode(player.PlayerPosition)</td>
                                     <td onclick="DisplayScoring(@player.PlayerID,1,'@player.PlayerFirstName','@player.PlayerLastName')">
                                         <a href="#"> @Html.Encode(player.WildCard)</a>
@@ -301,7 +280,7 @@
 @section scripts {
     <script>
         $(document)
-            .ready(function() {
+            .ready(function () {
                 // Hook events on buttons and anchors
                 buildClickEvents();
             });
@@ -310,7 +289,7 @@
         function buildClickEvents() {
             $("[data-pdsa-action]")
                 .on("click",
-                    function(e) {
+                    function (e) {
                         e.preventDefault();
 
                         $("#EventCommand")
@@ -335,8 +314,8 @@
             var modalGrid = document.getElementById('modalGrid');
             modalGrid.innerHTML = "Loading Results...";
             var markup = "<h2>Scoring Events for " + playerFirstName + " " + playerLastName + "</h2> <table id=\"rankingTable\"class=\"table table-condensed table-bordered table-striped table-hover rankingTable\">" +
-            "<thead><tr><th>Round</th><th>Event</th><th>Yards/Count</th><th>Points</th></tr></thead><tbody>";
-            
+                "<thead><tr><th>Round</th><th>Event</th><th>Yards/Count</th><th>Points</th></tr></thead><tbody>";
+
             //Populate modal with grid
             var url = "/Home/GetScoringEvents/";
             $.ajax({
@@ -346,28 +325,30 @@
                 type: "POST",
                 success: function (data) {
                     for (i = 0; i < data.length; i++) {
-                        markup += "<tr><td>" + data[i].RoundName + "</td><td>" + data[i].EventName + "</td><td>" + data[i].YardsOrCount + "</td><td>" + data[i].Points.toString()  + "</td></tr>";
+                        markup += "<tr><td>" + data[i].RoundName + "</td><td>" + data[i].EventName + "</td><td>" + data[i].YardsOrCount + "</td><td>" + data[i].Points.toString() + "</td></tr>";
                     }
-                    markup += "</tbody></table>";           
+                    markup += "</tbody></table>";
                     modalGrid.innerHTML = markup;
                 },
                 error: function (reponse) {
                     alert("error : " + reponse);
                 }
             });
-            // open the modal 
+            // open the modal
             modal.style.display = "block";
-           }
-        
+        }
+
         function SetEntity(id) {
             document.getElementById("Entity").value = id;
 
         };
 
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
         ga('create', 'UA-89591004-1', 'auto');
         ga('send', 'pageview');

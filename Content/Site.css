@@ -100,6 +100,13 @@ html {
     max-width:100%;
 }
 
+table#rankingTable td, table#newEventsTable td, table#tieBreakerPointsTable td {
+    padding: 3px 5px;
+}
+
+.outline-row {
+    outline: medium solid cornflowerblue;
+}
 
 
 @media screen and (max-width: 767px) {
