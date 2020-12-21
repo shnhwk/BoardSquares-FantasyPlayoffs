@@ -39,11 +39,13 @@
 
     #LeftScoringTbl {
         float: left;
+        position: relative;
         width: 50%;
     }
 
     #RightScoringTbl {
         float: left;
+        position: relative;
         width: 50%;
     }
 
@@ -58,16 +60,21 @@
         Fantasy Playoffs
         <br />
         Rules <br />
-
     </h1>
+    <center><h3>	Last Updated:  12/20/2020</h3></center><br />
+
+
+
     <h2>Overview </h2>
     <p>
-        Fantasy Playoffs is a fantasy game played during the National Football League's wild card round, divisional round, conference round and the superbowl. The object of the game is to select players to make up a team that will generate the most points during this time. The players that you select generate points based on different scoring events (see Scoring below). The total points from all games are summed up for each round and ranked against other teams within the same game. Payouts depend upon the number of entrants in the game (see Payouts below).
+        Fantasy Playoffs is a fantasy game played during the National Football League's Wild Card round, Divisional round, Conference round and the Superbowl. The object of the game is to select players to make up a team that will generate the most points during this time. The players that you select generate points based on different scoring events (see Scoring below). The total points from all games are summed up for each round and ranked against other teams within the same game. Payouts depend upon the number of entrants in the game (see Payouts below).
     </p>
+    <!--
     <h2>Games</h2>
-    <p>
+     <p>
         Games, or Game Numbers, are the group of teams playing against each other for the most points. There are no limitations on how many Games you may play in.
     </p>
+    -->
     <h2>Teams</h2>
     <p>
         Each team will have an entry cost of $20. You may create as many teams as you would like. For each team, pick ONE player from EACH of the 12 playoff teams, filling the following positions:
@@ -81,7 +88,7 @@
         1 Defense<br />
     </div>
     <p>
-        A tie breaker player is also required. You may choose any player from any position from any of the 12 playoff teams as long as that player is not already on your team. In the event that you have the same tie breaker player as another person in the same game or that two different tie breaker players score the same amount of points, then the payout will be split amongst the tied teams.
+        Two tie breaker players are also required. You may choose any two player from any position from any of the 14 playoff teams as long as those players are not already on your team. In the event that you have the same tie breaker players as another person in the same game or that tie breaker players score the same amount of points, then the payout will be split amongst the tied teams.
     </p>
     <h2>Scoring</h2>
     <p>
@@ -126,6 +133,11 @@
                     <td></td>
                     <td>Passing Yards Bonus (each 25 over 250)</td>
                     <td>5</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Interception Thrown</td>
+                    <td>-5</td>
                 </tr>
                 <tr>
                     <td></td>
@@ -175,6 +187,26 @@
                 <tr>
                     <td></td>
                     <td>Receptions Bonus (10 or more)</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>TE Receiving Yards (75 or more)</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>TE Receiving Yards Bonus (each 25 over 75)</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>TE Receptions (5 or more)</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>TE Receptions Bonus (7 or more)</td>
                     <td>5</td>
                 </tr>
                 <tr>
@@ -237,6 +269,11 @@
                     <td>Punt Return TD</td>
                     <td>20</td>
                 </tr>
+                <tr>
+                    <td></td>
+                    <td>Fumbles Lost</td>
+                    <td>-5</td>
+                </tr>
             </table>
         </div>
         <!-- end left -->
@@ -278,6 +315,16 @@
                     <td></td>
                     <td>Field Goal (60-100 yards)</td>
                     <td>20</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Missed Field Goal</td>
+                    <td>-5</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Missed Extra Point</td>
+                    <td>-1</td>
                 </tr>
                 <tr>
                     <td> </td>
@@ -366,21 +413,53 @@
                 </tr>
                 <tr>
                     <td></td>
+                    <td>Points Allowed (0)</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Points Allowed (1-10)</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Points Allowed (11-20)</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Points Allowed (21-30)</td>
+                    <td>-5</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Points Allowed (31-40)</td>
+                    <td>-10</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Points Allowed (41+)</td>
+                    <td>-15</td>
+                </tr>
+                <tr>
+                    <td></td>
                     <td></td>
                     <td></td>
                 </tr>
             </table>
         </div>
         <!-- end Right -->
+
     </div>
     <!-- end Scoring -->
     <p>
-        All scoring for each round will be completed no later than Monday night. If you selected, upon registering with the site, to receive weekly emails, a weekly recap will be emailed out once all the scoring has been completed. In the event that there is a discrepancy with the scoring, please email the game manager or email admin@boardsquares.com.
+        All scoring for each round will be completed no later than Monday night. In the event that there is a discrepancy with the scoring, please email the game manager or email admin@boardsquares.com.
     </p>
     <h2>Payouts</h2>
     <p>
-        The pool is cumulative for each Game Number and the winners will be determined by who has the highest combined score through the entire playoffs. The payouts will be determined based on how many entries there are and which Payout Tier is reached (see Payout Tiers below). Also depending on the Payout Tier, last place may receive a payout.
+        The pool is cumulative and the winners will be determined by who has the highest combined scores throughout the entire playoffs. The payouts will be determined by the total number of entries. The top 10% will receive a payout, with first place receiving 50%. Last place receives their $20 back.
     </p>
+    <!--
     <table style width="75%">
         <th></th>
         <th>Minimum Teams</th>
@@ -410,109 +489,165 @@
         </tr>
     </table>
     <br />
+    -->
     <table style width="30%">
-        <th></th>
+        <!--  <th></th>-->
         <th>Ranking</th>
         <th>Percentage</th>
         <tr>
-            <td style align="center">Tier 1</td>
-            <td style align="center">1</td>
-            <td style align="center">60%</td>
-        </tr>
-        <tr>
-            <td style align="center"></td>
-            <td style align="center">2</td>
-            <td style align="center">30%</td>
-        </tr>
-        <tr>
-            <td style align="center"></td>
-            <td style align="center">3</td>
-            <td style align="center">10%</td>
-        </tr>
-        <tr>
-            <td style align="center"></td>
-            <td style align="center"></td>
-            <td style align="center"></td>
-        </tr>
-        <tr>
-            <td style align="center">Tier 2</td>
+            <!-- <td style align="center">Tier 1</td>
+                <td style align="center">1</td>
+                <td style align="center">60%</td>
+            </tr>
+            <tr>
+                <td style align="center"></td>
+                <td style align="center">2</td>
+                <td style align="center">30%</td>
+            </tr>
+            <tr>
+               <td style align="center"></td>
+                <td style align="center">3</td>
+                <td style align="center">10%</td>
+            </tr>
+            <tr>
+                <td style align="center"></td>
+                <td style align="center"></td>
+                <td style align="center"></td>
+            </tr>
+            <tr>
+               <td style align="center">Tier 2</td>
+                <td style align="center">1</td>
+                <td style align="center">50%</td>
+            </tr>
+            <tr>
+               <td style align="center"></td>
+                <td style align="center">2</td>
+                <td style align="center">20%</td>
+            </tr>
+            <tr>
+               <td style align="center"></td>
+                <td style align="center">3</td>
+                <td style align="center">15%</td>
+            </tr>
+            <tr>
+               <td style align="center"></td>
+                <td style align="center">4</td>
+                <td style align="center">10%</td>
+            </tr>
+            <tr>
+               <td style align="center"></td>
+                <td style align="center">5</td>
+                <td style align="center">5%</td>
+            </tr>
+            <tr>
+               <td style align="center"></td>
+                <td style align="center"></td>
+                <td style align="center"></td>
+            </tr>
+            <tr>
+                <td style align="center">Tier 3</td> -->
             <td style align="center">1</td>
             <td style align="center">50%</td>
         </tr>
         <tr>
-            <td style align="center"></td>
+            <!-- <td style align="center"></td> -->
             <td style align="center">2</td>
-            <td style align="center">20%</td>
+            <td style align="center">14.82%</td>
         </tr>
         <tr>
-            <td style align="center"></td>
+            <!-- <td style align="center"></td> -->
             <td style align="center">3</td>
-            <td style align="center">15%</td>
+            <td style align="center">7.91%</td>
         </tr>
         <tr>
-            <td style align="center"></td>
+            <!-- <td style align="center"></td> -->
             <td style align="center">4</td>
-            <td style align="center">10%</td>
+            <td style align="center">4.45%</td>
         </tr>
         <tr>
-            <td style align="center"></td>
+            <!-- <td style align="center"></td> -->
             <td style align="center">5</td>
-            <td style align="center">5%</td>
+            <td style align="center">3.46%</td>
         </tr>
         <tr>
-            <td style align="center"></td>
-            <td style align="center"></td>
-            <td style align="center"></td>
-        </tr>
-        <tr>
-            <td style align="center">Tier 3</td>
-            <td style align="center">1</td>
-            <td style align="center">50%</td>
-        </tr>
-        <tr>
-            <td style align="center"></td>
-            <td style align="center">2</td>
-            <td style align="center">10%</td>
-        </tr>
-        <tr>
-            <td style align="center"></td>
-            <td style align="center">3</td>
-            <td style align="center">9%</td>
-        </tr>
-        <tr>
-            <td style align="center"></td>
-            <td style align="center">4</td>
-            <td style align="center">8%</td>
-        </tr>
-        <tr>
-            <td style align="center"></td>
-            <td style align="center">5</td>
-            <td style align="center">7%</td>
-        </tr>
-        <tr>
-            <td style align="center"></td>
+            <!-- <td style align="center"></td> -->
             <td style align="center">6</td>
-            <td style align="center">6%</td>
+            <td style align="center">2.47%</td>
         </tr>
         <tr>
-            <td style align="center"></td>
+            <!-- <td style align="center"></td> -->
             <td style align="center">7</td>
-            <td style align="center">4%</td>
+            <td style align="center">2.17%</td>
         </tr>
         <tr>
-            <td style align="center"></td>
+            <!-- <td style align="center"></td> -->
             <td style align="center">8</td>
-            <td style align="center">3%</td>
+            <td style align="center">1.88%</td>
         </tr>
         <tr>
-            <td style align="center"></td>
+            <!-- <td style align="center"></td> -->
             <td style align="center">9</td>
-            <td style align="center">2%</td>
+            <td style align="center">1.58%</td>
         </tr>
         <tr>
-            <td style align="center"></td>
+            <!-- <td style align="center"></td> -->
             <td style align="center">10</td>
-            <td style align="center">1%</td>
+            <td style align="center">1.48%</td>
+        </tr>
+        <tr>
+            <!-- <td style align="center"></td> -->
+            <td style align="center">11</td>
+            <td style align="center">1.38%</td>
+        </tr>
+        <tr>
+            <!-- <td style align="center"></td> -->
+            <td style align="center">12</td>
+            <td style align="center">1.28%</td>
+        </tr>
+        <tr>
+            <!-- <td style align="center"></td> -->
+            <td style align="center">13</td>
+            <td style align="center">1.19%</td>
+        </tr>
+        <tr>
+            <!-- <td style align="center"></td> -->
+            <td style align="center">14</td>
+            <td style align="center">1.09%</td>
+        </tr>
+        <tr>
+            <!-- <td style align="center"></td> -->
+            <td style align="center">15</td>
+            <td style align="center">.99%</td>
+        </tr>
+        <tr>
+            <!-- <td style align="center"></td> -->
+            <td style align="center">16</td>
+            <td style align="center">.89%</td>
+        </tr>
+        <tr>
+            <!-- <td style align="center"></td> -->
+            <td style align="center">17</td>
+            <td style align="center">.79%</td>
+        </tr>
+        <tr>
+            <!-- <td style align="center"></td> -->
+            <td style align="center">18</td>
+            <td style align="center">.69%</td>
+        </tr>
+        <tr>
+            <!-- <td style align="center"></td> -->
+            <td style align="center">19</td>
+            <td style align="center">.59%</td>
+        </tr>
+        <tr>
+            <!-- <td style align="center"></td> -->
+            <td style align="center">20</td>
+            <td style align="center">.49%</td>
+        </tr>
+        <tr>
+            <!-- <td style align="center"></td> -->
+            <td style align="center">Last</td>
+            <td style align="center">$20</td>
         </tr>
     </table>
     <h2>Questions/Comments</h2>
