@@ -35,32 +35,38 @@
                                             <th>Points</th>
                                             <th>TB 1</th>
                                             <th>TB 2</th>
-                                            <th>Expected Payout</th>
+                                            <th>Payout</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach (var player in teamSum)
                                         {
-                                            <tr data-pdsa-action="view"
+
+
+                                            <tr @*data-pdsa-action="view"*@
+                                                @Html.Raw(player.IsOpen ? "" : "data-pdsa-action=\"view\" style=\"cursor: pointer\" ")
                                                 data-pdsa-val="@player.UserTeamID"
-                                                class="@((Model.SelectedTeamID == player.UserTeamID) ? "outline-row" : "")"
-                                                style="cursor: pointer">
+                                                class="@((Model.SelectedTeamID == player.UserTeamID) ? "outline-row" : "")">
+
+
                                                 <td style="display: none"> @Html.Hidden(player.UserTeamID.ToString())</td>
                                                 <td style="font-weight: bold">@Html.Encode(player.tempID)</td>
-                                                <td>@Html.Raw(player.UserTeamName)</td>
+
                                                 @if (player.IsOpen)
                                                 {
-                                                    <td>@Html.Encode(player.TeamTotal)</td>
+                                                    <td>@Html.Encode(player.UserTeamName)</td>
                                                 }
                                                 else
                                                 {
                                                     <td class="pdsa-action">
                                                         <a href="#" data-pdsa-action="view"
                                                            data-pdsa-val="@player.UserTeamID">
-                                                            @Html.Encode(player.TeamTotal)
+                                                            @Html.Encode(player.UserTeamName)
                                                         </a>
                                                     </td>
                                                 }
+
+                                                <td>@Html.Encode(player.TeamTotal)</td>
                                                 <td>@Html.Encode(player.TiebreakerOnePoints)</td>
                                                 <td>@Html.Encode(player.TiebreakerTwoPoints)</td>
                                                 <td style="font-weight: bold">@Html.Encode(player.Amount)</td>
@@ -208,7 +214,7 @@
                             {
                                 <tr>
                                     <td style="display: none"> @Html.Hidden(player.PlayerID.ToString())</td>
-                                    <td>@Html.Encode(player.PlayerFirstName) @Html.Encode(player.PlayerLastName)</td>
+                                    <td>@Html.Encode(player.PlayerTeam) - @Html.Encode(player.PlayerFirstName) @Html.Encode(player.PlayerLastName)</td>
                                     <td>@Html.Encode(player.PlayerPosition)</td>
                                     <td onclick="DisplayScoring(@player.PlayerID,1,'@player.PlayerFirstName','@player.PlayerLastName')">
                                         <a href="#"> @Html.Encode(player.WildCard)</a>
