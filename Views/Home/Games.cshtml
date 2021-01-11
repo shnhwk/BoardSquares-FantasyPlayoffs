@@ -791,7 +791,7 @@
     <script>
 
         $(document)
-            .ready(function () {
+            .ready(function() {
                 // Hook events on buttons and anchors
                 buildClickEvents();
             });
@@ -800,7 +800,7 @@
         function buildClickEvents() {
             $("[data-pdsa-action]")
                 .on("click",
-                    function (e) {
+                    function(e) {
                         e.preventDefault();
 
                         $("#EventCommand")
@@ -824,7 +824,11 @@
             var modal = document.getElementById('myModal');
             var modalGrid = document.getElementById('modalGrid');
             modalGrid.innerHTML = "Loading Results...";
-            var markup = "<h2>Scoring Events for " + playerFirstName + " " + playerLastName + "</h2> <table id=\"rankingTable\"class=\"table table-condensed table-bordered table-striped table-hover rankingTable\">" +
+            var markup = "<h2>Scoring Events for " +
+                playerFirstName +
+                " " +
+                playerLastName +
+                "</h2> <table id=\"rankingTable\"class=\"table table-condensed table-bordered table-striped table-hover rankingTable\">" +
                 "<thead><tr><th>Round</th><th>Event</th><th>Yards/Count</th><th>Points</th></tr></thead><tbody>";
 
             //Populate modal with grid
@@ -834,20 +838,21 @@
                 data: { playerId: player, roundId: round },
                 cache: false,
                 type: "POST",
-                success: function (data) {
+                success: function(data) {
                     for (i = 0; i < data.length; i++) {
                         markup += "<tr><td>" + data[i].RoundName + "</td><td>" + data[i].EventName + "</td><td>" + data[i].YardsOrCount + "</td><td>" + data[i].Points.toString() + "</td></tr>";
                     }
                     markup += "</tbody></table>";
                     modalGrid.innerHTML = markup;
                 },
-                error: function (reponse) {
+                error: function(reponse) {
                     alert("error : " + reponse);
                 }
             });
             // open the modal
             modal.style.display = "block";
         }
+
         function SetOldVal(obj, valu) {
             obj.attributes.dataoldval.value = valu;
         }
@@ -870,9 +875,13 @@
                 data: { team: team, position: position },
                 cache: false,
                 type: "POST",
-                success: function (data) {
+                success: function(data) {
                     var markup = "<option value='0'>Select Player</option>";
-                    if (position == "ALL") {
+
+
+                    var isTieBreakerField = position === "ALL";
+
+                    if (isTieBreakerField) {
                         var defvalue = document.getElementById("ddlDEFplayer").value;
                         var qb1value = document.getElementById("ddlQB1player").value;
                         var qb2value = document.getElementById("ddlQB2player").value;
@@ -914,42 +923,44 @@
                     }
                     $(id).html(markup).show();
 
-                    if ((team != "")) {
-                        disableOptions($("#defteam").get(0), team);
-                        disableOptions($("#qb1team").get(0), team);
-                        disableOptions($("#qb2team").get(0), team);
-                        disableOptions($("#rb1team").get(0), team);
-                        disableOptions($("#rb2team").get(0), team);
-                        disableOptions($("#rb3team").get(0), team);
-                        disableOptions($("#rb4team").get(0), team);
-                        disableOptions($("#teteam").get(0), team);
-                        disableOptions($("#kteam").get(0), team);
-                        disableOptions($("#wr1team").get(0), team);
-                        disableOptions($("#wr2team").get(0), team);
-                        disableOptions($("#wr3team").get(0), team);
-                        disableOptions($("#wr4team").get(0), team);
-                        disableOptions($("#wr5team").get(0), team);
+
+                    if (!isTieBreakerField) {
+                        if ((team != "")) {
+                            disableOptions($("#defteam").get(0), team);
+                            disableOptions($("#qb1team").get(0), team);
+                            disableOptions($("#qb2team").get(0), team);
+                            disableOptions($("#rb1team").get(0), team);
+                            disableOptions($("#rb2team").get(0), team);
+                            disableOptions($("#rb3team").get(0), team);
+                            disableOptions($("#rb4team").get(0), team);
+                            disableOptions($("#teteam").get(0), team);
+                            disableOptions($("#kteam").get(0), team);
+                            disableOptions($("#wr1team").get(0), team);
+                            disableOptions($("#wr2team").get(0), team);
+                            disableOptions($("#wr3team").get(0), team);
+                            disableOptions($("#wr4team").get(0), team);
+                            disableOptions($("#wr5team").get(0), team);
+                        }
+                        enableOptions($("#defteam").get(0), oldTeam);
+                        enableOptions($("#qb1team").get(0), oldTeam);
+                        enableOptions($("#qb2team").get(0), oldTeam);
+                        enableOptions($("#rb1team").get(0), oldTeam);
+                        enableOptions($("#rb2team").get(0), oldTeam);
+                        enableOptions($("#rb3team").get(0), oldTeam);
+                        enableOptions($("#rb4team").get(0), oldTeam);
+                        enableOptions($("#teteam").get(0), oldTeam);
+                        enableOptions($("#kteam").get(0), oldTeam);
+                        enableOptions($("#wr1team").get(0), oldTeam);
+                        enableOptions($("#wr2team").get(0), oldTeam);
+                        enableOptions($("#wr3team").get(0), oldTeam);
+                        enableOptions($("#wr4team").get(0), oldTeam);
+                        enableOptions($("#wr5team").get(0), oldTeam);
+
                     }
-                    enableOptions($("#defteam").get(0), oldTeam);
-                    enableOptions($("#qb1team").get(0), oldTeam);
-                    enableOptions($("#qb2team").get(0), oldTeam);
-                    enableOptions($("#rb1team").get(0), oldTeam);
-                    enableOptions($("#rb2team").get(0), oldTeam);
-                    enableOptions($("#rb3team").get(0), oldTeam);
-                    enableOptions($("#rb4team").get(0), oldTeam);
-                    enableOptions($("#teteam").get(0), oldTeam);
-                    enableOptions($("#kteam").get(0), oldTeam);
-                    enableOptions($("#wr1team").get(0), oldTeam);
-                    enableOptions($("#wr2team").get(0), oldTeam);
-                    enableOptions($("#wr3team").get(0), oldTeam);
-                    enableOptions($("#wr4team").get(0), oldTeam);
-                    enableOptions($("#wr5team").get(0), oldTeam);
-
-
 
                     element.attributes.dataoldval.value = team;
                 },
-                error: function (reponse) {
+                error: function(reponse) {
                     alert("error : " + reponse);
                 }
             });

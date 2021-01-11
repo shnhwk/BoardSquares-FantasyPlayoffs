@@ -40,6 +40,13 @@
                         <tbody>
                         @foreach (var user in Model.UserList)
                         {
+                            
+                            if (user.BalDue == 0)
+                            {
+                                continue;
+                            }
+
+
                             <tr>
 
                                 <td style="display: none"> @Html.Hidden(user.UserID.ToString())</td>
