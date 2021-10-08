@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ namespace BoardSquares.Controllers
             BoardSquaresRepository = new BoardSquaresRepository();
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -37,9 +38,9 @@ namespace BoardSquares.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -82,28 +83,28 @@ namespace BoardSquares.Controllers
                 case -1:
                     ViewBag.ErrorMessage = "No Accounts found with specified Email";
                     return View(model);
-                case 0: 
+                case 0:
                     ViewBag.ErrorMessage = "Incorrect Password";
                     return View(model);
                 default:
                     applicationUser = BoardSquaresRepository.GetUserByID(loginResult);
                     break;
             }
-            
+
             var claims = new[] {
                 new Claim(ClaimTypes.Email, applicationUser.Email),
                 new Claim(ClaimTypes.NameIdentifier, applicationUser.Email),
                 new Claim(ClaimTypes.Name, applicationUser.UserName )
                 // can add more claims
             };
-            
+
             var identity = new ClaimsIdentity(claims, "ApplicationCookie");
-                var roleClaims =  new Claim(ClaimTypes.Role, applicationUser.AdminRole ? "Admin" : "User");
-                identity.AddClaim(roleClaims);
-                var context = Request.GetOwinContext();
-                var authManager = context.Authentication;
-                authManager.SignIn(new AuthenticationProperties { IsPersistent = true,  }, identity);
-                return RedirectToAction("Index", "Home");
+            var roleClaims = new Claim(ClaimTypes.Role, applicationUser.AdminRole ? "Admin" : "User");
+            identity.AddClaim(roleClaims);
+            var context = Request.GetOwinContext();
+            var authManager = context.Authentication;
+            authManager.SignIn(new AuthenticationProperties { IsPersistent = true, }, identity);
+            return RedirectToAction("Index", "Home");
         }
 
         //
@@ -135,7 +136,7 @@ namespace BoardSquares.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -237,7 +238,7 @@ namespace BoardSquares.Controllers
             if (ModelState.IsValid)
             {
                 var user = BoardSquaresRepository.Context.Users.FirstOrDefault(r => r.Email == model.Email);//await UserManager.FindByNameAsync(model.Email);
-                if (user == null )//|| !(await UserManager.IsEmailConfirmedAsync(user.UserID.ToString())))
+                if (user == null)//|| !(await UserManager.IsEmailConfirmedAsync(user.UserID.ToString())))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
@@ -250,22 +251,18 @@ namespace BoardSquares.Controllers
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.UserID, code = code }, protocol: Request.Url.Scheme);
                 var subject = "Password Reset";
                 var message = "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a><br /><br />";
-                 var mailClient = new SmtpClient
-                 {
-                     Host = "relay-hosting.secureserver.net"
-
-                 };
-                 var mailMessage = new MailMessage
-                 {
-                     From = new MailAddress("admin@boardsquares.com"),
-                     Subject = subject,
-                     Body = message,
-                     IsBodyHtml = true
-                 };
-                 mailMessage.To.Add(new MailAddress(model.Email));
-                 mailClient.Send(mailMessage);
-                 mailClient.Dispose();
-                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                var mailClient = new SmtpClient();
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress("admin@boardsquares.com"),
+                    Subject = subject,
+                    Body = message,
+                    IsBodyHtml = true
+                };
+                mailMessage.To.Add(new MailAddress(model.Email));
+                mailClient.Send(mailMessage);
+                mailClient.Dispose();
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -306,11 +303,13 @@ namespace BoardSquares.Controllers
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             var result = BoardSquaresRepository.AttemptPasswordReset(user.UserID, model.Code, model.Password);
-            
+
             if (result == 1)
             {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
+
+            TempData["Error"] = $"Unable to reset your password. Please use the <a href=\"{Url.Action("ForgotPassword", "Account")}\">Forgot Password</a> page to request a new password reset email.";
             return View();
         }
 
