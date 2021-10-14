@@ -225,7 +225,8 @@
                             @Html.DropDownListFor(m => m.DEFPlayer.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.DEFPlayer.PlayerTeam, "DEF"), "Key", "Value"), "", new
                             {
                                 @id = "ddlDEFplayer",
-                                @class = "form-control"
+                                @class = "form-control player-selection",
+                                @onchange = "fixtiebreakers(this.id, this.value)"
                             })
                         </div>
                     </div>
@@ -244,10 +245,11 @@
                         </div>
                         <div class="col-sm-5 col-lg-4">
                             @Html.DropDownListFor(m => m.QB1Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.QB1Player.PlayerTeam, "QB"), "Key", "Value"), "", new
-                            {
-                                @id = "ddlQB1player",
-                                @class = "form-control"
-                            })
+                               {
+                                   @id = "ddlQB1player",
+                                   @class = "form-control player-selection",
+                                   @onchange = "fixtiebreakers(this.id, this.value)"
+                               })
                         </div>
                     </div>
 
@@ -266,10 +268,11 @@
                         </div>
                         <div class="col-sm-5 col-lg-4">
                             @Html.DropDownListFor(m => m.QB2Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.QB2Player.PlayerTeam, "QB"), "Key", "Value"), "", new
-                            {
-                                @id = "ddlQB2player",
-                                @class = "form-control"
-                            })
+                                 {
+                                     @id = "ddlQB2player",
+                                     @class = "form-control player-selection",
+                                     @onchange = "fixtiebreakers(this.id, this.value)"
+                                 })
                         </div>
                     </div>
 
@@ -287,10 +290,11 @@
                         </div>
                         <div class="col-sm-5 col-lg-4">
                             @Html.DropDownListFor(m => m.KPlayer.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.KPlayer.PlayerTeam, "K"), "Key", "Value"), "", new
-                            {
-                                @id = "ddlKplayer",
-                                @class = "form-control"
-                            })
+                                 {
+                                     @id = "ddlKplayer",
+                                     @class = "form-control player-selection",
+                                     @onchange = "fixtiebreakers(this.id, this.value)"
+                                 })
                         </div>
                     </div>
 
@@ -308,10 +312,11 @@
                         </div>
                         <div class="col-sm-5 col-lg-4">
                             @Html.DropDownListFor(m => m.TEPlayer.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.TEPlayer.PlayerTeam, "TE"), "Key", "Value"), "", new
-                            {
-                                @id = "ddlTEplayer",
-                                @class = "form-control"
-                            })
+                                 {
+                                     @id = "ddlTEplayer",
+                                     @class = "form-control player-selection",
+                                     @onchange = "fixtiebreakers(this.id, this.value)"
+                                 })
                         </div>
                     </div>
 
@@ -329,10 +334,11 @@
                         </div>
                         <div class="col-sm-5 col-lg-4">
                             @Html.DropDownListFor(m => m.WR1Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.WR1Player.PlayerTeam, "WR"), "Key", "Value"), "", new
-                            {
-                                @id = "ddlWR1player",
-                                @class = "form-control"
-                            })
+                                 {
+                                     @id = "ddlWR1player",
+                                     @class = "form-control player-selection",
+                                     @onchange = "fixtiebreakers(this.id, this.value)"
+                                 })
                         </div>
                     </div>
 
@@ -350,10 +356,11 @@
                         </div>
                         <div class="col-sm-5 col-lg-4">
                             @Html.DropDownListFor(m => m.WR2Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.WR2Player.PlayerTeam, "WR"), "Key", "Value"), "", new
-                            {
-                                @id = "ddlWR2player",
-                                @class = "form-control"
-                            })
+                                 {
+                                     @id = "ddlWR2player",
+                                     @class = "form-control player-selection",
+                                     @onchange = "fixtiebreakers(this.id, this.value)"
+                                 })
                         </div>
                     </div>
 
@@ -371,10 +378,11 @@
                         </div>
                         <div class="col-sm-5 col-lg-4">
                             @Html.DropDownListFor(m => m.WR3Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.WR3Player.PlayerTeam, "WR"), "Key", "Value"), "", new
-                            {
-                                @id = "ddlWR3player",
-                                @class = "form-control"
-                            })
+                                 {
+                                     @id = "ddlWR3player",
+                                     @class = "form-control  player-selection",
+                                     @onchange = "fixtiebreakers(this.id, this.value)"
+                                 })
                         </div>
                     </div>
 
@@ -392,10 +400,11 @@
                         </div>
                         <div class="col-sm-5 col-lg-4">
                             @Html.DropDownListFor(m => m.WR4Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.WR4Player.PlayerTeam, "WR"), "Key", "Value"), "", new
-                            {
-                                @id = "ddlWR4player",
-                                @class = "form-control"
-                            })
+                                 {
+                                     @id = "ddlWR4player",
+                                     @class = "form-control player-selection",
+                                     @onchange = "fixtiebreakers(this.id, this.value)"
+                                 })
                         </div>
                     </div>
 
@@ -413,10 +422,11 @@
                         </div>
                         <div class="col-sm-5 col-lg-4">
                             @Html.DropDownListFor(m => m.WR5Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.WR5Player.PlayerTeam, "WR"), "Key", "Value"), "", new
-                            {
-                                @id = "ddlWR5player",
-                                @class = "form-control"
-                            })
+                                 {
+                                     @id = "ddlWR5player",
+                                     @class = "form-control player-selection",
+                                     @onchange = "fixtiebreakers(this.id, this.value)"
+                                 })
                         </div>
                     </div>
 
@@ -434,10 +444,11 @@
                         </div>
                         <div class="col-sm-5 col-lg-4">
                             @Html.DropDownListFor(m => m.RB1Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.RB1Player.PlayerTeam, "RB"), "Key", "Value"), "", new
-                            {
-                                @id = "ddlRB1player",
-                                @class = "form-control"
-                            })
+                                 {
+                                     @id = "ddlRB1player",
+                                     @class = "form-control player-selection",
+                                     @onchange = "fixtiebreakers(this.id, this.value)"
+                                 })
                         </div>
                     </div>
 
@@ -455,10 +466,11 @@
                         </div>
                         <div class="col-sm-5 col-lg-4">
                             @Html.DropDownListFor(m => m.RB2Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.RB2Player.PlayerTeam, "RB"), "Key", "Value"), "", new
-                            {
-                                @id = "ddlRB2player",
-                                @class = "form-control"
-                            })
+                                 {
+                                     @id = "ddlRB2player",
+                                     @class = "form-control player-selection",
+                                     @onchange = "fixtiebreakers(this.id, this.value)"
+                                 })
                         </div>
                     </div>
 
@@ -476,10 +488,11 @@
                         </div>
                         <div class="col-sm-5 col-lg-4">
                             @Html.DropDownListFor(m => m.RB3Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.RB3Player.PlayerTeam, "RB"), "Key", "Value"), "", new
-                            {
-                                @id = "ddlRB3player",
-                                @class = "form-control"
-                            })
+                                 {
+                                     @id = "ddlRB3player",
+                                     @class = "form-control player-selection",
+                                     @onchange = "fixtiebreakers(this.id, this.value)"
+                                 })
                         </div>
                     </div>
 
@@ -497,10 +510,11 @@
                         </div>
                         <div class="col-sm-5 col-lg-4">
                             @Html.DropDownListFor(m => m.RB4Player.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.RB4Player.PlayerTeam, "RB"), "Key", "Value"), "", new
-                            {
-                                @id = "ddlRB4player",
-                                @class = "form-control"
-                            })
+                                 {
+                                     @id = "ddlRB4player",
+                                     @class = "form-control player-selection",
+                                     @onchange = "fixtiebreakers(this.id, this.value)"
+                                 })
                         </div>
                     </div>
 
@@ -518,10 +532,11 @@
                         </div>
                         <div class="col-sm-5 col-lg-4">
                             @Html.DropDownListFor(m => m.TieBreakerPlayer1.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.TieBreakerPlayer1.PlayerTeam, "ALL"), "Key", "Value"), "", new
-                            {
-                                @id = "ddlTieplayer",
-                                @class = "form-control"
-                            })
+                                 {
+                                     @id = "ddlTieplayer",
+                                     @class = "form-control player-selection",
+                                     @onchange = "fixtiebreakers(this.id, this.value)"
+                                 })
                         </div>
                     </div>
 
@@ -539,10 +554,11 @@
                         </div>
                         <div class="col-sm-5 col-lg-4">
                             @Html.DropDownListFor(m => m.TieBreakerPlayer2.PlayerID, new SelectList(Model.GetAvailablePlayers(Model.TieBreakerPlayer2.PlayerTeam, "ALL"), "Key", "Value"), "", new
-                            {
-                                @id = "ddlTie2player",
-                                @class = "form-control"
-                            })
+                                 {
+                                     @id = "ddlTie2player",
+                                     @class = "form-control player-selection",
+                                     @onchange = "fixtiebreakers(this.id, this.value)"
+                                 })
                         </div>
                     </div>
 
@@ -791,7 +807,7 @@
     <script>
 
         $(document)
-            .ready(function() {
+            .ready(function () {
                 // Hook events on buttons and anchors
                 buildClickEvents();
             });
@@ -800,7 +816,7 @@
         function buildClickEvents() {
             $("[data-pdsa-action]")
                 .on("click",
-                    function(e) {
+                    function (e) {
                         e.preventDefault();
 
                         $("#EventCommand")
@@ -838,14 +854,14 @@
                 data: { playerId: player, roundId: round },
                 cache: false,
                 type: "POST",
-                success: function(data) {
+                success: function (data) {
                     for (i = 0; i < data.length; i++) {
                         markup += "<tr><td>" + data[i].RoundName + "</td><td>" + data[i].EventName + "</td><td>" + data[i].YardsOrCount + "</td><td>" + data[i].Points.toString() + "</td></tr>";
                     }
                     markup += "</tbody></table>";
                     modalGrid.innerHTML = markup;
                 },
-                error: function(reponse) {
+                error: function (reponse) {
                     alert("error : " + reponse);
                 }
             });
@@ -875,7 +891,7 @@
                 data: { team: team, position: position },
                 cache: false,
                 type: "POST",
-                success: function(data) {
+                success: function (data) {
                     var markup = "<option value='0'>Select Player</option>";
 
 
@@ -915,10 +931,16 @@
                             }
                         }
                     } else {
+                        var tie1Value = document.getElementById("ddlTieplayer").value;
+                        var tie2Value = document.getElementById("ddlTie2player").value;
+
                         for (var x = 0; x < data.length; x++) {
-
-                            markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
-
+                            for (var x = 0; x < data.length; x++) {
+                                if (data[x].Value !== tie1Value &&
+                                    data[x].Value !== tie2Value) {
+                                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                                }
+                            }
                         }
                     }
                     $(id).html(markup).show();
@@ -960,11 +982,35 @@
 
                     element.attributes.dataoldval.value = team;
                 },
-                error: function(reponse) {
+                error: function (reponse) {
                     alert("error : " + reponse);
                 }
             });
 
+        }
+
+        function fixtiebreakers(selectId, playerId) {
+
+            console.log("selectId: " + selectId);
+            console.log("playerId: " + playerId);
+
+            $("select.player-selection").each(function () {
+
+
+                console.log("$(this).val(): " + $(this).val());
+                console.log("$(this).attr(id): " + this.id);
+
+                if (($(this).val() === "" || $(this).val() === "0") && this.id !== selectId) {
+
+                    var check = $("option[value='" + playerId + "']", this).length > 0;
+
+                    console.log("check: " + check);
+
+                    if (check) {
+                        $("option[value='" + playerId + "']", this).remove();
+                    }
+                }
+            });
         }
 
         function disableOptions(id, option) {
