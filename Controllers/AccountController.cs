@@ -249,8 +249,12 @@ namespace BoardSquares.Controllers
                 string code = Membership.GeneratePassword(25, 8);//await UserManager.GeneratePasswordResetTokenAsync(user.UserID.ToString());
                 BoardSquaresRepository.AssignPasswordResetCode(user.UserID, code);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.UserID, code = code }, protocol: Request.Url.Scheme);
-                var subject = "Password Reset";
-                var message = "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a><br /><br />";
+                var subject = "Playoff Fantasy - Password Reset Request";
+                var message = "We have received a request to change your password. Please click the 'Reset Password' button below to continue.<br /><br />" +
+                              "<a href=\"" + callbackUrl + "\">Reset Password</a><br /><br />" +
+                              "If you do not wish to change your password at this time, please ignore this email." +
+                              "<br /><br />Thank you!<br />" +
+                              "<a href=\"https://boardsquares.com\">BoardSquares.com</a>";
                 var mailClient = new SmtpClient();
                 var mailMessage = new MailMessage
                 {
