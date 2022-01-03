@@ -173,7 +173,7 @@
                                         <td class="pdsa-action-button-column">
                                             <a href="#" data-pdsa-action="delete"
                                                data-pdsa-val="@team.UserTeamID"
-                                               onclick="return confirm('Delete this Team?');"
+                                               data-pdsa-confirm-message="Delete this Team?"
                                                class="btn btn-default btn-sm">
                                                 <i class="glyphicon glyphicon-trash"></i>
                                             </a>
@@ -820,7 +820,16 @@
             $("[data-pdsa-action]")
                 .on("click",
                     function (e) {
+
                         e.preventDefault();
+
+                        var confirmMessage = $(this).data("pdsa-confirm-message");
+
+                        if (confirmMessage) {
+                            if (!confirm(confirmMessage)) {
+                                return;
+                            }
+                        }
 
                         $("#EventCommand")
                             .val(
@@ -831,8 +840,10 @@
                                 $(this).attr("data-pdsa-val"));
 
                         $("form").submit();
+
                     });
         }
+
 
         function HideModal() {
             var modal = document.getElementById('myModal');
@@ -1016,18 +1027,18 @@
         function disableTeamsOnLoad() {
 
             var standardTeams = $("select.team-selection :selected").map(function (i, el) {
-                if ($(el).parent().attr("id") === 'tieteam' || $(el).parent().attr("id")=== 'tieteam2') {
+                if ($(el).parent().attr("id") === 'tieteam' || $(el).parent().attr("id") === 'tieteam2') {
                     return '';
                 }
                 return $(el).val();
             }).get();
 
             var tieBreakTeams = [$("#tieteam").val(), $("#tieteam2").val()];
-             
+
             $("select.team-selection").each(function () {
 
                 if (this.id === 'tieteam' || this.id === 'tieteam2') {
-                     
+
                     for (var i = 0; i < tieBreakTeams.length; i++) {
                         var check = $("option[value='" + tieBreakTeams[i] + "']", this).length > 0;
 
@@ -1039,7 +1050,7 @@
 
                     return;
                 }
-                 
+
                 for (var i = 0; i < standardTeams.length; i++) {
 
                     if (!standardTeams[i]) {
