@@ -196,7 +196,7 @@
                                 <td class="pdsa-action-button-column">
                                     <a href="#" data-pdsa-action="delete"
                                        data-pdsa-val="@scoring.ID"
-                                       onclick="return confirm('Delete this Scoring Event?');"
+                                       data-pdsa-confirm-message="Delete this Scoring Event?"
                                        class="btn btn-default btn-sm">
                                         <i class="glyphicon glyphicon-flag"></i>
                                     </a>
@@ -228,6 +228,14 @@
                 .on("click",
                     function(e) {
                         e.preventDefault();
+
+                        var confirmMessage = $(this).data("pdsa-confirm-message");
+
+                        if (confirmMessage) {
+                            if (!confirm(confirmMessage)) {
+                                return;
+                            }
+                        }
 
                         $("#EventCommand")
                             .val(

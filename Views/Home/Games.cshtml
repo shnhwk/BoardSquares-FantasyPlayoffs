@@ -173,7 +173,7 @@
                                         <td class="pdsa-action-button-column">
                                             <a href="#" data-pdsa-action="delete"
                                                data-pdsa-val="@team.UserTeamID"
-                                               onclick="return confirm('Delete this Team?');"
+                                               data-pdsa-confirm-message="Delete this Team?"
                                                class="btn btn-default btn-sm">
                                                 <i class="glyphicon glyphicon-trash"></i>
                                             </a>
@@ -215,7 +215,7 @@
                             @Html.DropDownListFor(m => m.DEFPlayer.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
                             {
                                 @id = "defteam",
-                                @class = "form-control",
+                                @class = "form-control team-selection",
                                 @onchange = "GetPlayers(this.value, 'DEF', ddlDEFplayer, this.id, this)",
                                 @dataoldval = "",
                                 @onfocus = "SetOldVal(this,this.value)"
@@ -237,7 +237,7 @@
                             @Html.DropDownListFor(m => m.QB1Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
                             {
                                 @id = "qb1team",
-                                @class = "form-control",
+                                @class = "form-control team-selection",
                                 @onchange = "GetPlayers(this.value, 'QB', ddlQB1player, this.id, this)",
                                 @dataoldval = "",
                                 @onfocus = "SetOldVal(this,this.value)"
@@ -260,7 +260,7 @@
                             @Html.DropDownListFor(m => m.QB2Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
                             {
                                 @id = "qb2team",
-                                @class = "form-control",
+                                @class = "form-control team-selection",
                                 @onchange = "GetPlayers(this.value, 'QB', ddlQB2player, this.id, this)",
                                 @dataoldval = "",
                                 @onfocus = "SetOldVal(this,this.value)"
@@ -282,7 +282,7 @@
                             @Html.DropDownListFor(m => m.KPlayer.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
                             {
                                 @id = "kteam",
-                                @class = "form-control",
+                                @class = "form-control team-selection",
                                 @onchange = "GetPlayers(this.value, 'K', ddlKplayer, this.id, this)",
                                 @dataoldval = "",
                                 @onfocus = "SetOldVal(this,this.value)"
@@ -304,7 +304,7 @@
                             @Html.DropDownListFor(m => m.TEPlayer.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
                             {
                                @id = "teteam",
-                               @class = "form-control",
+                               @class = "form-control team-selection",
                                @onchange = "GetPlayers(this.value, 'TE', ddlTEplayer, this.id, this)",
                                @dataoldval = "",
                                @onfocus = "SetOldVal(this,this.value)"
@@ -326,7 +326,7 @@
                             @Html.DropDownListFor(m => m.WR1Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
                             {
                                 @id = "wr1team",
-                                @class = "form-control",
+                                @class = "form-control team-selection",
                                 @onchange = "GetPlayers(this.value, 'WR', ddlWR1player, this.id, this)",
                                 @dataoldval = "",
                                 @onfocus = "SetOldVal(this,this.value)"
@@ -348,7 +348,7 @@
                             @Html.DropDownListFor(m => m.WR2Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
                             {
                                 @id = "wr2team",
-                                @class = "form-control",
+                                @class = "form-control team-selection",
                                 @onchange = "GetPlayers(this.value, 'WR', ddlWR2player, this.id, this)",
                                 @dataoldval = "",
                                 @onfocus = "SetOldVal(this,this.value)"
@@ -370,7 +370,7 @@
                             @Html.DropDownListFor(m => m.WR3Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
                             {
                                 @id = "wr3team",
-                                @class = "form-control",
+                                @class = "form-control team-selection",
                                 @onchange = "GetPlayers(this.value, 'WR', ddlWR3player, this.id, this)",
                                 @dataoldval = "",
                                 @onfocus = "SetOldVal(this,this.value)"
@@ -392,7 +392,7 @@
                             @Html.DropDownListFor(m => m.WR4Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
                             {
                                 @id = "wr4team",
-                                @class = "form-control",
+                                @class = "form-control team-selection",
                                 @onchange = "GetPlayers(this.value, 'WR', ddlWR4player, this.id, this)",
                                 @dataoldval = "",
                                 @onfocus = "SetOldVal(this,this.value)"
@@ -414,7 +414,7 @@
                             @Html.DropDownListFor(m => m.WR5Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
                             {
                                 @id = "wr5team",
-                                @class = "form-control",
+                                @class = "form-control team-selection",
                                 @onchange = "GetPlayers(this.value, 'WR', ddlWR5player, this.id, this)",
                                 @dataoldval = "",
                                 @onfocus = "SetOldVal(this,this.value)"
@@ -436,7 +436,7 @@
                             @Html.DropDownListFor(m => m.RB1Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
                             {
                                 @id = "rb1team",
-                                @class = "form-control",
+                                @class = "form-control team-selection",
                                 @onchange = "GetPlayers(this.value, 'RB', ddlRB1player, this.id, this)",
                                 @dataoldval = "",
                                 @onfocus = "SetOldVal(this,this.value)"
@@ -458,7 +458,7 @@
                             @Html.DropDownListFor(m => m.RB2Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
                             {
                                 @id = "rb2team",
-                                @class = "form-control",
+                                @class = "form-control team-selection",
                                 @onchange = "GetPlayers(this.value, 'RB', ddlRB2player, this.id, this)",
                                 @dataoldval = "",
                                 @onfocus = "SetOldVal(this,this.value)"
@@ -480,7 +480,7 @@
                             @Html.DropDownListFor(m => m.RB3Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
                             {
                                 @id = "rb3team",
-                                @class = "form-control",
+                                @class = "form-control team-selection",
                                 @onchange = "GetPlayers(this.value, 'RB', ddlRB3player, this.id, this)",
                                 @dataoldval = "",
                                 @onfocus = "SetOldVal(this,this.value)"
@@ -502,7 +502,7 @@
                             @Html.DropDownListFor(m => m.RB4Player.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
                             {
                                 @id = "rb4team",
-                                @class = "form-control",
+                                @class = "form-control team-selection",
                                 @onchange = "GetPlayers(this.value, 'RB', ddlRB4player, this.id, this)",
                                 @dataoldval = "",
                                 @onfocus = "SetOldVal(this,this.value)"
@@ -524,7 +524,7 @@
                             @Html.DropDownListFor(m => m.TieBreakerPlayer1.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
                             {
                                 @id = "tieteam",
-                                @class = "form-control",
+                                @class = "form-control team-selection",
                                 @onchange = "GetPlayers(this.value, 'ALL', ddlTieplayer, this.id, this)",
                                 @dataoldval = "",
                                 @onfocus = "SetOldVal(this,this.value)"
@@ -546,7 +546,7 @@
                             @Html.DropDownListFor(m => m.TieBreakerPlayer2.PlayerTeam, new SelectList(Model.AvailableTeams, "Key", "Value"), "", new
                             {
                                 @id = "tieteam2",
-                                @class = "form-control",
+                                @class = "form-control team-selection",
                                 @onchange = "GetPlayers(this.value, 'ALL', ddlTie2player, this.id, this)",
                                 @dataoldval = "",
                                 @onfocus = "SetOldVal(this,this.value)"
@@ -810,6 +810,9 @@
             .ready(function () {
                 // Hook events on buttons and anchors
                 buildClickEvents();
+
+                disableTeamsOnLoad();
+
             });
 
         // Hook events on buttons and anchors
@@ -817,7 +820,16 @@
             $("[data-pdsa-action]")
                 .on("click",
                     function (e) {
+
                         e.preventDefault();
+
+                        var confirmMessage = $(this).data("pdsa-confirm-message");
+
+                        if (confirmMessage) {
+                            if (!confirm(confirmMessage)) {
+                                return;
+                            }
+                        }
 
                         $("#EventCommand")
                             .val(
@@ -828,8 +840,10 @@
                                 $(this).attr("data-pdsa-val"));
 
                         $("form").submit();
+
                     });
         }
+
 
         function HideModal() {
             var modal = document.getElementById('myModal');
@@ -978,6 +992,12 @@
                         enableOptions($("#wr4team").get(0), oldTeam);
                         enableOptions($("#wr5team").get(0), oldTeam);
 
+                    } else {
+                        disableOptions($("#tieteam").get(0), team);
+                        disableOptions($("#tieteam2").get(0), team);
+
+                        enableOptions($("#tieteam").get(0), oldTeam);
+                        enableOptions($("#tieteam2").get(0), oldTeam);
                     }
 
                     element.attributes.dataoldval.value = team;
@@ -991,25 +1011,59 @@
 
         function fixtiebreakers(selectId, playerId) {
 
-            console.log("selectId: " + selectId);
-            console.log("playerId: " + playerId);
-
             $("select.player-selection").each(function () {
-
-
-                console.log("$(this).val(): " + $(this).val());
-                console.log("$(this).attr(id): " + this.id);
 
                 if (($(this).val() === "" || $(this).val() === "0") && this.id !== selectId) {
 
                     var check = $("option[value='" + playerId + "']", this).length > 0;
 
-                    console.log("check: " + check);
-
                     if (check) {
                         $("option[value='" + playerId + "']", this).remove();
                     }
                 }
+            });
+        }
+
+        function disableTeamsOnLoad() {
+
+            var standardTeams = $("select.team-selection :selected").map(function (i, el) {
+                if ($(el).parent().attr("id") === 'tieteam' || $(el).parent().attr("id") === 'tieteam2') {
+                    return '';
+                }
+                return $(el).val();
+            }).get();
+
+            var tieBreakTeams = [$("#tieteam").val(), $("#tieteam2").val()];
+
+            $("select.team-selection").each(function () {
+
+                if (this.id === 'tieteam' || this.id === 'tieteam2') {
+
+                    for (var i = 0; i < tieBreakTeams.length; i++) {
+                        var check = $("option[value='" + tieBreakTeams[i] + "']", this).length > 0;
+
+                        if (check) {
+                            $("option[value='" + tieBreakTeams[i] + "']", this).attr('disabled', 'disabled');
+                            $("option[value='" + tieBreakTeams[i] + "']", this).css("background-color", "rgba(0,0,0,0.3)");
+                        }
+                    };
+
+                    return;
+                }
+
+                for (var i = 0; i < standardTeams.length; i++) {
+
+                    if (!standardTeams[i]) {
+                        continue;
+                    }
+
+                    var check = $("option[value='" + standardTeams[i] + "']", this).length > 0;
+
+                    if (check) {
+                        $("option[value='" + standardTeams[i] + "']", this).attr('disabled', 'disabled');
+                        $("option[value='" + standardTeams[i] + "']", this).css("background-color", "rgba(0,0,0,0.3)");
+                    }
+                };
             });
         }
 

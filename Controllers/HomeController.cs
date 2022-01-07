@@ -53,7 +53,7 @@ namespace BoardSquares.Controllers
                 };
                 viewModel.GetPlayerScoring();
                 return RedirectToAction("PlayerScoring", "Home",
-                    new {SelectedPlayer = Convert.ToInt32(vm.EventArgument), SelectedRound = Convert.ToInt32(round)});
+                    new { SelectedPlayer = Convert.ToInt32(vm.EventArgument), SelectedRound = Convert.ToInt32(round) });
             }
             vm.GetGamesByUser();
             vm.GetTeamDetailsByGame();
@@ -75,7 +75,7 @@ namespace BoardSquares.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult EditPlayers()
         {
-            var viewModel = new PlayerSearchViewModel {Teams = BoardSquaresRepository.GetAllTeams()};
+            var viewModel = new PlayerSearchViewModel { Teams = BoardSquaresRepository.GetAllTeams() };
             return View(viewModel);
         }
 
@@ -114,9 +114,33 @@ namespace BoardSquares.Controllers
         [HttpPost]
         public ActionResult Games(UserGamesViewModel viewModel)
         {
-            ViewBag.Errors = new[] {"", "", ""};
+            ViewBag.Errors = new[] { "", "", "" };
             if (viewModel.EventCommand == "save")
             {
+
+                //populate teams
+
+                var allPlayers = BoardSquaresRepository.GetAllPlayers();
+                if (allPlayers?.Any() == true)
+                {
+                    viewModel.DEFPlayer.PlayerTeam = allPlayers.FirstOrDefault(t => t.PlayerID == viewModel.DEFPlayer.PlayerID)?.PlayerTeam;
+                    viewModel.QB1Player.PlayerTeam = allPlayers.FirstOrDefault(t => t.PlayerID == viewModel.QB1Player.PlayerID)?.PlayerTeam;
+                    viewModel.QB2Player.PlayerTeam = allPlayers.FirstOrDefault(t => t.PlayerID == viewModel.QB2Player.PlayerID)?.PlayerTeam;
+                    viewModel.RB1Player.PlayerTeam = allPlayers.FirstOrDefault(t => t.PlayerID == viewModel.RB1Player.PlayerID)?.PlayerTeam;
+                    viewModel.RB2Player.PlayerTeam = allPlayers.FirstOrDefault(t => t.PlayerID == viewModel.RB2Player.PlayerID)?.PlayerTeam;
+                    viewModel.RB3Player.PlayerTeam = allPlayers.FirstOrDefault(t => t.PlayerID == viewModel.RB3Player.PlayerID)?.PlayerTeam;
+                    viewModel.RB4Player.PlayerTeam = allPlayers.FirstOrDefault(t => t.PlayerID == viewModel.RB4Player.PlayerID)?.PlayerTeam;
+                    viewModel.WR1Player.PlayerTeam = allPlayers.FirstOrDefault(t => t.PlayerID == viewModel.WR1Player.PlayerID)?.PlayerTeam;
+                    viewModel.WR2Player.PlayerTeam = allPlayers.FirstOrDefault(t => t.PlayerID == viewModel.WR2Player.PlayerID)?.PlayerTeam;
+                    viewModel.WR3Player.PlayerTeam = allPlayers.FirstOrDefault(t => t.PlayerID == viewModel.WR3Player.PlayerID)?.PlayerTeam;
+                    viewModel.WR4Player.PlayerTeam = allPlayers.FirstOrDefault(t => t.PlayerID == viewModel.WR4Player.PlayerID)?.PlayerTeam;
+                    viewModel.WR5Player.PlayerTeam = allPlayers.FirstOrDefault(t => t.PlayerID == viewModel.WR5Player.PlayerID)?.PlayerTeam;
+                    viewModel.TEPlayer.PlayerTeam = allPlayers.FirstOrDefault(t => t.PlayerID == viewModel.TEPlayer.PlayerID)?.PlayerTeam;
+                    viewModel.KPlayer.PlayerTeam = allPlayers.FirstOrDefault(t => t.PlayerID == viewModel.KPlayer.PlayerID)?.PlayerTeam;
+                    viewModel.TieBreakerPlayer1.PlayerTeam = allPlayers.FirstOrDefault(t => t.PlayerID == viewModel.TieBreakerPlayer1.PlayerID)?.PlayerTeam;
+                    viewModel.TieBreakerPlayer2.PlayerTeam = allPlayers.FirstOrDefault(t => t.PlayerID == viewModel.TieBreakerPlayer2.PlayerID)?.PlayerTeam;
+                }
+
                 //validation
                 var playerList = viewModel.GetCombinedPlayers();
                 var duplicateList =
@@ -131,28 +155,38 @@ namespace BoardSquares.Controllers
                             r.PlayerID == viewModel.TieBreakerPlayer1.PlayerID ||
                             r.PlayerID == viewModel.TieBreakerPlayer2.PlayerID ||
                             viewModel.TieBreakerPlayer1.PlayerID == viewModel.TieBreakerPlayer2.PlayerID);
-                    //playerList.Select(r => r.PlayerID).ToList().Contains(viewModel.TieBreakerPlayer1.PlayerID || viewModel.TieBreakerPlayer2.PlayerID);
+                //playerList.Select(r => r.PlayerID).ToList().Contains(viewModel.TieBreakerPlayer1.PlayerID || viewModel.TieBreakerPlayer2.PlayerID);
                 playerList.Add(viewModel.TieBreakerPlayer1);
                 playerList.Add(viewModel.TieBreakerPlayer2);
                 var nullList = playerList.Where(p => (p == null) || (p.PlayerID == 0)).ToList();
                 if (duplicateList.Any() || nullList.Any() || isInvalidTieBreaker)
                 {
-                    if (duplicateList.Any())
+
+                    if (nullList.Any())
+                    {
+                        viewModel.ErrorMessage = "Must select a player for all positions";
+                    }
+                    else if (duplicateList.Any())
+                    {
                         viewModel.ErrorMessage = "Cannot have more than one player from team(s): " +
                                                  duplicateList.Aggregate((current, next) => current + ", " + next);
-                    if (nullList.Any())
-                        viewModel.ErrorMessage = "Must select a player for all positions";
-                    if (isInvalidTieBreaker)
+                    }
+                    else if (isInvalidTieBreaker)
+                    {
                         viewModel.ErrorMessage = "Tie Breaker player cannot already be a member of your team";
+                    }
+
                     viewModel.IsValid = false;
                     ModelState.Clear();
+
+
                     return View(viewModel);
                 }
             }
 
             if (viewModel.EventCommand == "viewGame")
             {
-                return RedirectToAction("GameSummary", "Home", new { gameNumber = viewModel.EventArgument});
+                return RedirectToAction("GameSummary", "Home", new { gameNumber = viewModel.EventArgument });
             }
 
             viewModel.HandleRequest();
@@ -244,7 +278,7 @@ namespace BoardSquares.Controllers
                 vm.GamesList = BoardSquaresRepository.GetClosedGamesByUser(vm.User.UserID);
                 //var closedGames = BoardSquaresRepository.Context.Games.Where(r => r.Active & r.CloseDate < DateTime.Now).Select(r => r.GameNumber).ToList();
                 //vm.GamesList.Where(r => closedGames.Contains(r)).ForEach(c => vm.GamesDropDown.Add(c, c));
-                if(vm.GamesList.Count == 1)
+                if (vm.GamesList.Count == 1)
                     vm.GetAllGames(vm.GamesList.First());
                 else
                 {
@@ -261,7 +295,7 @@ namespace BoardSquares.Controllers
         [HttpPost]
         public ActionResult GameSummary(GameSummaryViewModel vm)
         {
-            
+
             return View(vm);
         }
 
@@ -294,7 +328,7 @@ namespace BoardSquares.Controllers
             return View();
         }
 
-        
+
         [Authorize(Roles = "Admin")]
         public ActionResult ExactTeams()
         {
@@ -303,7 +337,7 @@ namespace BoardSquares.Controllers
             return View(vm);
         }
 
-        
+
         #region CRUD 
 
         [HttpPost]

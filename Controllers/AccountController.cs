@@ -553,13 +553,39 @@ namespace BoardSquares.Controllers
         [HttpPost]
         public ActionResult UpdateAccountInfo(UpdateAccountInfoViewModel viewmodel)
         {
-            //var viewmodel = new RegisterViewModel();
+            var didTryPasswordChange = false;
+            var passwordChangeSuccess = false;
+
             if (viewmodel.Password != null && viewmodel.ConfirmPassword != null)
             {
-                BoardSquaresRepository.AttemptPasswordChange(viewmodel.UserID, viewmodel.Password);
+                didTryPasswordChange = true;
+                var result = BoardSquaresRepository.AttemptPasswordChange(viewmodel.UserID, viewmodel.Password);
+
+                passwordChangeSuccess = result == 1;
+
             }
+
             BoardSquaresRepository.AttemptUpdateWeeklyEmails(viewmodel.UserID, viewmodel.WeeklyUpdates);
-            //var test = true;
+
+            if (didTryPasswordChange)
+            {
+                if (passwordChangeSuccess)
+                {
+                    ViewBag.UpdateAccountInfoMessage = "Your password and settings have been successfully updated!";
+                    ViewBag.UpdateAccountInfoIsSuccess = true;
+                }
+                else
+                {
+                    ViewBag.UpdateAccountInfoMessage = "We were unable to change your password at this time.";
+                    ViewBag.UpdateAccountInfoIsSuccess = false;
+                }
+            }
+            else
+            {
+                ViewBag.UpdateAccountInfoMessage = "Your settings have been successfully updated!";
+                ViewBag.UpdateAccountInfoIsSuccess = true;
+            }
+
             return View(viewmodel);
         }
     }
