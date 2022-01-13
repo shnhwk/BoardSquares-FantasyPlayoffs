@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using BoardSquares.Models;
 using BoardSquares.ViewModels;
+using Serilog;
 using WebGrease.Css.Extensions;
 
 namespace BoardSquares.Controllers
@@ -19,7 +20,7 @@ namespace BoardSquares.Controllers
 
         [Authorize(Roles = "User, Admin")]
         public ActionResult Index()
-        {
+        { 
             var vm = new ScoringSummaryViewModel
             {
                 User = BoardSquaresRepository.GetAllUsers().FirstOrDefault(u => u.UserName == User.Identity.Name)
