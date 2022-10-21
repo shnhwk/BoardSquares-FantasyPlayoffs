@@ -5,7 +5,7 @@ namespace BoardSquares.Models
 {
     public class BoardSquaresContext: DbContext
     {
-        private string schemaName = "squaresadmin";
+        private string schemaName = "dbo";
         public BoardSquaresContext(): base("BoardSquaresDB")
         {
             
@@ -18,7 +18,7 @@ namespace BoardSquares.Models
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             Configuration.AutoDetectChangesEnabled = false;
             Configuration.ValidateOnSaveEnabled = false;
-            modelBuilder.HasDefaultSchema("squaresadmin");
+            modelBuilder.HasDefaultSchema(schemaName);
             modelBuilder.Entity<Player>().ToTable("FP_Players", schemaName);
             modelBuilder.Entity<Team>().ToTable("FP_Teams", schemaName);
             modelBuilder.Entity<User>().ToTable("FP_Users", schemaName);
