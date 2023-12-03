@@ -35,6 +35,7 @@ namespace BoardSquares.Controllers
             vm.GetFilteredTeamDetails(team.UserTeamID, team.UserTeamName);
             ViewBag.ScoreTotal = vm.PlayerScoringSummaries.Sum(r => r.PlayerTotal);
             //ViewBag.TieBreakerScoreTotal = vm.TieBreakerScoringSummaries.Sum(r => r.PlayerTotal);
+             
             return View(vm);
         }
 

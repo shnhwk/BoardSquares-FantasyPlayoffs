@@ -48,11 +48,7 @@ namespace BoardSquares.ViewModels
             }
             foreach (var message in messages)
             {
-                var mailClient = new SmtpClient
-                {
-                    Host = "relay-hosting.secureserver.net"
-
-                };
+                var mailClient = new SmtpClient();
                 var mailMessage = new MailMessage
                 {
                     From = new MailAddress("admin@boardsquares.com"),
