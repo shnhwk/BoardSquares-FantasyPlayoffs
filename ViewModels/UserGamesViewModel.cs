@@ -328,12 +328,23 @@ namespace BoardSquares.ViewModels
         {
             BoardSquaresRepository db = new BoardSquaresRepository();
             UserTeams = db.GetTeamsByUser(User.UserID, false).OrderByDescending(r => r.Year).ThenByDescending(r => r.CreatedDate).ToList();
-            if (UserTeams.Any())
+
+            if (!UserTeams.Any()) 
+                return;
+            
+
+
+            var userGames = UserTeams.Select(t => t.GameNumber).ToList();
+            var games = db.Context.Games.Where(g => userGames.Contains(g.GameNumber));
+
+            foreach (var viewModelUserTeam in UserTeams)
             {
-                foreach (var viewModelUserTeam in UserTeams)
-                {
-                    viewModelUserTeam.Balance = Decimal.Round(viewModelUserTeam.Balance, 2);
-                }
+                viewModelUserTeam.Balance = decimal.Round(viewModelUserTeam.Balance, 2);
+
+                var game = games.FirstOrDefault(g => g.GameNumber.Equals(viewModelUserTeam.GameNumber, StringComparison.OrdinalIgnoreCase));
+
+
+                viewModelUserTeam.IsGameClosed = game?.CloseDate < DateTime.Now;
             }
         }
 
@@ -370,6 +381,26 @@ namespace BoardSquares.ViewModels
         private void Save()
         {
             BoardSquaresRepository db = new BoardSquaresRepository();
+
+            var hasPlayers = db.Context.UserTeamPlayers.Where(t => t.UserTeamID == Entity.UserTeamID).ToList();
+
+            if (hasPlayers.Any())
+            {
+                //this means the team was already saved, so we're editing and need to wipe them before re saving the new lineup. 
+
+                db.Context.UserTeamPlayers.RemoveRange(hasPlayers);
+                db.Context.SaveChanges();
+
+            }
+
+            var existingTieBreakers = db.Context.TieBreakerPlayers.Where(tb=>tb.UserTeamID == Entity.UserTeamID).ToList();
+            if (existingTieBreakers.Any())
+            {
+                db.Context.TieBreakerPlayers.RemoveRange(existingTieBreakers);
+                db.Context.SaveChanges();
+            }
+
+
             foreach (var player in GetCombinedPlayers())
             {
                 var userTeamPlayer = new UserTeamPlayer();

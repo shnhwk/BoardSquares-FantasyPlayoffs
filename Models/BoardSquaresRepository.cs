@@ -195,7 +195,7 @@ namespace BoardSquares.Models
                     "SELECT @Salt = Salt, @Code = VerifyCode FROM FP_UserAccounts WHERE UserID = {0} " +
                     "IF @Code = '{1}' " +
                     "BEGIN " +
-                    "UPDATE squaresadmin.FP_UserAccounts " +
+                    "UPDATE FP_UserAccounts " +
                     "SET UserPwd =  HASHBYTES('SHA1', @Salt + '{2}'), VerifyCode = NULL " +
                     "WHERE UserID = {0} " +
                     "END"

@@ -45,6 +45,12 @@ namespace BoardSquares.ViewModels
         {
             var db = new BoardSquaresRepository();
             var instring = string.Join(", ", players);
+
+            if (players.Count == 0)
+            {
+                return;
+            }
+
             TieBreakerScoringSummaries = db.Context.Database.SqlQuery(typeof(PlayerScoringSummary), String.Format("select p.*,t.ID AS TieBreakerSort from FP_PlayerTotalsByRoundView p left join FP_UserTeamTieBreakerPlayers t on p.PlayerID = t.PlayerID WHERE p.PlayerID IN ({0}) AND t.UserTeamID = {1} ", instring,teamId)).ToListAsync().Result.Select(r => r as PlayerScoringSummary).OrderBy(r => r.TieBreakerSort).ToList();
         }
 

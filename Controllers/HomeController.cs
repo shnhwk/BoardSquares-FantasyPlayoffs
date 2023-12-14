@@ -35,6 +35,7 @@ namespace BoardSquares.Controllers
             vm.GetFilteredTeamDetails(team.UserTeamID, team.UserTeamName);
             ViewBag.ScoreTotal = vm.PlayerScoringSummaries.Sum(r => r.PlayerTotal);
             //ViewBag.TieBreakerScoreTotal = vm.TieBreakerScoringSummaries.Sum(r => r.PlayerTotal);
+             
             return View(vm);
         }
 
@@ -273,22 +274,47 @@ namespace BoardSquares.Controllers
                 User = BoardSquaresRepository.GetAllUsers().FirstOrDefault(u => u.UserName == User.Identity.Name),
             };
 
-            if (string.IsNullOrEmpty(gameNumber))
+            if (User == null)
             {
-                vm.GamesList = BoardSquaresRepository.GetClosedGamesByUser(vm.User.UserID);
-                //var closedGames = BoardSquaresRepository.Context.Games.Where(r => r.Active & r.CloseDate < DateTime.Now).Select(r => r.GameNumber).ToList();
-                //vm.GamesList.Where(r => closedGames.Contains(r)).ForEach(c => vm.GamesDropDown.Add(c, c));
-                if (vm.GamesList.Count == 1)
-                    vm.GetAllGames(vm.GamesList.First());
-                else
-                {
-                    vm.ErrorMessage =
-                        "Other teams are not available to view until drafting is closed. Please check back later.";
-                }
+                vm.ErrorMessage =
+                    "Please login.";
                 return View(vm);
             }
-            vm.GetAllGames(gameNumber);
+
+
+            //get the games list regardless
+            vm.GamesList = BoardSquaresRepository.GetClosedGamesByUser(vm.User.UserID);
+
+            if (vm.GamesList.Count == 0)
+            {
+                vm.ErrorMessage =
+                    "Other teams are not available to view until drafting is closed. Please check back later.";
+                return View(vm);
+            }
+
+
+            if (!string.IsNullOrEmpty(gameNumber))
+            {
+                  //if a game number is supplied, get that one
+                vm.GetAllGames(gameNumber);
+                return View(vm);
+            }
+
+
+
+
+            //otherwise just show the first one we have. 
+            vm.GetAllGames(vm.GamesList.First());
             return View(vm);
+
+            //var closedGames = BoardSquaresRepository.Context.Games.Where(r => r.Active & r.CloseDate < DateTime.Now).Select(r => r.GameNumber).ToList();
+            //vm.GamesList.Where(r => closedGames.Contains(r)).ForEach(c => vm.GamesDropDown.Add(c, c));
+            //if (vm.GamesList.Count == 0)
+            //{
+            //    vm.ErrorMessage =
+            //        "Other teams are not available to view until drafting is closed. Please check back later.";
+            //}
+            //else
         }
 
         [Authorize(Roles = "User, Admin")]

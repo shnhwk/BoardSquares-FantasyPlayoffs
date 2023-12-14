@@ -13,7 +13,22 @@
         }
         else
         {
-            <h2 style="text-align: center">All Teams for @Model.SelectedGame</h2>
+            <div class="col-md-3" style="padding-top:20px;">
+                @if (Model.GamesList.Count > 1)
+                {
+                    <select class="form-control" style="max-width: 100%" onchange="switchGame(this)">
+                        <option>Your active games</option>
+                        @foreach (var m in Model.GamesList)
+                        {
+                            <option>@m</option>
+                        }
+                    </select>
+                }
+            </div>
+            <div class="col-md-8 col-md-offset-1">
+                <h2>All Teams for @Model.SelectedGame</h2>
+            </div>
+
         }
         foreach (var game in Model.TeamList)
         {
@@ -67,13 +82,13 @@
                                         </tr>
                                     }
                                     @*<tr>
-                                        <td>
-                                            <b>Total</b>
-                                        </td>
-                                        <td>
-                                            <b>@game.TieBreakerTotal</b>
-                                        </td>
-                                    </tr>*@
+                                            <td>
+                                                <b>Total</b>
+                                            </td>
+                                            <td>
+                                                <b>@game.TieBreakerTotal</b>
+                                            </td>
+                                        </tr>*@
                                 </tbody>
                             </table>
                         </div>
@@ -83,4 +98,30 @@
         }
 
     }
-                </div>
+</div>
+
+
+<script type="text/javascript">
+    function switchGame(e) {
+        var currentUrl = window.location.href;
+
+        // Name and value of the new query parameter
+        var paramName = "gamenumber";
+        var paramValue = e.value;
+
+        // Create a regular expression to find the existing parameter
+        var paramRegex = new RegExp('(' + paramName + '=.*?)(&|$)');
+
+        // Check if the parameter already exists in the URL
+        if (paramRegex.test(currentUrl)) {
+            // Parameter already exists, replace its value
+            updatedUrl = currentUrl.replace(paramRegex, paramName + '=' + paramValue + '$2');
+        } else {
+            // Parameter doesn't exist, add it
+            updatedUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + paramName + '=' + paramValue;
+        }
+
+        // Redirect to the updated URL
+        window.location.href = updatedUrl;
+    }
+</script>

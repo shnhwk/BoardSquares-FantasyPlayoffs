@@ -96,7 +96,7 @@
                             <th>Team</th>
                             <th>Year</th>
                             <th>Game Number</th>
-                            <th>Balance Due</th>
+                            <th>Balance Due (Total: @Model.UserTeamList.Sum(x=>x.Balance).ToString("C"))</th>
                             <th class="pdsa-action-button-column">
                                 Delete
                             </th>
@@ -126,7 +126,7 @@
                                 <td>@Html.Encode(userTeam.UserTeamName)</td>
                                 <td>@Html.Encode(userTeam.Year)</td>
                                 <td>@Html.Encode(userTeam.GameNumber)</td>
-                                <td class="Money">@Html.Encode(userTeam.Balance)</td>
+                                <td class="Money">@Html.Encode(userTeam.Balance.ToString("C"))</td>
                                 <td class="pdsa-action-button-column">
                                     <a href="#" data-pdsa-action="deleteteam"
                                        data-pdsa-val="@userTeam.UserTeamID"

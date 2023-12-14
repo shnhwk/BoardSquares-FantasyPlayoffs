@@ -123,7 +123,7 @@
                                 <th>Game Name</th>
                                 <th>Balance Due</th>
                                 <th class="pdsa-action-button-column">
-                                    Delete
+                                    Tools
                                 </th>
                             </tr>
                         </thead>
@@ -164,22 +164,39 @@
                                         </a>
                                     </td>
                                     <td class="Money">@Html.Encode(team.Balance)</td>
-                                    @if (team.Balance == 0)
+
+
+                                    @if (team.IsGameClosed)
                                     {
-                                        <td></td>
+                                        <td>&nbsp;</td>
                                     }
                                     else
                                     {
                                         <td class="pdsa-action-button-column">
-                                            <a href="#" data-pdsa-action="delete"
-                                               data-pdsa-val="@team.UserTeamID"
-                                               data-pdsa-confirm-message="Delete this Team?"
-                                               class="btn btn-default btn-sm">
-                                                <i class="glyphicon glyphicon-trash"></i>
-                                            </a>
+
+                                            @if (team.Active)
+                                            {
+                                                <a href="#" data-pdsa-action="edit"
+                                                   data-pdsa-val="@team.UserTeamID"
+                                                   class="btn btn-default btn-sm" title="Edit">
+                                                    <i class="glyphicon glyphicon-pencil"></i>
+                                                </a>
+
+
+                                                if (team.Balance != 0)
+                                                {
+
+                                                    <a href="#" data-pdsa-action="delete"
+                                                       data-pdsa-val="@team.UserTeamID"
+                                                       data-pdsa-confirm-message="Delete this Team?"
+                                                       class="btn btn-default btn-sm">
+                                                        <i class="glyphicon glyphicon-trash"></i>
+                                                    </a>
+                                                }
+
+                                            }
                                         </td>
                                     }
-
                                 </tr>
                             }
                         </tbody>
