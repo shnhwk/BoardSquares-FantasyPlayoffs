@@ -154,6 +154,10 @@
                 {
                     foreach (var teamSum in Model.TeamSummariesList)
                     {
+                        if(teamSum == null){
+                            continue;
+                        }
+
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h1 class="panel-title">@teamSum.FirstOrDefault().GameNumber Rankings</h1>

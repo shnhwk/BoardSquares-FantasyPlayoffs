@@ -110,7 +110,7 @@
         var paramValue = e.value;
 
         // Create a regular expression to find the existing parameter
-        var paramRegex = new RegExp('(' + paramName + '=.*?)(&|$)');
+        var paramRegex = new RegExp('(' + paramName + '=.*?)(&|$)', 'i');
 
         // Check if the parameter already exists in the URL
         if (paramRegex.test(currentUrl)) {
