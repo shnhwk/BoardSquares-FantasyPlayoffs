@@ -30,7 +30,7 @@
                             <th>User</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Balance Due</th>
+                            <th>Balance Due (Total: @Model.UserList.Sum(x => x.BalDue).ToString("C"))</th>
                             <th class="pdsa-action-button-column">
                                 Delete
                             </th>

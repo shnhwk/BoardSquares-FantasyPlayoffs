@@ -58,6 +58,19 @@ namespace BoardSquares.Controllers
             }
             vm.GetGamesByUser();
             vm.GetTeamDetailsByGame();
+ 
+            List<TeamScoringSummary> firstMatchingList = vm.TeamSummariesList.FirstOrDefault(list => list.Any(summary => summary.UserTeamID == Convert.ToInt32(vm.EventArgument)));
+            IEnumerable<List<TeamScoringSummary>> otherLists = vm.TeamSummariesList.Where(list => list.All(summary => summary.UserTeamID != Convert.ToInt32(vm.EventArgument))).ToList();
+
+            vm.TeamSummariesList.Clear();
+            vm.TeamSummariesList.Add(firstMatchingList);
+           
+            foreach(var a in otherLists)
+            {
+                vm.TeamSummariesList.Add(a);
+            }
+
+
             var team = vm.TeamSummariesList.SelectMany(r => r)
                 .FirstOrDefault(p => p.UserTeamID == Convert.ToInt32(vm.EventArgument));
             vm.GetFilteredTeamDetails(team.UserTeamID, team.UserTeamName);
