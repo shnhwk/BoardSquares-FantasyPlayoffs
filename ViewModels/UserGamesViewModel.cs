@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
+using System.Numerics;
+using System.Text;
 using System.Web.Mvc;
 using BoardSquares.Models;
 
@@ -342,8 +344,7 @@ namespace BoardSquares.ViewModels
                 viewModelUserTeam.Balance = decimal.Round(viewModelUserTeam.Balance, 2);
 
                 var game = games.FirstOrDefault(g => g.GameNumber.Equals(viewModelUserTeam.GameNumber, StringComparison.OrdinalIgnoreCase));
-
-
+ 
                 viewModelUserTeam.IsGameClosed = game?.CloseDate < DateTime.Now;
             }
         }
@@ -380,26 +381,40 @@ namespace BoardSquares.ViewModels
 
         private void Save()
         {
-            BoardSquaresRepository db = new BoardSquaresRepository();
+            var db = new BoardSquaresRepository();
 
-            var hasPlayers = db.Context.UserTeamPlayers.Where(t => t.UserTeamID == Entity.UserTeamID).ToList();
+            var hasPlayers = db.Context.UserTeamPlayers.Include(p=>p.Player).Where(t => t.UserTeamID == Entity.UserTeamID).ToList();
+
+            var currentTeam = new StringBuilder();
 
             if (hasPlayers.Any())
             {
                 //this means the team was already saved, so we're editing and need to wipe them before re saving the new lineup. 
+                 
+                currentTeam.Append("Team Updated from: ");
+
+                foreach (var player in hasPlayers)
+                {
+                    currentTeam.Append($"{player.Player.FirstLastTeam}, ");
+                }
 
                 db.Context.UserTeamPlayers.RemoveRange(hasPlayers);
-                db.Context.SaveChanges();
-
             }
 
-            var existingTieBreakers = db.Context.TieBreakerPlayers.Where(tb=>tb.UserTeamID == Entity.UserTeamID).ToList();
+            var existingTieBreakers = db.Context.TieBreakerPlayers.Include(p=>p.Player)
+                .Where(tb=>tb.UserTeamID == Entity.UserTeamID).ToList();
+
             if (existingTieBreakers.Any())
             {
+                foreach (var player in existingTieBreakers)
+                {
+                    currentTeam.Append($"{player.Player.FirstLastTeam}, ");
+                }
+                 
                 db.Context.TieBreakerPlayers.RemoveRange(existingTieBreakers);
-                db.Context.SaveChanges();
             }
 
+            currentTeam.Append(currentTeam.Length > 0 ? " to: " : "New team Saved: ");
 
             foreach (var player in GetCombinedPlayers())
             {
@@ -407,7 +422,13 @@ namespace BoardSquares.ViewModels
                 userTeamPlayer.PlayerID = player.PlayerID;
                 userTeamPlayer.UserTeamID = Entity.UserTeamID;
                 db.Context.UserTeamPlayers.Add(userTeamPlayer);
+
+                var p = db.Context.Players.Find(player.PlayerID);
+
+                currentTeam.Append($"{p?.FirstLastTeam}, ");
             }
+
+
             var tieBreaker1 = new UserTeamTieBreakerPlayers();
             tieBreaker1.PlayerID = TieBreakerPlayer1.PlayerID;
             tieBreaker1.UserTeamID = Entity.UserTeamID;
@@ -418,8 +439,26 @@ namespace BoardSquares.ViewModels
             tieBreaker2.UserTeamID = Entity.UserTeamID;
             db.Context.TieBreakerPlayers.Add(tieBreaker2);
 
+
+            var tb1 = db.Context.Players.Find(tieBreaker1.PlayerID);
+            currentTeam.Append($"{tb1?.FirstLastPosition}, "); 
+            tb1 = db.Context.Players.Find(tieBreaker2.PlayerID);
+            currentTeam.Append($"{tb1?.FirstLastPosition}, ");
+
+ 
             var ut = db.Context.UserTeams.Find(Entity.UserTeamID);
             ut.Complete = true;
+
+
+            db.Context.EventLogs.Add(new EventLog
+            {
+                UserId = User.UserID,
+                EventDescription = currentTeam.ToString().TrimEnd(','),
+                EventSource = "TeamSave",
+                CreatedDate = DateTime.Now
+            });
+
+
             db.Context.SaveChanges();
         }
 

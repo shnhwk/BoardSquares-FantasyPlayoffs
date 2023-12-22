@@ -43,5 +43,6 @@ namespace BoardSquares.Models
         public DbSet<ScoringPoints> ScoringPoints { get; set; }
         public DbSet<UserTeamTieBreakerPlayers> TieBreakerPlayers { get; set; }
         public DbSet<News> News { get; set; }
+        public DbSet<EventLog> EventLogs { get; set; }
     }
 }
