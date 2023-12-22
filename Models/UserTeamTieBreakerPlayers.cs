@@ -8,5 +8,7 @@ namespace BoardSquares.Models
         public int ID { get; set; }
         public int UserTeamID { get; set; }
         public int PlayerID { get; set; }
+
+        public virtual Player Player { get; set; }
     }
 }

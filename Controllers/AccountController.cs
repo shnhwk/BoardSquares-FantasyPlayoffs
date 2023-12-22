@@ -115,7 +115,7 @@ namespace BoardSquares.Controllers
             // Require that the user has already logged in via username/password or external login
             if (!await SignInManager.HasBeenVerifiedAsync())
             {
-                return View("Error");
+                return View("~/Views/ErrorHandler/Index.cshtml");
             }
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
@@ -214,10 +214,10 @@ namespace BoardSquares.Controllers
         {
             if (userId == null || code == null)
             {
-                return View("Error");
+                return View("~/Views/ErrorHandler/Index.cshtml");
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            return View(result.Succeeded ? "ConfirmEmail" : "~/Views/ErrorHandler/Index.cshtml");
         }
 
         //
@@ -286,7 +286,7 @@ namespace BoardSquares.Controllers
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
-            return code == null ? View("Error") : View();
+            return code == null ? View("~/Views/ErrorHandler/Index.cshtml") : View();
         }
 
         //
@@ -344,7 +344,7 @@ namespace BoardSquares.Controllers
             var userId = await SignInManager.GetVerifiedUserIdAsync();
             if (userId == null)
             {
-                return View("Error");
+                return View("~/Views/ErrorHandler/Index.cshtml");
             }
             var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
             var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
@@ -366,7 +366,7 @@ namespace BoardSquares.Controllers
             // Generate the token and send it
             if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
             {
-                return View("Error");
+                return View("~/Views/ErrorHandler/Index.cshtml");
             }
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }

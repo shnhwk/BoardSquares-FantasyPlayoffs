@@ -32,29 +32,36 @@ namespace BoardSquares.ViewModels
             EventArgument = string.Empty;
             SelectedTeam = string.Empty;
             SelectedTeamID = -1;
-            TeamSummariesList  = new List<List<TeamScoringSummary>>();
+            TeamSummariesList = new List<List<TeamScoringSummary>>();
         }
 
         public void GetPlayerScoringTotalsByRound(List<int> players)
         {
             var db = new BoardSquaresRepository();
-            var instring = string.Join(", ",players);
-            PlayerScoringSummaries = db.Context.Database.SqlQuery(typeof(PlayerScoringSummary), String.Format("SELECT * FROM FP_PlayerTotalsByRoundView WHERE PlayerID IN ({0}) ", instring)).ToListAsync().Result.Select(r => r as PlayerScoringSummary).OrderByDescending(r => r.PlayerTotal).ToList();
+            var inString = string.Join(", ", players);
+
+            PlayerScoringSummaries = !players.Any()
+                ? new List<PlayerScoringSummary>()
+                : db.Context.Database
+                    .SqlQuery(typeof(PlayerScoringSummary),
+                        $"SELECT * FROM FP_PlayerTotalsByRoundView WHERE PlayerID IN ({inString}) ")
+                    .ToListAsync().Result.Select(r => r as PlayerScoringSummary).OrderByDescending(r => r.PlayerTotal)
+                    .ToList();
         }
+
         public void GetTieBreakerScoringTotalsByRound(List<int> players, int teamId)
         {
             var db = new BoardSquaresRepository();
-            var instring = string.Join(", ", players);
+ 
+            var inString = string.Join(", ", players);
 
-            if (players.Count == 0)
-            {
-                return;
-            }
-
-            TieBreakerScoringSummaries = db.Context.Database.SqlQuery(typeof(PlayerScoringSummary), String.Format("select p.*,t.ID AS TieBreakerSort from FP_PlayerTotalsByRoundView p left join FP_UserTeamTieBreakerPlayers t on p.PlayerID = t.PlayerID WHERE p.PlayerID IN ({0}) AND t.UserTeamID = {1} ", instring,teamId)).ToListAsync().Result.Select(r => r as PlayerScoringSummary).OrderBy(r => r.TieBreakerSort).ToList();
+            TieBreakerScoringSummaries = !players.Any()
+                ? new List<PlayerScoringSummary>()
+                : db.Context.Database.SqlQuery(typeof(PlayerScoringSummary),
+                        $"select p.*,t.ID AS TieBreakerSort from FP_PlayerTotalsByRoundView p left join FP_UserTeamTieBreakerPlayers t on p.PlayerID = t.PlayerID WHERE p.PlayerID IN ({inString}) AND t.UserTeamID = {teamId} ").ToListAsync().Result.Select(r => r as PlayerScoringSummary)
+                    .OrderBy(r => r.TieBreakerSort).ToList();
         }
-
-        
+         
 
         public void GetGamesByUser()
         {

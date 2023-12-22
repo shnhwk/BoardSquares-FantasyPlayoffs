@@ -20,6 +20,12 @@ namespace BoardSquares.Controllers
         [Authorize(Roles = "User, Admin")]
         public ActionResult Index()
         {
+
+            if (Request.QueryString["throwrandomexception"] != null)
+            {
+                throw new Exception("Test Exception");
+            }
+
             var vm = new ScoringSummaryViewModel
             {
                 User = BoardSquaresRepository.GetAllUsers().FirstOrDefault(u => u.UserName == User.Identity.Name)
