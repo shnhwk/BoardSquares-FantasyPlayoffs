@@ -97,7 +97,8 @@ html {
 }
 
 .player-selection select{
-    max-width:100%;
+    max-width:90%;
+    display: inline-block
 }
 
 table#rankingTable td, table#newEventsTable td, table#tieBreakerPointsTable td {
@@ -109,9 +110,15 @@ table#rankingTable td, table#newEventsTable td, table#tieBreakerPointsTable td {
 }
 
 
+.clear-box{
+    cursor: pointer;
+}
+
+
 @media screen and (max-width: 767px) {
     .pb-xs-1 {
         padding-bottom: 5px;
     }
 }
 
+ 
