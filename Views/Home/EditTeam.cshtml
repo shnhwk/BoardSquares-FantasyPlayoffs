@@ -52,8 +52,8 @@
                         <td style="display: none"> @Html.Hidden(player.PlayerID.ToString())</td>
                         <td>@Html.Encode(player.PlayerPosition)</td>
                         <td>@Html.Encode(player.PlayerTeam)</td>
-                        <td>@Html.Encode(player.PlayerFirstName)</td>
-                        <td>@Html.Encode(player.PlayerLastName)</td>
+                        <td>@player.PlayerFirstName</td>
+                        <td>@player.PlayerLastName</td>
                         <td>@Html.Encode(player.CreatedDate)</td>
                         <td>
                             <button class="btnEditPlayer">Edit</button>
