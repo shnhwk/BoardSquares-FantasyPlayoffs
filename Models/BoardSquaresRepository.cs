@@ -165,7 +165,7 @@ namespace BoardSquares.Models
                     new SqlParameter("LastName", model.LastName),
                     new SqlParameter("Email", model.Email),
                     new SqlParameter("GameNumber", model.GameNumber),
-                    new SqlParameter("WeeklyEmail", model.WeeklyUpdates),
+                    new SqlParameter("WeeklyEmail", true), //model.WeeklyUpdates
                     returnCode);
             return (int) returnCode.Value;
         }

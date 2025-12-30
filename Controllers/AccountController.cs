@@ -565,7 +565,7 @@ namespace BoardSquares.Controllers
 
             }
 
-            BoardSquaresRepository.AttemptUpdateWeeklyEmails(viewmodel.UserID, viewmodel.WeeklyUpdates);
+            BoardSquaresRepository.AttemptUpdateWeeklyEmails(viewmodel.UserID, true); //viewmodel.WeeklyUpdates
 
             if (didTryPasswordChange)
             {

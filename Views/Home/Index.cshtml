@@ -45,6 +45,9 @@
                                             <th>
                                                 Team
                                             </th>
+                                            <th>
+                                                Points
+                                            </th>
                                         </tr>
                                     </thead>
 
@@ -69,6 +72,7 @@
                                                     </a>
                                                 </td>
                                             }
+                                            <td>@t.TeamTotal</td>
                                         </tr>
 
                                     }
@@ -106,6 +110,7 @@
                                             <th>
                                                 Team
                                             </th>
+                                            <th>Points</th>
                                         </tr>
                                     </thead>
 
@@ -130,6 +135,7 @@
                                                     </a>
                                                 </td>
                                             }
+                                            <td>@t.TeamTotal</td>
                                         </tr>
 
                                     }
@@ -301,7 +307,7 @@
                                         <tr>
                                             <td style="display: none"> @Html.Hidden(player.PlayerID.ToString())</td>
                                             <td>
-                                                @Html.Encode(player.PlayerTeam) - @Html.Encode(player.PlayerFirstName) @Html.Encode(player.PlayerLastName)
+                                                @Html.Encode(player.PlayerTeam) - @player.PlayerFirstName @player.PlayerLastName
                                             </td>
                                             <td>@Html.Encode(player.PlayerPosition)</td>
                                             <td onclick="DisplayScoring(@player.PlayerID,1,'@player.PlayerFirstName','@player.PlayerLastName')">
@@ -354,7 +360,7 @@
                                     {
                                         <tr>
                                             <td style="display: none"> @Html.Hidden(player.PlayerID.ToString())</td>
-                                            <td>@Html.Encode(player.PlayerTeam) - @Html.Encode(player.PlayerFirstName) @Html.Encode(player.PlayerLastName)</td>
+                                            <td>@Html.Encode(player.PlayerTeam) - @player.PlayerFirstName @player.PlayerLastName</td>
                                             <td>@Html.Encode(player.PlayerPosition)</td>
                                             <td onclick="DisplayScoring(@player.PlayerID,1,'@player.PlayerFirstName','@player.PlayerLastName')">
                                                 <a href="#"> @Html.Encode(player.WildCard)</a>

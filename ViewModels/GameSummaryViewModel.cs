@@ -39,6 +39,7 @@ namespace BoardSquares.ViewModels
             {
                 TeamList.Add(new GameSummaryTeam
                 {
+                    UserTeamId = team.First().UserTeamID,
                     TeamName = team.First().UserTeamName,
                     TeamTotal = team.Where(r => !r.TieBreakerPlayer).Sum(r => r.TotalPoints),
                     //TieBreakerTotal = team.Where(r => r.TieBreakerPlayer).Sum(r => r.TotalPoints),
@@ -49,6 +50,26 @@ namespace BoardSquares.ViewModels
                 });
             }
             TeamList = TeamList.OrderByDescending(r => r.TeamTotal).ThenByDescending(r => r.TieBreaker1Score).ThenByDescending(r => r.TieBreaker2Score).ToList();
+
+            var temp =
+                db.Context.Database.SqlQuery(typeof(TeamScoringSummary),
+                        String.Format("EXEC FP_GetRankings_Ties @GameNumber = '{0}'", gameNumber))
+                    .ToListAsync()
+                    .Result
+                    .Select(r => r as TeamScoringSummary)
+                    .OrderBy(r => r.tempID)
+                    .ThenByDescending(r => r.TieBreakerPoints)
+                    .ToList();
+
+            foreach (var team in TeamList)
+            {
+                var tempTeam = temp.FirstOrDefault(t => t.UserTeamID == team.UserTeamId);
+
+                if (tempTeam != null)
+                    team.Rank = tempTeam.tempID;
+            }
+
+
             SelectedGame = gameNumber;
         }
 
@@ -71,5 +92,8 @@ namespace BoardSquares.ViewModels
         //public int TieBreaker2 { get; set; }
         public int TieBreaker1Score { get; set; }
         public int TieBreaker2Score { get; set; }
+
+        public int Rank { get; set; }
+        public int UserTeamId { get; set; }
     }
 }

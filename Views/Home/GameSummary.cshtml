@@ -35,7 +35,7 @@
             <div class="col-md-3">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h1 class="panel-title ">Team: @game.TeamName</h1>
+                        <h1 class="panel-title ">Team: @game.TeamName (Rank: @game.Rank)</h1>
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
@@ -51,7 +51,7 @@
                                     @foreach (var player in game.TeamPlayers)
                                     {
                                         <tr>
-                                            <td>@Html.Encode(player.PlayerTeam) - @Html.Encode(player.PlayerFirstName.Substring(0, 1)). @Html.Encode(player.PlayerLastName)</td>
+                                            <td>@player.PlayerTeam - @player.PlayerFirstName.Substring(0, 1). @player.PlayerLastName)</td>
                                             <td>@Html.Encode(player.TotalPoints)</td>
                                         </tr>
                                     }
@@ -77,7 +77,7 @@
                                     @foreach (var player in game.TieBreakerPlayers)
                                     {
                                         <tr>
-                                            <td>@Html.Encode(player.PlayerTeam) - @Html.Encode(player.PlayerFirstName.Substring(0, 1)). @Html.Encode(player.PlayerLastName)</td>
+                                            <td>@player.PlayerTeam - @player.PlayerFirstName.Substring(0, 1). @player.PlayerLastName</td>
                                             <td>@Html.Encode(player.TotalPoints)</td>
                                         </tr>
                                     }

@@ -155,7 +155,7 @@
                                             </a>
                                         </td>
                                     }
-                                    <td>@Html.Encode(team.UserTeamName)</td>
+                                    <td>@team.UserTeamName</td>
                                     <td>@Html.Encode(team.Year)</td>
                                     <td class="pdsa-action">
                                         <a href="#" data-pdsa-action="viewGame"
@@ -727,8 +727,8 @@
                                 {
                                     <tr>
                                         <td style="display: none"> @Html.Hidden(player.PlayerID.ToString())</td>
-                                        <td>@Html.Encode(player.PlayerFirstName) @Html.Encode(player.PlayerLastName)</td>
-                                        <td>@Html.Encode(player.PlayerPosition)</td>
+                                        <td>@player.PlayerFirstName @player.PlayerLastName</td>
+                                        <td>@player.PlayerPosition</td>
                                         <td onclick="DisplayScoring(@player.PlayerID,1,'@player.PlayerFirstName','@player.PlayerLastName')">
                                             <a href="#"> @Html.Encode(player.WildCard)</a>
                                         </td>
@@ -799,7 +799,7 @@
                                 {
                                     <tr>
                                         <td style="display: none"> @Html.Hidden(player.PlayerID.ToString())</td>
-                                        <td>@Html.Encode(player.PlayerFirstName) @Html.Encode(player.PlayerLastName)</td>
+                                        <td>@player.PlayerFirstName @player.PlayerLastName</td>
                                         <td>@Html.Encode(player.PlayerPosition)</td>
                                         <td onclick="DisplayScoring(@player.PlayerID,1,'@player.PlayerFirstName','@player.PlayerLastName')">
                                             <a href="#"> @Html.Encode(player.WildCard)</a>

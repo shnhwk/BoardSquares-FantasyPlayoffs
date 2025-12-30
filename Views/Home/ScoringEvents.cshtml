@@ -78,7 +78,7 @@
                 <div class="form-group">
                     <div class="editor-line">
                         @Html.LabelFor(m => m.Player)
-                        @Html.Encode(Model.Player.FirstLastPosition)
+                        @Model.Player.FirstLastPosition
                         <br/>
                         @Html.LabelFor(m => m.NewScoringEvent)
                         @Html.DropDownListFor(m => m.NewScoringEvent, new SelectList(Model.Scorings, "Key", "Value"), "", new {@id = "team"})
@@ -127,7 +127,7 @@
                         {
                             <tr>
                                 <td style="display: none"> @Html.EditorFor(m => m.ScoringEventsList[i].ScoringEventID)</td>
-                                <td>@Html.Encode(Model.Player.FirstLastPosition)</td>
+                                <td>@Model.Player.FirstLastPosition</td>
                                 <td>@Html.DisplayTextFor(m => m.ScoringEventsList[i].ScoringType)</td>
                                 <td>@Html.EditorFor(m => m.ScoringEventsList[i].Value)</td>
                             </tr>
